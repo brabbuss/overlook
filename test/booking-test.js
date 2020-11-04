@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import Booking from '../src/classes/Booking';
 import {bookingSampleData, roomSampleData} from "./test-data/sample-data"
 
-describe.only('Booking class properties and methods', function() {
+describe('Booking class properties and methods', function() {
   let booking1, booking2, booking3;
 
   beforeEach(() => {

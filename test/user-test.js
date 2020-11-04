@@ -55,10 +55,6 @@ describe('User class properties and methods', function() {
     expect(user1.viewAvailableRoomsByType(bookingData, roomData, "2021/01/03", 'junior suite').length).to.equal(1);
   });
   it('should be able to book a room', function() {
-
-    user1.bookMyRoom("2020/02/04", 1)
-    user1.bookMyRoom("2020/02/05", 2)
-
     expect(user1.bookMyRoom("2020/02/03", 1)).to.be.an.instanceof(Booking);
     expect(user1.bookMyRoom("2020/02/03", 1).userID).to.equal(55);
   });

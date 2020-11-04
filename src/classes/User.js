@@ -1,11 +1,12 @@
 import Booking from './Booking';
+import {apiRequest} from './apiRequest';
 
 export default class User {
   constructor(userData = {}) {
     this.id = userData.id || 777;
     this.name = userData.name || 'MANAGER';
   }
-  bookMyRoom(date, roomNumber) {
+  bookMyRoom(date, roomNumber) { //TDD see if API call is made
     let booking =
     {
       "userID": this.id,

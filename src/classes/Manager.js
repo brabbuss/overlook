@@ -1,5 +1,6 @@
 import Booking from './Booking';
 import User from './User';
+import {apiRequest} from './apiRequest';
 
 export default class Manager extends User {
   constructor(userData) {
@@ -28,12 +29,15 @@ export default class Manager extends User {
     let total = customer.viewMyTotal(bookingData, roomData);
     return {id: customer.id, name: customer.name, bookingHistory: bookings, totalSpent: total}
   }
-  addCustomerBooking(userData, name, date, roomNumber) {
+  addCustomerBooking(userData, name, date, roomNumber) { //TDD see if API call is made
     let customer = this.viewCustomer(userData, name);
     return customer.bookMyRoom(date, roomNumber);
   }
-  deleteCustomerBooking(userData, name, date, roomNumber) {
-    let customer = this.viewCustomer(userData, name);
-    //TODO this is all DELETE req
+  deleteCustomerBooking(bookingID) {
+    let booking =
+      {
+        "id": bookingID
+      }
+    apiRequest.deleteBooking(booking);
   }
 }

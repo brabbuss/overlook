@@ -6,12 +6,14 @@ export default class User {
     this.name = userData.name || 'MANAGER';
   }
   bookMyRoom(date, roomNumber) {
-    let booking = {
-      userID: this.id,         //TODO chai spy test POST
-      date: date,
-      roomNumber: roomNumber,
+    let booking =
+    {
+      "userID": this.id,
+      "date": date,
+      "roomNumber": roomNumber
     }
-    return new Booking(booking)
+    apiRequest.createBooking(booking)
+    // return new Booking(booking) // booking needs to go to server, get an id, then be fetched
   }
   viewMyBookings(bookingData) {
     let myBookings = bookingData.filter(booking => {

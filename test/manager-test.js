@@ -4,7 +4,7 @@ import Manager from '../src/classes/Manager';
 import Booking from '../src/classes/Booking';
 import {userSampleData, bookingSampleData, roomSampleData} from "./test-data/sample-data"
 
-describe.only('Manager class properties and methods', function() {
+describe('Manager class properties and methods', function() {
   let manager, bookingData, roomData, userData;
 
   beforeEach(() => {
@@ -40,30 +40,16 @@ describe.only('Manager class properties and methods', function() {
     expect(manager.viewCustomer(userData, "Scott Fuddlebutts")).to.be.an.instanceof(User);
   });
   it('should be able to view user\'s bookings and total spent', function() {
-    expect(manager.viewCustomerInfo(userData, "Scott Fuddlebutts")).to.deep.equal(userData[0]);
-    expect(manager.viewCustomerInfo(userData, "Scott Fuddlebutts")).to.be.an.instanceof(User);
+    expect(manager.viewCustomerInfo(bookingData, roomData, userData, "Scott Fuddlebutts").totalSpent).to.equal(3200.88);
+    expect(manager.viewCustomerInfo(bookingData, roomData, userData, "Scott Fuddlebutts").bookingHistory[0].id).to.equal('randomIDnumber1');
   });
-
-  // it('should be able to find unavailable rooms by date', function() {
-  //   user2 = new Manager(userSampleData[1])
+  it('should be able to book a room for a user', function() {
+    expect(manager.addCustomerBooking(userData, "Scott Fuddlebutts", "2022/02/04", 3)).to.be.an.instanceof(Booking);
+    expect(manager.addCustomerBooking(userData, "Scott Fuddlebutts", "2022/02/04", 3).roomNumber).to.be.equal(3);
+  });
+  // it('should be able to book a room for a user', function() {
   //
-  //   expect(manager.viewUnavailableRooms(bookingData, roomData, "2021/01/03").length).to.equal(2);
-  //   expect(user2.viewUnavailableRooms(bookingData, roomData, "2021/01/03")[0]).to.deep.equal(roomSampleData[3]);
-  // });
-  // it('should be able to find available rooms by date', function() {
-  //   expect(manager.viewAvailableRooms(bookingData, roomData, "2021/01/03").length).to.equal(2);
-  //   expect(manager.viewAvailableRooms(bookingData, roomData, "2021/01/03")[0]).to.deep.equal(roomSampleData[1]);
-  // });
-  // it('should be able to filter available rooms by type of room', function() {
-  //   expect(manager.viewAvailableRoomsByType(bookingData, roomData, "2021/01/03", 'junior suite')[0].roomType).to.equal('junior suite');
-  //   expect(manager.viewAvailableRoomsByType(bookingData, roomData, "2021/01/03", 'junior suite').length).to.equal(1);
-  // });
-  // it('should be able to book a room', function() {
-  //
-  //   manager.bookMyRoom("2020/02/04", 1)
-  //   manager.bookMyRoom("2020/02/05", 2)
-  //
-  //   expect(manager.bookMyRoom("2020/02/03", 1)).to.be.an.instanceof(Booking);
-  //   expect(manager.bookMyRoom("2020/02/03", 1).userID).to.equal(55);
-  // });
+  //   expect(manager.deleteCustomerBooking(userData, "Scott Fuddlebutts", "2022/02/04", 3)).to.be.an.instanceof(Booking);
+  //   expect(manager.deleteCustomerBooking(userData, "Scott Fuddlebutts", "2022/02/04", 3).roomNumber).to.be.equal(3);
+  // }); TODO part of chai spies
 });

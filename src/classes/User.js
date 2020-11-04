@@ -7,11 +7,9 @@ export default class User {
   }
   bookMyRoom(date, roomNumber) {
     let booking = {
-     id: "5fwrgu4i7k55hl6sz", //TODO what should the ID be?
-     userID: this.id,         //TODO chai spy test POST
-     date: date,
-     roomNumber: roomNumber,
-     roomServiceCharges: []
+      userID: this.id,         //TODO chai spy test POST
+      date: date,
+      roomNumber: roomNumber,
     }
     return new Booking(booking)
   }

@@ -22,8 +22,18 @@ export default class Manager extends User {
   viewCustomer(userData, name) {
     return new User(userData.find(user => user.name === name))
   }
-  viewCustomerInfo(userData, name) {
-    
+  viewCustomerInfo(bookingData, roomData, userData, name) {
+    let customer = this.viewCustomer(userData, name);
+    let bookings = customer.viewMyBookings(bookingData);
+    let total = customer.viewMyTotal(bookingData, roomData);
+    return {id: customer.id, name: customer.name, bookingHistory: bookings, totalSpent: total}
   }
-
+  addCustomerBooking(userData, name, date, roomNumber) {
+    let customer = this.viewCustomer(userData, name);
+    return customer.bookMyRoom(date, roomNumber);
+  }
+  deleteCustomerBooking(userData, name, date, roomNumber) {
+    let customer = this.viewCustomer(userData, name);
+    //TODO this is all DELETE req
+  }
 }

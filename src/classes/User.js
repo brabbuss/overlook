@@ -1,7 +1,19 @@
+import Booking from './Booking';
+
 export default class User {
-  constructor(userData) {
-    this.id = userData.id
-    this.name = userData.name
+  constructor(userData = {}) {
+    this.id = userData.id || 777;
+    this.name = userData.name || 'MANAGER';
+  }
+  bookMyRoom(date, roomNumber) {
+    let booking = {
+     id: "5fwrgu4i7k55hl6sz", //TODO what should the ID be?
+     userID: this.id,         //TODO chai spy test POST
+     date: date,
+     roomNumber: roomNumber,
+     roomServiceCharges: []
+    }
+    return new Booking(booking)
   }
   viewMyBookings(bookingData) {
     let myBookings = bookingData.filter(booking => {
@@ -13,24 +25,37 @@ export default class User {
   }
   viewMyTotal(bookingData, roomData) {
     let grandTotal = this.viewMyBookings(bookingData).reduce((myGrandTotal, myBooking) => {
-      let myTotal = roomData.reduce((myTotal, room) => {
-        if (room.number === myBooking.roomNumber) {
-          myTotal += room.costPerNight;
-        }
-        return myTotal;
-      }, 0)
-      myGrandTotal += myTotal
+      let matchedRoom = roomData.find(room => room.number === myBooking.roomNumber)
+      myGrandTotal += matchedRoom.costPerNight
       return myGrandTotal;
     }, 0).toFixed(2);
     return Number(grandTotal)
   }
+  viewUnavailableRooms(bookingData, roomData, date) {
+    return bookingData.reduce((bookedRooms, booking) => {
+      if (booking.date === date) {
+        bookedRooms.push(roomData.find(room => room.number === booking.roomNumber))
+      }
+      return bookedRooms
+    }, []);
+  }
+  viewAvailableRooms(bookingData, roomData, date) {
+    let unavailableRooms = this.viewUnavailableRooms(bookingData, roomData, date)
+    return roomData.filter(room => !unavailableRooms.includes(room))
+  }
+  viewAvailableRoomsByType(bookingData, roomData, date, roomType) {
+    let availableRooms = this.viewAvailableRooms(bookingData, roomData, date);
+    return availableRooms.filter(room => room.roomType === roomType)
+  }
 }
+
 //TODO when calculating price, use toFixed(2) b/c bad data
 /*
 Parse past, today, future BOOKINGS by checking against todaysDate
 Separate BOOKINGS into past, today, and future dates
 
-Three options to display - past, present, today drawing on one of those three arrays
-?? USER.method on click of ‘past’ or ‘future’ bookings to return from myBookings array items that are < todaysDate, or > todaysDate
-
+Three options to display - past, present, today drawing on one of those
+three arrays
+?? USER.method on click of ‘past’ or ‘future’ bookings to return from
+myBookings array items that are < todaysDate, or > todaysDate
 */

@@ -12,7 +12,7 @@ console.log('This is the JavaScript entry file - your code begins here.');
 let userData;
 let bookingData;
 let roomData;
-let user = new User()
+let user;
 
 import User from './classes/User';
 import Manager from './classes/Manager';
@@ -27,13 +27,14 @@ const fetchedRoomData = apiRequest.getRoomData();
 
 Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
   .then(value => {
-    userData = value[0];
-    bookingData = value[1];
-    roomData = value[2];
+    userData = value[0]['users'];
+    bookingData = value[1]['bookings'];
+    roomData = value[2]['rooms'];
     loadApp();
   })
   .catch(error => console.log(error))
 
 function loadApp() {
-  console.log(userData);
+  user = new User(userData[0])
+  console.log(user);
 }

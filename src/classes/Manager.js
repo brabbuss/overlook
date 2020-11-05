@@ -1,6 +1,6 @@
 import Booking from './Booking';
 import User from './User';
-import {apiRequest} from './apiRequest';
+import { apiRequest } from './apiRequest';
 
 export default class Manager extends User {
   constructor(userData) {
@@ -33,11 +33,30 @@ export default class Manager extends User {
     let customer = this.viewCustomer(userData, name);
     return customer.bookMyRoom(date, roomNumber);
   }
-  deleteCustomerBooking(bookingID) {
-    let booking =
-      {
-        "id": bookingID
-      }
-    apiRequest.deleteBooking(booking);
+  deleteCustomerBooking(bookingData, bookingID) {
+    let matchedBooking = bookingData.find(booking => booking.id === bookingID);
+    if (matchedBooking.date > this.getDate()) {
+      let booking =
+        {
+          "id": bookingID
+        }
+      apiRequest.deleteBooking(booking);
+    } else {
+      return `Cannot delete bookings on or before today\'s date: ${this.date}`
+    }
   }
+  getDate() {
+    let newDate = new Date();
+    let month = newDate.getMonth()+1;
+    let date = newDate.getDate();
+
+    if (date.toString().length < 2) {
+      date = '0' + date
+    }
+    if (month.toString().length < 2) {
+      month = '0' + month
+    }
+    return `${newDate.getFullYear()}/${month}/${date}`
+  }
+
 }

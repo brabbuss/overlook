@@ -1,12 +1,12 @@
 import Booking from './Booking';
-import {apiRequest} from './apiRequest';
+import { apiRequest } from './apiRequest';
 
 export default class User {
   constructor(userData = {}) {
     this.id = userData.id || 777;
     this.name = userData.name || 'MANAGER';
   }
-  bookMyRoom(date, roomNumber) { //TDD see if API call is made
+  bookMyRoom(date, roomNumber) {
     let booking =
     {
       "userID": this.id,
@@ -14,7 +14,6 @@ export default class User {
       "roomNumber": roomNumber
     }
     apiRequest.createBooking(booking)
-    // return new Booking(booking) // booking needs to go to server, get an id, then be fetched
   }
   viewMyBookings(bookingData) {
     let myBookings = bookingData.filter(booking => {

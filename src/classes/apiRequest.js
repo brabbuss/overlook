@@ -1,4 +1,4 @@
-const apiRequest = {
+export const apiRequest = {
   getUserData() {
     return fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users')
       .then(response => response.json())
@@ -21,7 +21,7 @@ const apiRequest = {
   },
 
   createBooking(booking) {
-    fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/activity/activityData', {
+    return fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ const apiRequest = {
   },
 
   deleteBooking(booking) {
-    fetch('https://fe-apps.herokuapp.com/api/v1/fitlit/1908/sleep/sleepData', {
+    return fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -46,5 +46,3 @@ const apiRequest = {
       .catch(error => console.log(error, "Encountered an error"))
   }
 };
-
-export default apiRequest;

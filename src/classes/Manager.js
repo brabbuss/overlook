@@ -35,14 +35,18 @@ export default class Manager extends User {
   }
   deleteCustomerBooking(bookingData, bookingID) {
     let matchedBooking = bookingData.find(booking => booking.id === bookingID);
-    if (matchedBooking.date > this.getDate()) {
+    if (!matchedBooking) {
+      console.log(`Cannot find booking id: ${bookingID}`);
+      return `Cannot find booking id: ${bookingID}`
+    } else if (matchedBooking && matchedBooking.date > this.getDate()) {
       let booking =
         {
           "id": bookingID
         }
       apiRequest.deleteBooking(booking);
     } else {
-      return `Cannot delete bookings on or before today\'s date: ${this.date}`
+      console.log(`Cannot delete bookings on or before today\'s date: ${this.getDate()}`);
+      return `Cannot delete bookings on or before today\'s date: ${this.getDate()}`
     }
   }
   getDate() {

@@ -1,12 +1,19 @@
-import { expect } from 'chai';
+const chai = require('chai');
+const spies = require('chai-spies');
+const expect = chai.expect;
+chai.use(spies);
+
 import User from '../src/classes/User';
 import Booking from '../src/classes/Booking';
-import {userSampleData, bookingSampleData, roomSampleData} from "./test-data/sample-data"
+import { apiRequest } from '../src/classes/apiRequest';
+import { userSampleData, bookingSampleData, roomSampleData } from "./test-data/sample-data"
 
 describe('User class properties and methods', function() {
   let user1, user2;
   let bookingData;
   let roomData;
+
+  // chai.spy.on(apiRequest, ['createBooking'], () => {}); //spies al;ready exist inside of manager-test - errors
 
   beforeEach(() => {
     bookingData = bookingSampleData;
@@ -55,7 +62,8 @@ describe('User class properties and methods', function() {
     expect(user1.viewAvailableRoomsByType(bookingData, roomData, "2021/01/03", 'junior suite').length).to.equal(1);
   });
   it('should be able to book a room', function() {
-    expect(user1.bookMyRoom("2020/02/03", 1)).to.be.an.instanceof(Booking);
-    expect(user1.bookMyRoom("2020/02/03", 1).userID).to.equal(55);
+    user1.bookMyRoom("2020/02/03", 1);
+    expect(apiRequest.createBooking).to.have.been.called(2); // Needs to be 2 b/c called inside manager-test
+    expect(apiRequest.createBooking).to.have.been.called.with({"userID": 55, "date": "2020/02/03", "roomNumber": 1});
   });
 });

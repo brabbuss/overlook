@@ -1,11 +1,18 @@
-import { expect } from 'chai';
+const chai = require('chai');
+const spies = require('chai-spies');
+const expect = chai.expect;
+chai.use(spies);
+
 import User from '../src/classes/User';
 import Manager from '../src/classes/Manager';
 import Booking from '../src/classes/Booking';
-import {userSampleData, bookingSampleData, roomSampleData} from "./test-data/sample-data"
+import { apiRequest } from '../src/classes/apiRequest';
+import { userSampleData, bookingSampleData, roomSampleData } from "./test-data/sample-data"
 
 describe('Manager class properties and methods', function() {
   let manager, bookingData, roomData, userData;
+
+  chai.spy.on(apiRequest, ['createBooking', 'deleteBooking'], () => {});
 
   beforeEach(() => {
     bookingData = bookingSampleData;
@@ -44,12 +51,20 @@ describe('Manager class properties and methods', function() {
     expect(manager.viewCustomerInfo(bookingData, roomData, userData, "Scott Fuddlebutts").bookingHistory[0].id).to.equal('randomIDnumber1');
   });
   it('should be able to book a room for a user', function() {
-    expect(manager.addCustomerBooking(userData, "Scott Fuddlebutts", "2022/02/04", 3)).to.be.an.instanceof(Booking);
-    expect(manager.addCustomerBooking(userData, "Scott Fuddlebutts", "2022/02/04", 3).roomNumber).to.be.equal(3);
+    manager.addCustomerBooking(userData, "Scott Fuddlebutts", "2020/02/03", 1);
+
+    expect(apiRequest.createBooking).to.have.been.called(1);
+    expect(apiRequest.createBooking).to.have.been.called.with({"userID": 55, "date": "2020/02/03", "roomNumber": 1});
   });
-  // it('should be able to book a room for a user', function() {
-  //
-  //   expect(manager.deleteCustomerBooking(userData, "Scott Fuddlebutts", "2022/02/04", 3)).to.be.an.instanceof(Booking);
-  //   expect(manager.deleteCustomerBooking(userData, "Scott Fuddlebutts", "2022/02/04", 3).roomNumber).to.be.equal(3);
-  // }); TODO part of chai spies
+  it('should be able to delete a booking for a user', function() {
+    manager.deleteCustomerBooking(bookingData, 'randomIDnumber3');
+
+    expect(apiRequest.deleteBooking).to.have.been.called(1);
+    expect(apiRequest.deleteBooking).to.have.been.called.with({"id": 'randomIDnumber3'});
+  });
+  it('should not be able to delete a booking in the past or today', function() {
+    manager.deleteCustomerBooking(bookingData, "randomIDnumber1")
+
+    expect(apiRequest.deleteBooking).to.have.been.called(0);
+  });
 });

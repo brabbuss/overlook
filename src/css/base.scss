@@ -42,7 +42,6 @@ header {
   nav {
     flex:1;
   }
-
   .profile-container {
     display: flex;
     flex:1;
@@ -53,8 +52,31 @@ header {
     list-style: none;
     .nav-link {
       @include hoverLink($headerText, $themeBlue)
+      padding: 0 .35em;
       font-size: 1.5em;
       text-decoration: none;
+    }
+  }
+}
+
+#login {
+  @include flexDir(column)
+  transition: all ease-in-out .3s;
+  border: .1px solid $themeBlue;
+  color: $themeBlue;
+  height: content;
+  width: content;
+  position: absolute;
+  top: 3em;
+  left: 3em;
+  padding: 2em;
+  border-radius: 5px;
+  background-color: $themeGray;
+  div {
+    @include flexDir(column);
+    padding-bottom: .5em;
+    p {
+      padding: 1em 0;
     }
   }
 }
@@ -63,7 +85,7 @@ header {
   display: flex;
 }
 
-.main_hotel-image {
+.main_image {
   width: 100%;
 }
 
@@ -73,12 +95,54 @@ header {
 
 .main_card {
   display: flex;
+  margin: 2em 0;
+  align-items: center;
 }
 
-#main-intro {
-  display: flex;
-
+.main_image-wrapper {
+  // height: 50vh;
+  overflow: hidden;
+  object-fit: cover;
+  // object-position: ;
 }
+
+.main_image {
+  min-width: 350px;
+  position: relative;
+}
+
+.main_card-text-wrapper {
+  padding: 2em;
+  min-width: 50%;
+  h2 {
+    padding-bottom: 1em;
+    font-size: 4em;
+    font-weight: 700;
+  }
+  p {
+    font-size: 1.3em;
+    line-height: 1.8em;
+    font-weight: 200;
+  }
+  div {
+    width: content;
+    height: 1em;
+    transition: all ease-in-out .5s;
+    &:hover {
+      z-index: 0;
+      width: 150px;
+      // background-size: 100px 0;
+      background-color: $themeBlue;
+    }
+    .main-card_text-link {
+      z-index: 10;
+      font-weight: 300;
+      cursor: pointer;
+      // @include hoverLink(black, $themeBlue);
+    }
+  }
+}
+
 
 #hero-image {
   background-position: 0em -28em;
@@ -93,9 +157,26 @@ header {
 }
 
 #sidebar {
-  @include sidebar();
+  @include sidebar-full-width();
+  box-shadow: 24px 0px 20px 20px #000000a6;
+  #sidebar_hotel-info-block {
+    margin-top: 3em;
+    height: 10em;
+    align-self: center;
+    p {
+      font-size: 1.3em;
+      font-weight: 400;
+    }
+    p:nth-child(2) {
+      font-size: 1.1em;
+      font-weight: 200;
+    }
+  }
 }
 
+.hidden {
+  display: none;
+}
 
 
 

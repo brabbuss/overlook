@@ -1,23 +1,62 @@
 /* This is an example of using Sass, otherwise plain CSS works too*/
-$primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+@import './vars';
+@import './mixins';
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-body {
+// html {
+//   height: 100%;
+//   width: 100%;
+// }
+
+html, body {
+  font-family: 'Poppins', sans-serif;
   background: $primary-background;
   margin: 0;
   width: 100%;
   margin: 0px;
+  display: flex;
 }
 
-html {
-  height: 100%;
-  width: 100%;
-  font-family: sans-serif;
+
+body {
+  flex-direction: row;
 }
 
 main {
   display: flex;
-  // height: 100;
+  flex-direction: column;
+}
+
+header {
+  @include header(cornflowerblue);
+  padding: 0 2em;
+  color: $headerText;
+  svg {
+    @include svgIcon($headerText, $themeBlue);
+  }
+  nav {
+    flex:1;
+  }
+
+  .profile-container {
+    display: flex;
+    flex:1;
+  }
+  .nav-links {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    .nav-link {
+      @include hoverLink($headerText, $themeBlue)
+      font-size: 1.5em;
+      text-decoration: none;
+    }
+  }
 }
 
 .main-intro {
@@ -54,11 +93,7 @@ main {
 }
 
 #sidebar {
-  width: 30em;
-  height: 100%;
-  background-color: aliceblue;
-  display: flex;
-  flex-direction: column;
+  @include sidebar();
 }
 
 

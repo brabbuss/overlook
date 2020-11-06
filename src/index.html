@@ -1,13 +1,58 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <title>Webpack Starter Kit</title>
+    <title>The Overlooked Hotel</title>
   </head>
   <body>
-    <h1>Webpack Starter Kit</h1>
-
-    <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px">
-
-    <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
+    <main>
+      <section id='main_content'>
+        <header>
+          <div class='hero-container'>
+            <h1>Overlook Hotel</h1>
+            <svg id='hero-image'>
+          </div>
+        </header>
+        <article id='main_intro' class='main_card'>
+          <div class='main_hotel-image-wrapper'>
+            <img class='main_hotel-image' src='./images/hotel-exterior.jpg'>
+          </div>
+          <section class='main_welcome-card_text'>
+            <h2>the world reknown<br>overlook hotel</h2>
+            <p>Here is some text about a hotel and all of its award winning features and probably a link or two to something below here</p>
+            <span>see rooms</span>
+          </section>
+        </article>
+        <article id='main_room-types' class='main_card'>
+          <section class='main_welcome-card_text'>
+            <h2>the world reknown<br>overlook hotel</h2>
+            <p>Here is some text about a hotel and all of its award winning features and probably a link or two to something below here</p>
+            <span>see rooms</span>
+          </section>
+          <div class='main_hotel-image-wrapper'>
+            <img class='main_hotel-image' src='./images/room-kinfolk.jpg'>
+          </div>
+        </article>
+      </section>
+    </main>
+    <section id='sidebar'>
+        <article id='sidebar_hotel-info-block'>
+          <section id='sidebar_hotel-information' title="hotel information">
+            <p>the overlook hotel</p>
+            <p>
+            123 madeup blvd<br>
+            denver, co 90210<br>
+            720.626.0000
+            </p>
+          </section>
+          <div class='pattern-block'>
+          </div>
+        </article>
+        <article id='sidebar_room-availability'>
+          <p>Month</p>
+          <p>Date</p>
+          <p>11</p>
+          <p>03</p>
+        </article>
+      </section>
   </body>
 </html>

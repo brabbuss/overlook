@@ -35,23 +35,25 @@
         </header>
         <!-- <input> -->
         <article id='main_intro' class='main_card'>
-          <div class='main_hotel-image-wrapper'>
-            <img class='main_hotel-image' src='./images/hotel-exterior.jpg'>
+          <div class='main_image-wrapper'>
+            <img class='main_image' src='./images/hotel-exterior.jpg'>
           </div>
-          <section class='main_welcome-card_text'>
+          <section class='main_card-text-wrapper'>
             <h2>the world reknown<br>overlook hotel</h2>
             <p>Here is some text about a hotel and all of its award winning features and probably a link or two to something below here</p>
-            <span>see rooms</span>
+            <br>
+            <div><p class='main-card_text-link'>see rooms</p></div>
           </section>
         </article>
         <article id='main_room-types' class='main_card'>
-          <section class='main_welcome-card_text'>
+          <section class='main_card-text-wrapper'>
             <h2>the world reknown<br>overlook hotel</h2>
             <p>Here is some text about a hotel and all of its award winning features and probably a link or two to something below here</p>
-            <span>see rooms</span>
+            <br>
+            <div><p class='main-card_text-link'>see rooms</p></div>
           </section>
-          <div class='main_hotel-image-wrapper'>
-            <img class='main_hotel-image' src='./images/room-kinfolk.jpg'>
+          <div class='main_image-wrapper'>
+            <img class='main_image' src='./images/room-kinfolk.jpg'>
           </div>
         </article>
       </section>
@@ -76,5 +78,16 @@
           <p>03</p>
         </article>
       </section>
+    <section id='login' class=''>
+      <div>
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username">
+      </div>
+      <div>
+          <label for="pass">Password (8 characters minimum):</label>
+          <input type="password" id="pass" name="password" minlength="8" required>
+      </div>
+      <input type="submit" value="Sign in">
+    </section>
   </body>
 </html>

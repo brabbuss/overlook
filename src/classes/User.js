@@ -4,7 +4,7 @@ import { apiRequest } from './apiRequest';
 export default class User {
   constructor(userData = {}) {
     this.id = userData.id || 777;
-    this.name = userData.name || 'MANAGER';
+    this.name = userData.name || 'GUEST';
   }
   bookMyRoom(date, roomNumber) {
     let booking =

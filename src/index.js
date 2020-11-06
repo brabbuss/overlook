@@ -36,7 +36,6 @@ Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
   .catch(error => console.log(error))
 
 function loadApp() {
-  user = new Manager()
-  console.log(user);
-  user.deleteCustomerBooking(bookingData, '5fwrgu4i7k55hl8ct')
+  user = new User()
+  console.log(user.viewAvailableRooms(bookingData, roomData, "2020/02/10"))
 }

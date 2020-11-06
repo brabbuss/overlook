@@ -5,6 +5,8 @@ import { apiRequest } from './apiRequest';
 export default class Manager extends User {
   constructor(userData) {
     super(userData)
+    this.id = 0;
+    this.name = 'MANAGER'
   }
   totalAvailableRooms(bookingData, roomData, date) {
     return this.viewAvailableRooms(bookingData, roomData, date).length

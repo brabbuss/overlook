@@ -34,8 +34,8 @@ describe('User class properties and methods', function() {
   it('should have an id number', function() {
     expect(user1.id).to.equal(55);
   });
-  it('should have a default name MANAGER if none is provided', function() {
-    expect(user2.name).to.equal('MANAGER');
+  it('should have a default name GUEST if none is provided', function() {
+    expect(user2.name).to.equal('GUEST');
   });
   it('should have a name', function() {
     expect(user1.name).to.equal('Scott Fuddlebutts');

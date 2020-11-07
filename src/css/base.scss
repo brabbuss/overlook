@@ -8,11 +8,6 @@
   box-sizing: border-box;
 }
 
-// html {
-//   height: 100%;
-//   width: 100%;
-// }
-
 html, body {
   font-family: 'Poppins', sans-serif;
   background: $primary-background;
@@ -59,9 +54,8 @@ header {
   }
 }
 
-#login {
+.login {
   @include flexDir(column)
-  transition: all ease-in-out .3s;
   border: .1px solid $themeBlue;
   color: $themeBlue;
   height: content;
@@ -72,6 +66,7 @@ header {
   padding: 2em;
   border-radius: 5px;
   background-color: $themeGray;
+  transition: all ease-in-out .3s;
   div {
     @include flexDir(column);
     padding-bottom: .5em;
@@ -174,11 +169,69 @@ header {
   }
 }
 
+.fade-in {
+  animation: fadeIn ease 1s;
+  -webkit-animation: fadeIn ease 1s;
+  -moz-animation: fadeIn ease 1s;
+  -o-animation: fadeIn ease 1s;
+  -ms-animation: fadeIn ease 1s;
+}
+
+// Fade In cross browser compatibility
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 .hidden {
   display: none;
 }
-
-
 
 // Hi there, I've got my login, I'd like to book a room at
 // F

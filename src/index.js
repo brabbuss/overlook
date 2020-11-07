@@ -6,10 +6,10 @@ import './css/base.scss';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 // import './images/turing-logo.png'
-// import './images/hotel-exterior.jpg'
-// import './images/room-kinfolk.jpg'
+import './images/hotel-exterior.jpg'
+import './images/room-kinfolk.jpg'
 // import './images/user-profile.svg'
-// import {'user-profile.svg'} from './images'
+import './images/user-profile.svg'
 // console.log('This is the JavaScript entry file - your code begins here.');
 
 let userData;
@@ -21,12 +21,31 @@ import User from './classes/User';
 import Manager from './classes/Manager';
 import Booking from './classes/Booking';
 
-import { domObject } from './classes/domObject';
+import { domObject, profileIcon, loginBox, loginButton, usernameInput, passwordInput } from './classes/domObject';
 import { apiRequest } from './classes/apiRequest';
 
 const fetchedUserData = apiRequest.getUserData();
 const fetchedBookingData = apiRequest.getBookingData();
 const fetchedRoomData = apiRequest.getRoomData();
+
+profileIcon.addEventListener('click', domObject.loginClick)
+loginButton.addEventListener('click', checkLogin)
+
+function checkLogin() {
+  let usernamePre = usernameInput.value.split('').slice(0,8).join('').toLowerCase()
+  let userID = username.value.split('').slice(8).join('')
+  let password = passwordInput.value.toString()
+  if (password === 'overlook2020' && usernamePre === 'customer' && userID.length > 0) {
+    user = new User(userData[userID-1])
+    console.log(user);
+  } else if (password === 'overlook2020' && usernameInput.value.toLowerCase() === 'manager') {
+    user = new Manager()
+  } else {
+    alert('Invalid login information')
+  }
+  domObject.loginClick()
+  event.preventDefault()
+}
 
 Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
   .then(value => {
@@ -39,5 +58,4 @@ Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
 
 function loadApp() {
   user = new User()
-  console.log(user.viewAvailableRooms(bookingData, roomData, "2020/02/10"))
 }

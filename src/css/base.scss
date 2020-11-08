@@ -1,7 +1,104 @@
 /* This is an example of using Sass, otherwise plain CSS works too*/
-$primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-;
+@import './vars';
+@import './mixins';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// html {
+//   height: 100%;
+//   width: 100%;
+// }
+
+html, body {
+  font-family: 'Poppins', sans-serif;
+  background: $primary-background;
+  margin: 0;
+  width: 100%;
+  margin: 0px;
+  display: flex;
+}
+
 
 body {
-  background: $primary-background;
+  flex-direction: row;
 }
+
+main {
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  @include header(cornflowerblue);
+  padding: 0 2em;
+  color: $headerText;
+  svg {
+    @include svgIcon($headerText, $themeBlue);
+  }
+  nav {
+    flex:1;
+  }
+
+  .profile-container {
+    display: flex;
+    flex:1;
+  }
+  .nav-links {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    .nav-link {
+      @include hoverLink($headerText, $themeBlue)
+      font-size: 1.5em;
+      text-decoration: none;
+    }
+  }
+}
+
+.main-intro {
+  display: flex;
+}
+
+.main_hotel-image {
+  width: 100%;
+}
+
+.hero-container {
+  // background-color: aliceblue;
+}
+
+.main_card {
+  display: flex;
+}
+
+#main-intro {
+  display: flex;
+
+}
+
+#hero-image {
+  background-position: 0em -28em;
+
+  background-size: 100%;
+  // background-color: transparent;
+  border: none;
+  height: 15vw;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-image: url(../images/hotel-lobby-mod1.jpg)
+}
+
+#sidebar {
+  @include sidebar();
+}
+
+
+
+
+// Hi there, I've got my login, I'd like to book a room at
+// F
+// THE OVERLOOKED HOTEL

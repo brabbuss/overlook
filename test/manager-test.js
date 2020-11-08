@@ -27,8 +27,8 @@ describe('Manager class properties and methods', function() {
   it('should be an instance of Manager', function() {
     expect(manager).to.be.an.instanceof(Manager);
   });
-  it('should have an id number of 777', function() {
-    expect(manager.id).to.equal(777);
+  it('should have an id number of 0', function() {
+    expect(manager.id).to.equal(0);
   });
   it('should have a name MANAGER', function() {
     expect(manager.name).to.equal('MANAGER');

@@ -4,7 +4,7 @@ import { apiRequest } from './apiRequest';
 export default class User {
   constructor(userData = {}) {
     this.id = userData.id || 777;
-    this.name = userData.name || 'MANAGER';
+    this.name = userData.name || 'GUEST';
   }
   bookMyRoom(date, roomNumber) {
     let booking =
@@ -41,7 +41,7 @@ export default class User {
   }
   viewAvailableRooms(bookingData, roomData, date) {
     let unavailableRooms = this.viewUnavailableRooms(bookingData, roomData, date)
-    return roomData.filter(room => !unavailableRooms.includes(room))
+    return roomData.filter(room => !unavailableRooms.includes(room)) // not empathetic consider rewriting
   }
   viewAvailableRoomsByType(bookingData, roomData, date, roomType) {
     let availableRooms = this.viewAvailableRooms(bookingData, roomData, date);

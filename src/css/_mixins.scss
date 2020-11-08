@@ -1,0 +1,59 @@
+@mixin flexCenter($direction) {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: $direction;
+}
+
+@mixin header($background) {
+  height: 10vh;
+  display: flex;
+  width: 100%;
+  background-color: $background;
+  flex:1;
+  align-items: center;
+}
+
+@mixin hoverLink($color, $bgColor) {
+  cursor: pointer;
+  color: $color;
+  transition: all .35s ease-in-out;
+  &:hover {
+    background-color: $bgColor;
+  }
+}
+
+@mixin svgIcon($color, $fillColor) {
+  cursor: pointer;
+  height: 3em;
+  width: auto;
+  fill: $color;
+  transition: all .35s ease-in-out;
+  &:hover {
+    fill: $fillColor;
+  }
+
+}
+
+@mixin sidebar() {
+  color: $sidebarText;
+  min-width: 16em;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex:1;
+  width: 15em;
+  background-color: rgb(87,87,87);
+  // float:right;
+}
+
+
+
+// @mixin flexCenter($direction) {
+//   height: 100vh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: $direction;
+// }

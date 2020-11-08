@@ -75,6 +75,14 @@ managerUserSearchInput.addEventListener('keypress', returnUserInfo);
 navCustomerAccount.addEventListener('click', showMyBookings);
 // navManagerHotel.addEventListener('click', domObject.showHomePageManager);
 
+// ----------- booking event listeners ----------------
+
+dashboardCustomer.addEventListener('click', bookRoom)
+
+function bookRoom() {
+  
+}
+//result_book-room-link
 // ------------------ functions ---------------------
 
 Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
@@ -113,7 +121,7 @@ function showCustomerDashboard() {
   domObject.showCustomerDashboard(true);
   domObject.showToolbar(true);
   domObject.hideElement(managerUserSearch);
-  loadBookings(date);
+  loadAvailableRooms(date);
 }
 
 function showManagerDashboard() {
@@ -188,12 +196,12 @@ function loadUserBookings(date) {
   });
 }
 
-function loadBookings(date) {
+function loadAvailableRooms(date) {
   user.viewAvailableRooms(bookingData, roomData, date).forEach((room, i, availRooms) => {
 
     let randomImage = roomImages[Math.floor(Math.random() * roomImages.length)];
 
-    document.querySelector('#dashboard-customer').insertAdjacentHTML('beforeend',
+    dashboardCustomer.insertAdjacentHTML('beforeend',
     `
     <article id='result_card-${i}' class='result_card'>
       <div class='result_image-wrapper'>
@@ -208,12 +216,12 @@ function loadBookings(date) {
           <p>$${room.costPerNight.toFixed(2)}</p>
           <p>per night<br>excluding taxes and fees</p>
         </div>
-        <span><p class='result_text-link'>BOOK THIS ROOM</p></span>
+        <span><p class='result_book-room-link'>BOOK THIS ROOM</p></span>
       </section>
     </article>
     `);
   });
-  }
+}
 
 // <!-- <article id='result_card-1' class='result_card'>
 //   <div class='result_image-wrapper'>

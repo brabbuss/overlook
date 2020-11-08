@@ -6,7 +6,7 @@
     <title>The Overlooked Hotel</title>
   </head>
   <body>
-    <main class=>
+    <main>
       <section id='main_content'>
         <header>
           <div aria-label="Hotel hero image" class="hero-image"></div>
@@ -32,7 +32,7 @@
               <li id='nav-contact' class='nav-link'><a href='#'></a>Contact</li>
             </ul>
             <ul id='manager-nav-links' class='nav-links hidden'>
-              <li id='nav-manager-hotel' class='nav-link'><a href='#'></a>hotel</li>
+              <!-- <li id='nav-manager-hotel' class='nav-link'><a href='#'></a>hotel</li> -->
               <li id='nav-manager-booking' class='nav-link'><a href='#'></a>book for customer</li>
               <li id='nav-manager-history' class='nav-link'><a href='#'></a>customer history</li>
             </ul>
@@ -44,20 +44,24 @@
           </nav>
         </header>
 
-        <nav title='booking toolbar' class='booking-toolbar'>
-          <div class='profile-container'>
-            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" class="svg-inline--fa fa-user fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path></svg>
-            <input type="text" id="manager-lookup-bar" name="username" placeholder="User Name or ID" required>
+        <nav id='booking-toolbar' title='booking toolbar' class='booking-toolbar hidden'>
+          <div id="manager-lookup-bar" class='nav-links'>
+            <label for="date" class='nav-link'>user search</label>
+            <input id='manager-search-user-input'type="text" name="username" placeholder="User Name or ID" required>
+          </div>
+          <div id='calendar' class='nav-links'>
+            <label for="date" class='nav-link'>select a date</label>
+            <input type="date" max='2022/01/01'>
           </div>
           <div>
             <form id='home-nav-links' class='nav-links'>
               <label for="room-type-select" class='nav-link'>sort by type</label>
               <select name="room-types" id="room-type-select">
-                  <option value=""> rooms </option>
-                  <option value="residential">residential suite</option>
-                  <option value="suite">suite</option>
-                  <option value="junior">junior suite</option>
-                  <option value="single">single room</option>
+                <option value=""> rooms </option>
+                <option value="residential">residential suite</option>
+                <option value="suite">suite</option>
+                <option value="junior">junior suite</option>
+                <option value="single">single room</option>
               </select>
             </form>
           </div>
@@ -123,6 +127,8 @@
           <input type="password" id="password" name="password" minlength="4" required>
       </div>
       <input type="submit" id='submit-login' value="sign in">
+      <br>
+      <input type="button" id='logout-button' value="log out">
     </form>
   </body>
 </html>

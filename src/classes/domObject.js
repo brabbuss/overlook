@@ -30,7 +30,6 @@ export const domObject = {
     boolean === true ? domObject.hideElement(mainContentContainer) : domObject.showElement(mainContentContainer);
     // boolean === true ? domObject.hideElement(mainRoomTypes) : domObject.showElement(mainRoomTypes);
     domObject.hideCustomerView(true);
-    console.log('what the fuck');
   },
 
   hideCustomerView(boolean) {

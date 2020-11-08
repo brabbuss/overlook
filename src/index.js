@@ -44,7 +44,8 @@ import {
   dashboardCustomer,
   managerDashboard,
   mainContentContainer,
-  managerUserSearchInput
+  managerUserSearchInput,
+  calendarInput
 } from './classes/domObject';
 
 let userData;
@@ -108,8 +109,11 @@ Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
   .catch(error => console.log(error))
 
 function loadApp() {
-  user = new User(userData[49])
-  date = '2025/01/15';
+  user = new User(userData[33])
+  date = '2021/01/01';
+  let formattedDate = date.replaceAll('/','-')
+
+  calendarInput.setAttribute('min', formattedDate);
   //TODO set to normal after testing
   console.log(bookingData);
   console.log(user, date, 'remember to change this information back');
@@ -120,15 +124,15 @@ function refreshPage() {
 }
 
 function showMyBookings() {
-  clearDashboard();
-  loadUserBookings(date, bookingData);
+  // clearDashboard();
+  loadUserAccountInfo(date, bookingData);
 }
 
 // ------------------ display calls and helper functions ---------------------
 
 function clearDashboard(type) {
   dashboardCustomer.innerHTML = '';
-  managerDashboard.innerHTML = '';
+  // managerDashboard.innerHTML = '';
   mainContentContainer.innerHTML = '';
 }
 
@@ -174,10 +178,7 @@ function checkLogin() {
   event.preventDefault()
 }
 
-
-
-
-function loadUserBookings(date, bookingData) {
+function loadUserAccountInfo(date, bookingData) {
   dashboardCustomer.innerHTML = ''
   user.viewMyBookings(bookingData).forEach((booking, i) => {
     let room = roomData.find(room => room.number === booking.roomNumber)

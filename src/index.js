@@ -21,16 +21,6 @@ import './images/room-xtrasmall2.jpg'
 
 import { roomImages, bathroomImages, lobbyImages } from './images/image-assets';
 
-let userData;
-let bookingData;
-let roomData;
-let user;
-let date = '2020/01/15';
-
-import User from './classes/User';
-import Manager from './classes/Manager';
-import Booking from './classes/Booking';
-
 import {
   domObject,
   profileIcon,
@@ -57,12 +47,21 @@ import {
   managerUserSearchInput
 } from './classes/domObject';
 
+let userData;
+let bookingData;
+let roomData;
+let user;
+let date;
+
+let fetchedUserData = apiRequest.getUserData();
+let fetchedBookingData = apiRequest.getBookingData();
+let fetchedRoomData = apiRequest.getRoomData();
+
+import User from './classes/User';
+import Manager from './classes/Manager';
+import Booking from './classes/Booking';
+
 import { apiRequest } from './classes/apiRequest';
-
-const fetchedUserData = apiRequest.getUserData();
-const fetchedBookingData = apiRequest.getBookingData();
-const fetchedRoomData = apiRequest.getRoomData();
-
 
 // ------------------ event listeners ------------------
 
@@ -80,11 +79,25 @@ navCustomerAccount.addEventListener('click', showMyBookings);
 dashboardCustomer.addEventListener('click', bookRoom)
 
 function bookRoom() {
-  
+  if (event.target.classList.contains('result_book-room-link')) {
+    let roomNum = Number(event.target.getAttribute('value'));
+    let onSuccess = () => {
+      getUpdatedBookings()
+    }
+    user.bookMyRoom(date, roomNum, onSuccess);
+  }
 }
-//result_book-room-link
-// ------------------ functions ---------------------
+// TODO set a MIN DATE on calendar
 
+function getUpdatedBookings() {
+  fetchedBookingData = apiRequest.getBookingData();
+  fetchedBookingData.then(value => {
+    bookingData = value['bookings']
+    console.log(bookingData);
+  }).then(()=>loadAvailableRooms(date, bookingData))
+}
+
+// ------------------ functions ---------------------
 Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
   .then(value => {
     userData = value[0]['users'];
@@ -92,11 +105,13 @@ Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
     roomData = value[2]['rooms'];
     loadApp();
   })
-.catch(error => console.log(error))
+  .catch(error => console.log(error))
 
 function loadApp() {
-  user = new User(userData[0])
-  //TODO delete this shit
+  user = new User(userData[49])
+  date = '2025/01/15';
+  //TODO set to normal after testing
+  console.log(bookingData);
   console.log(user, date, 'remember to change this information back');
 }
 
@@ -106,14 +121,14 @@ function refreshPage() {
 
 function showMyBookings() {
   clearDashboard();
-  loadUserBookings();
+  loadUserBookings(date, bookingData);
 }
 
 // ------------------ display calls and helper functions ---------------------
 
 function clearDashboard(type) {
   dashboardCustomer.innerHTML = '';
-  // managerDashboard.innerHTML = '';
+  managerDashboard.innerHTML = '';
   mainContentContainer.innerHTML = '';
 }
 
@@ -121,7 +136,7 @@ function showCustomerDashboard() {
   domObject.showCustomerDashboard(true);
   domObject.showToolbar(true);
   domObject.hideElement(managerUserSearch);
-  loadAvailableRooms(date);
+  loadAvailableRooms(date, bookingData);
 }
 
 function showManagerDashboard() {
@@ -146,7 +161,7 @@ function checkLogin() {
   let usernamePre = usernameInput.value.split('').slice(0,8).join('').toLowerCase()
   let userID = username.value.split('').slice(8).join('')
   let password = passwordInput.value.toString()
-  if (password === 'overlook2020' && usernamePre === 'customer' && userID.length > 0) {
+  if (password === 'overlook2020' && usernamePre === 'customer' && userID.length > 0 && userID < 51 && userID > 0) {
     user = new User(userData[userID-1])
     showCustomerDashboard()
   } else if (password === 'overlook2020' && usernameInput.value.toLowerCase() === 'manager') {
@@ -162,7 +177,7 @@ function checkLogin() {
 
 
 
-function loadUserBookings(date) {
+function loadUserBookings(date, bookingData) {
   dashboardCustomer.innerHTML = ''
   user.viewMyBookings(bookingData).forEach((booking, i) => {
     let room = roomData.find(room => room.number === booking.roomNumber)
@@ -196,11 +211,10 @@ function loadUserBookings(date) {
   });
 }
 
-function loadAvailableRooms(date) {
-  user.viewAvailableRooms(bookingData, roomData, date).forEach((room, i, availRooms) => {
-
+function loadAvailableRooms(date, bookingData) {
+  dashboardCustomer.innerHTML = ''
+  user.viewAvailableRooms(bookingData, roomData, date).forEach((room, i) => {
     let randomImage = roomImages[Math.floor(Math.random() * roomImages.length)];
-
     dashboardCustomer.insertAdjacentHTML('beforeend',
     `
     <article id='result_card-${i}' class='result_card'>
@@ -216,7 +230,7 @@ function loadAvailableRooms(date) {
           <p>$${room.costPerNight.toFixed(2)}</p>
           <p>per night<br>excluding taxes and fees</p>
         </div>
-        <span><p class='result_book-room-link'>BOOK THIS ROOM</p></span>
+        <span><p value='${room.number}' class='result_book-room-link'>BOOK THIS ROOM</p></span>
       </section>
     </article>
     `);

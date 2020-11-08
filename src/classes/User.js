@@ -6,14 +6,14 @@ export default class User {
     this.id = userData.id || 777;
     this.name = userData.name || 'GUEST';
   }
-  bookMyRoom(date, roomNumber) {
+  bookMyRoom(date, roomNumber, onSuccess) {
     let booking =
     {
       "userID": this.id,
       "date": date,
       "roomNumber": roomNumber
     }
-    apiRequest.createBooking(booking)
+    apiRequest.createBooking(booking, onSuccess)
   }
   viewMyBookings(bookingData) {
     let myBookings = bookingData.filter(booking => {

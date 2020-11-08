@@ -1,10 +1,24 @@
-@mixin flexCenter($direction) {
-  height: 100vh;
+@mixin textCenter() {
+
+}
+
+@mixin imageWrapper {
+  overflow: hidden;
+  object-fit: cover;
+}
+
+@mixin flexDir($direction) {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: $direction;
 }
+
+// @mixin flexCenter($direction) {
+//   height: 100vh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: $direction;
+// }
 
 @mixin header($background) {
   height: 10vh;
@@ -36,16 +50,15 @@
 
 }
 
-@mixin sidebar() {
+@mixin sidebar-full-width() {
+  min-width: 20em;
+  max-width: 20em;
   color: $sidebarText;
-  min-width: 16em;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  // height: 100%;
   flex:1;
-  width: 15em;
-  background-color: rgb(87,87,87);
-  // float:right;
+  background-color: $themeGray;
 }
 
 

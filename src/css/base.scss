@@ -8,11 +8,6 @@
   box-sizing: border-box;
 }
 
-// html {
-//   height: 100%;
-//   width: 100%;
-// }
-
 html, body {
   font-family: 'Poppins', sans-serif;
   background: $primary-background;
@@ -42,20 +37,171 @@ header {
   nav {
     flex:1;
   }
-
   .profile-container {
     display: flex;
     flex:1;
   }
-  .nav-links {
+}
+
+.booking-toolbar {
+  @include header(pink);
+  padding: 0 2em;
+  color: black;
+  // .profile-container {
+  //   display: flex;
+  //   flex:1;
+  // }
+  div:nth-child(1) {
     display: flex;
-    justify-content: space-around;
-    list-style: none;
-    .nav-link {
-      @include hoverLink($headerText, $themeBlue)
-      font-size: 1.5em;
-      text-decoration: none;
+    flex:1;
+    svg {
+      @include svgIcon($headerText, $themeGray);
     }
+  }
+  div:nth-child(2) {
+    @include flexDir(row);
+    flex:1;
+    font-size: .7em;
+    line-height: 1.3em;
+    form {
+      @include flexDir(column);
+      padding-top: 10px;
+      label {
+        padding-bottom: 5px;
+      }
+    }
+  }
+}
+
+
+.nav-links {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  .nav-link {
+    @include hoverLink($headerText, $themeBlue)
+    padding: 0 .35em;
+    font-size: 1.5em;
+    text-decoration: none;
+  }
+}
+
+.hero-image {
+  background-image: url(../images/hotel-rooftop.jpg);
+  height: 524px;
+  transform: translateY(44px);
+}
+
+.login {
+  @include flexDir(column)
+  border: .1px solid $themeBlue;
+  color: $themeBlue;
+  height: content;
+  width: content;
+  position: absolute;
+  top: 3em;
+  left: 3em;
+  padding: 2em;
+  border-radius: 5px;
+  background-color: $themeGray;
+  transition: all ease-in-out .3s;
+  div {
+    @include flexDir(column);
+    padding-bottom: .5em;
+    p {
+      padding: 1em 0;
+    }
+  }
+}
+
+.hero-container {
+  // background-color: aliceblue;
+}
+.main-intro {
+  display: flex;
+}
+
+.main_card {
+  display: flex;
+  margin: 2em 0;
+  align-items: center;
+}
+
+.main_image-wrapper {
+  @include imageWrapper
+}
+
+.main_image {
+  width: 100%;
+  min-width: 350px;
+  position: relative;
+}
+
+.main_card-text-wrapper {
+  padding: 2em;
+  min-width: 50%;
+  h2 {
+    padding-bottom: 1em;
+    font-size: 4em;
+    font-weight: 700;
+  }
+  p {
+    font-size: 1.3em;
+    line-height: 1.8em;
+    font-weight: 200;
+  }
+  div {
+    width: content;
+    height: 1em;
+    transition: all ease-in-out .5s;
+    &:hover {
+      z-index: 0;
+      width: 150px;
+      // background-size: 100px 0;
+      background-color: $themeBlue;
+    }
+    .main-card_text-link {
+      z-index: 10;
+      font-weight: 300;
+      cursor: pointer;
+      // @include hoverLink(black, $themeBlue);
+    }
+  }
+}
+
+.result_text-wrapper {
+  padding: 2em;
+  min-width: 50%;
+  h2 {
+    text-decoration: underline;
+    padding-bottom: 1em;
+    font-size: 2em;
+    font-weight: 700;
+  }
+  p {
+    font-size: 1.3em;
+    line-height: 1.8em;
+    font-weight: 200;
+  }
+  div {
+    display: flex;
+    width: content;
+    p:nth-child(1) {
+      font-size: 2em;
+      // line-height: 1.8em;
+      font-weight: 500;
+    }
+    p:nth-child(2) {
+      font-size: 1em;
+      line-height: 1.2em;
+      font-weight: 300;
+    }
+  }
+  .result_text-link {
+    z-index: 10;
+    font-weight: 400;
+    cursor: pointer;
+    // @include hoverLink(black, $themeBlue);
   }
 }
 
@@ -63,22 +209,32 @@ header {
   display: flex;
 }
 
-.main_hotel-image {
+.result_card {
+  display: flex;
+  margin: 2em 0;
+  align-items: center;
+}
+
+.result_image-wrapper {
+  @include imageWrapper
+  height: 22em;
+  // width:300px;
+  // text-align:center;
+  // line-height:300px;
+  // height:300px;
+  // border:solid;
+  // margin:2em auto;
+  // overflow:visible; /* let's see what we slice off */
+}
+
+.result_image {
   width: 100%;
+  min-width: 300px;
+  // position: relative;
+  // position:relative;
+  // z-index:-1;
 }
 
-.hero-container {
-  // background-color: aliceblue;
-}
-
-.main_card {
-  display: flex;
-}
-
-#main-intro {
-  display: flex;
-
-}
 
 #hero-image {
   background-position: 0em -28em;
@@ -93,11 +249,86 @@ header {
 }
 
 #sidebar {
-  @include sidebar();
+  @include sidebar-full-width();
+  box-shadow: 24px 0px 20px 20px #000000a6;
+  #sidebar_hotel-info-block {
+    margin-top: 3em;
+    height: 10em;
+    align-self: center;
+    p {
+      font-size: 1.3em;
+      font-weight: 400;
+    }
+    p:nth-child(2) {
+      font-size: 1.1em;
+      font-weight: 200;
+    }
+  }
 }
 
+.fade-in {
+  animation: fadeIn ease 1s;
+  -webkit-animation: fadeIn ease 1s;
+  -moz-animation: fadeIn ease 1s;
+  -o-animation: fadeIn ease 1s;
+  -ms-animation: fadeIn ease 1s;
+}
 
+// Fade In cross browser compatibility
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.hidden {
+  display: none!important;
+}
 
 // Hi there, I've got my login, I'd like to book a room at
 // F

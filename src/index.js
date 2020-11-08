@@ -166,18 +166,18 @@ function loadUserBookings(date) {
       <div class='my-booking_image-wrapper'>
         <img class='my-booking_image' src=${randomImage}>
       </div>
-      <section class='my-booking_text-wrapper'>
+      <section class='my_booking-text_wrapper'>
         <div>
           <p>Room Type: ${room.roomType}</p>
           <p>Room number: ${room.number}</p>
-          <p>${room.numBeds} ${room.numBeds > 1 ? room.bedSize + ' beds' : room.bedSize + ' bed'};
-          <br>${room.bidet ? 'Amenities: bidet' : ''}</p>
+          <p>${room.numBeds} ${room.numBeds > 1 ? room.bedSize + ' beds' : room.bedSize + ' bed'}</p>
+          <p>${room.bidet ? 'Amenities: bidet' : ''}</p>
         </div>
         <div>
+          <p>booked by: ${user.name}</p>
+          <p>for: ${booking.date}</p>
+          <p>customer id: ${booking.userID}</p>
           <p>booking id: ${booking.id}</p>
-          <p>booked for: ${booking.date}</p>
-          <p>booked by:${user.name}</p>
-          <br>customer id: ${booking.userID}</p>
         </div>
         <div>
           <p>$${room.costPerNight.toFixed(2)}</p>

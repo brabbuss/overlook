@@ -17,7 +17,7 @@ export const apiRequest = {
       .catch(error => console.log(error, "Encountered an error"));
   },
 
-  createBooking(booking) {
+  createBooking(booking, onSuccess) {
     return fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
       method: 'POST',
       headers: {
@@ -26,7 +26,10 @@ export const apiRequest = {
       body: JSON.stringify(booking),
     })
       .then(response => response.json())
-      .then(response => console.log("Booking successfully CREATED"))
+      .then(response => {
+        onSuccess()
+        console.log("Booking successfully CREATED")
+      })
       .catch(error => console.log(error, "Encountered an error"))
   },
 

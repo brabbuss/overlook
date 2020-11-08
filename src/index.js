@@ -46,7 +46,15 @@ import {
   navManagerHistory,
   navCustomerFindRooms,
   navCustomerRooms,
-  navCustomerHotel
+  navCustomerHotel,
+  calendar,
+  logoutButton,
+  managerUserSearch,
+  bookingToolbar,
+  dashboardCustomer,
+  managerDashboard,
+  mainContentContainer,
+  managerUserSearchInput
 } from './classes/domObject';
 
 import { apiRequest } from './classes/apiRequest';
@@ -60,44 +68,14 @@ const fetchedRoomData = apiRequest.getRoomData();
 
 profileIcon.addEventListener('click', domObject.showLogin);
 loginButton.addEventListener('click', checkLogin);
+logoutButton.addEventListener('click', refreshPage)
 navBooking.addEventListener('click', showCustomerDashboard);
-navCustomerHotel.addEventListener('click', domObject.showHomePage);
-navManagerHotel.addEventListener('click', domObject.showHomePageManager);
+navCustomerHotel.addEventListener('click', showHomePage);
+managerUserSearchInput.addEventListener('keypress', returnUserInfo);
+
+// navManagerHotel.addEventListener('click', domObject.showHomePageManager);
+
 // ------------------ functions ---------------------
-
-function showCustomerDashboard() {
-  domObject.showCustomerDashboard(true);
-  loadBookings(date)
-  user = userData[0]
-  console.log(user, date, 'remember to change this information back');
-}
-
-function showManagerDashboard() {
-  domObject.hideHomeView(true)
-}
-
-// function showGuestDashboard() {
-//   domObject.hideHomeView(true)
-// }
-
-function showHomePage() {
-  domObject.hideHomeView(false)
-}
-
-function checkLogin() {
-  let usernamePre = usernameInput.value.split('').slice(0,8).join('').toLowerCase()
-  let userID = username.value.split('').slice(8).join('')
-  let password = passwordInput.value.toString()
-  if (password === 'overlook2020' && usernamePre === 'customer' && userID.length > 0) {
-    user = new User(userData[userID-1])
-  } else if (password === 'overlook2020' && usernameInput.value.toLowerCase() === 'manager') {
-    user = new Manager()
-  } else {
-    alert('Invalid login information')
-  }
-  domObject.showLogin()
-  event.preventDefault()
-}
 
 Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
   .then(value => {
@@ -109,8 +87,59 @@ Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
 .catch(error => console.log(error))
 
 function loadApp() {
-  user = new User()
+  user = new Manager()
+  //TODO delete this shit
+  console.log(user, date, 'remember to change this information back');
 }
+
+function refreshPage() {
+  window.location.reload();
+}
+
+// ------------------ display calls and helper functions ---------------------
+
+function showCustomerDashboard() {
+  domObject.showCustomerDashboard(true);
+  domObject.showToolbar(true);
+  domObject.hideElement(managerUserSearch);
+  loadBookings(date);
+}
+
+function showManagerDashboard() {
+  domObject.hideHomeView(true);
+  domObject.hideManagerView(false);
+  domObject.showToolbar(true);
+  // domObject.showCustomerDashboard(false);
+}
+
+function showHomePage() {
+  domObject.hideHomeView(false)
+}
+function returnUserInfo() {
+  if (event.key === 'Enter') {
+    console.log(user);
+    console.log(user.viewCustomerInfo(bookingData, roomData, userData, managerUserSearchInput.value))
+  }
+}
+// ------------ log in ---------------------
+
+function checkLogin() {
+  let usernamePre = usernameInput.value.split('').slice(0,8).join('').toLowerCase()
+  let userID = username.value.split('').slice(8).join('')
+  let password = passwordInput.value.toString()
+  if (password === 'overlook2020' && usernamePre === 'customer' && userID.length > 0) {
+    user = new User(userData[userID-1])
+    showCustomerDashboard()
+  } else if (password === 'overlook2020' && usernameInput.value.toLowerCase() === 'manager') {
+    user = new Manager()
+    showManagerDashboard()
+  } else {
+    alert('Invalid login information')
+  }
+  domObject.showLogin()
+  event.preventDefault()
+}
+
 
 
 

@@ -45,34 +45,38 @@ header {
 
 .booking-toolbar {
   @include header(pink);
+  display: flex;
+  justify-content: space-around;
   padding: 0 2em;
   color: black;
-  // .profile-container {
-  //   display: flex;
-  //   flex:1;
-  // }
   div:nth-child(1) {
     display: flex;
+    font-size: 1em;
+    line-height: 1.3em;
     flex:1;
-    svg {
-      @include svgIcon($headerText, $themeGray);
-    }
   }
   div:nth-child(2) {
-    @include flexDir(row);
-    flex:1;
-    font-size: .7em;
+    display: flex;
+    font-size: 1em;
     line-height: 1.3em;
-    form {
-      @include flexDir(column);
-      padding-top: 10px;
-      label {
-        padding-bottom: 5px;
-      }
-    }
+    flex:1;
+  }
+  div:nth-child(3) {
+    display: flex;
+    font-size: 1em;
+    line-height: 1.3em;
+    flex:1;
+    // font-size: .7em;     for font above input
+    // line-height: 1.3em;
+    // form {
+    //   @include flexDir(column);
+    //   padding-top: 10px;
+    //   label {
+    //     padding-bottom: 5px;
+    //   }
+    // }
   }
 }
-
 
 .nav-links {
   display: flex;

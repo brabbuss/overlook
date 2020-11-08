@@ -41,17 +41,52 @@ header {
     display: flex;
     flex:1;
   }
-  .nav-links {
+}
+
+.booking-toolbar {
+  @include header(pink);
+  padding: 0 2em;
+  color: black;
+  // .profile-container {
+  //   display: flex;
+  //   flex:1;
+  // }
+  div:nth-child(1) {
     display: flex;
-    justify-content: space-around;
-    list-style: none;
-    .nav-link {
-      @include hoverLink($headerText, $themeBlue)
-      padding: 0 .35em;
-      font-size: 1.5em;
-      text-decoration: none;
+    flex:1;
+    svg {
+      @include svgIcon($headerText, $themeGray);
     }
   }
+  div:nth-child(2) {
+    @include flexDir(row);
+    flex:1;
+    font-size: .7em;
+    line-height: 1.3em;
+    form {
+      @include flexDir(column);
+      padding-top: 10px;
+    }
+  }
+}
+
+
+.nav-links {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  .nav-link {
+    @include hoverLink($headerText, $themeBlue)
+    padding: 0 .35em;
+    font-size: 1.5em;
+    text-decoration: none;
+  }
+}
+
+.hero-image {
+  background-image: url(../images/hotel-rooftop.jpg);
+  height: 524px;
+  transform: translateY(44px);
 }
 
 .login {
@@ -76,16 +111,11 @@ header {
   }
 }
 
-.main-intro {
-  display: flex;
-}
-
-.main_image {
-  width: 100%;
-}
-
 .hero-container {
   // background-color: aliceblue;
+}
+.main-intro {
+  display: flex;
 }
 
 .main_card {
@@ -95,13 +125,11 @@ header {
 }
 
 .main_image-wrapper {
-  // height: 50vh;
-  overflow: hidden;
-  object-fit: cover;
-  // object-position: ;
+  @include imageWrapper
 }
 
 .main_image {
+  width: 100%;
   min-width: 350px;
   position: relative;
 }
@@ -136,6 +164,72 @@ header {
       // @include hoverLink(black, $themeBlue);
     }
   }
+}
+
+.result_text-wrapper {
+  padding: 2em;
+  min-width: 50%;
+  h2 {
+    text-decoration: underline;
+    padding-bottom: 1em;
+    font-size: 2em;
+    font-weight: 700;
+  }
+  p {
+    font-size: 1.3em;
+    line-height: 1.8em;
+    font-weight: 200;
+  }
+  div {
+    display: flex;
+    width: content;
+    p:nth-child(1) {
+      font-size: 2em;
+      // line-height: 1.8em;
+      font-weight: 500;
+    }
+    p:nth-child(2) {
+      font-size: 1em;
+      line-height: 1.2em;
+      font-weight: 300;
+    }
+  }
+  .result_text-link {
+    z-index: 10;
+    font-weight: 400;
+    cursor: pointer;
+    // @include hoverLink(black, $themeBlue);
+  }
+}
+
+.main-intro {
+  display: flex;
+}
+
+.result_card {
+  display: flex;
+  margin: 2em 0;
+  align-items: center;
+}
+
+.result_image-wrapper {
+  @include imageWrapper
+  height: 22em;
+  // width:300px;
+  // text-align:center;
+  // line-height:300px;
+  // height:300px;
+  // border:solid;
+  // margin:2em auto;
+  // overflow:visible; /* let's see what we slice off */
+}
+
+.result_image {
+  width: 100%;
+  min-width: 300px;
+  // position: relative;
+  // position:relative;
+  // z-index:-1;
 }
 
 
@@ -230,7 +324,7 @@ header {
 }
 
 .hidden {
-  display: none;
+  display: none!important;
 }
 
 // Hi there, I've got my login, I'd like to book a room at

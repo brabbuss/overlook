@@ -2,6 +2,11 @@
 
 }
 
+@mixin imageWrapper {
+  overflow: hidden;
+  object-fit: cover;
+}
+
 @mixin flexDir($direction) {
   display: flex;
   flex-direction: $direction;
@@ -47,7 +52,7 @@
 
 @mixin sidebar-full-width() {
   min-width: 20em;
-
+  max-width: 20em;
   color: $sidebarText;
   display: flex;
   flex-direction: column;

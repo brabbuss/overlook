@@ -239,6 +239,61 @@ header {
   // z-index:-1;
 }
 
+.my-booking_text-wrapper {
+  @include flexDir(row);
+  padding: 2em;
+  min-width: 50%;
+  div {
+    p:nth-child(1) {
+      // text-decoration: underline;
+      padding-bottom: 1em;
+      font-size: 1.3em;
+      // font-size: 2em;
+      font-weight: 700;
+    }
+    p:nth-child(2) {
+      font-size: 1.3em;
+      line-height: 1.8em;
+      font-weight: 200;
+    }
+    p:nth-child(2) {
+      font-size: 1.3em;
+      line-height: 1.8em;
+      font-weight: 200;
+    }
+  }
+}
+
+.main-intro {
+  display: flex;
+}
+
+.my-booking_card {
+  display: flex;
+  margin: 2em 0;
+  align-items: center;
+}
+
+.my-booking_image-wrapper {
+  @include imageWrapper
+  height: 22em;
+  // width:300px;
+  // text-align:center;
+  // line-height:300px;
+  // height:300px;
+  // border:solid;
+  // margin:2em auto;
+  // overflow:visible; /* let's see what we slice off */
+}
+
+.my-booking_image {
+  width: 100%;
+  min-width: 300px;
+  // position: relative;
+  // position:relative;
+  // z-index:-1;
+}
+
 
 #hero-image {
   background-position: 0em -28em;

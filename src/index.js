@@ -45,7 +45,7 @@ import {
   navManagerBooking,
   navManagerHistory,
   navCustomerFindRooms,
-  navCustomerRooms,
+  navCustomerAccount,
   navCustomerHotel,
   calendar,
   logoutButton,
@@ -72,7 +72,7 @@ logoutButton.addEventListener('click', refreshPage)
 navBooking.addEventListener('click', showCustomerDashboard);
 navCustomerHotel.addEventListener('click', showHomePage);
 managerUserSearchInput.addEventListener('keypress', returnUserInfo);
-
+navCustomerAccount.addEventListener('click', showMyBookings);
 // navManagerHotel.addEventListener('click', domObject.showHomePageManager);
 
 // ------------------ functions ---------------------
@@ -87,7 +87,7 @@ Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
 .catch(error => console.log(error))
 
 function loadApp() {
-  user = new Manager()
+  user = new User(userData[0])
   //TODO delete this shit
   console.log(user, date, 'remember to change this information back');
 }
@@ -96,7 +96,18 @@ function refreshPage() {
   window.location.reload();
 }
 
+function showMyBookings() {
+  clearDashboard();
+  loadUserBookings();
+}
+
 // ------------------ display calls and helper functions ---------------------
+
+function clearDashboard(type) {
+  dashboardCustomer.innerHTML = '';
+  // managerDashboard.innerHTML = '';
+  mainContentContainer.innerHTML = '';
+}
 
 function showCustomerDashboard() {
   domObject.showCustomerDashboard(true);
@@ -143,7 +154,39 @@ function checkLogin() {
 
 
 
+function loadUserBookings(date) {
+  dashboardCustomer.innerHTML = ''
+  user.viewMyBookings(bookingData).forEach((booking, i) => {
+    let room = roomData.find(room => room.number === booking.roomNumber)
+    let randomImage = roomImages[Math.floor(Math.random() * roomImages.length)];
 
+    dashboardCustomer.insertAdjacentHTML('beforeend',
+    `
+    <article id='my-booking_card-${i}' class='my-booking_card'>
+      <div class='my-booking_image-wrapper'>
+        <img class='my-booking_image' src=${randomImage}>
+      </div>
+      <section class='my-booking_text-wrapper'>
+        <div>
+          <p>Room Type: ${room.roomType}</p>
+          <p>Room number: ${room.number}</p>
+          <p>${room.numBeds} ${room.numBeds > 1 ? room.bedSize + ' beds' : room.bedSize + ' bed'};
+          <br>${room.bidet ? 'Amenities: bidet' : ''}</p>
+        </div>
+        <div>
+          <p>booking id: ${booking.id}</p>
+          <p>booked for: ${booking.date}</p>
+          <p>booked by:${user.name}</p>
+          <br>customer id: ${booking.userID}</p>
+        </div>
+        <div>
+          <p>$${room.costPerNight.toFixed(2)}</p>
+        </div>
+      </section>
+    </article>
+    `);
+  });
+}
 
 function loadBookings(date) {
   user.viewAvailableRooms(bookingData, roomData, date).forEach((room, i, availRooms) => {

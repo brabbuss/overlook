@@ -66,6 +66,9 @@ header {
     form {
       @include flexDir(column);
       padding-top: 10px;
+      label {
+        padding-bottom: 5px;
+      }
     }
   }
 }

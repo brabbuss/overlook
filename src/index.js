@@ -21,16 +21,6 @@ import './images/room-xtrasmall2.jpg'
 
 import { roomImages, bathroomImages, lobbyImages } from './images/image-assets';
 
-let userData;
-let bookingData;
-let roomData;
-let user;
-let date = '2020/01/15';
-
-import User from './classes/User';
-import Manager from './classes/Manager';
-import Booking from './classes/Booking';
-
 import {
   domObject,
   profileIcon,
@@ -45,60 +35,69 @@ import {
   navManagerBooking,
   navManagerHistory,
   navCustomerFindRooms,
-  navCustomerRooms,
-  navCustomerHotel
+  navCustomerAccount,
+  navCustomerHotel,
+  calendar,
+  logoutButton,
+  managerUserSearch,
+  bookingToolbar,
+  dashboardCustomer,
+  managerDashboard,
+  mainContentContainer,
+  managerUserSearchInput
 } from './classes/domObject';
 
+let userData;
+let bookingData;
+let roomData;
+let user;
+let date;
+
+let fetchedUserData = apiRequest.getUserData();
+let fetchedBookingData = apiRequest.getBookingData();
+let fetchedRoomData = apiRequest.getRoomData();
+
+import User from './classes/User';
+import Manager from './classes/Manager';
+import Booking from './classes/Booking';
+
 import { apiRequest } from './classes/apiRequest';
-
-const fetchedUserData = apiRequest.getUserData();
-const fetchedBookingData = apiRequest.getBookingData();
-const fetchedRoomData = apiRequest.getRoomData();
-
 
 // ------------------ event listeners ------------------
 
 profileIcon.addEventListener('click', domObject.showLogin);
 loginButton.addEventListener('click', checkLogin);
+logoutButton.addEventListener('click', refreshPage)
 navBooking.addEventListener('click', showCustomerDashboard);
-navCustomerHotel.addEventListener('click', domObject.showHomePage);
-navManagerHotel.addEventListener('click', domObject.showHomePageManager);
-// ------------------ functions ---------------------
+navCustomerHotel.addEventListener('click', showHomePage);
+managerUserSearchInput.addEventListener('keypress', returnUserInfo);
+navCustomerAccount.addEventListener('click', showMyBookings);
+// navManagerHotel.addEventListener('click', domObject.showHomePageManager);
 
-function showCustomerDashboard() {
-  domObject.showCustomerDashboard(true);
-  loadBookings(date)
-  user = userData[0]
-  console.log(user, date, 'remember to change this information back');
-}
+// ----------- booking event listeners ----------------
 
-function showManagerDashboard() {
-  domObject.hideHomeView(true)
-}
+dashboardCustomer.addEventListener('click', bookRoom)
 
-// function showGuestDashboard() {
-//   domObject.hideHomeView(true)
-// }
-
-function showHomePage() {
-  domObject.hideHomeView(false)
-}
-
-function checkLogin() {
-  let usernamePre = usernameInput.value.split('').slice(0,8).join('').toLowerCase()
-  let userID = username.value.split('').slice(8).join('')
-  let password = passwordInput.value.toString()
-  if (password === 'overlook2020' && usernamePre === 'customer' && userID.length > 0) {
-    user = new User(userData[userID-1])
-  } else if (password === 'overlook2020' && usernameInput.value.toLowerCase() === 'manager') {
-    user = new Manager()
-  } else {
-    alert('Invalid login information')
+function bookRoom() {
+  if (event.target.classList.contains('result_book-room-link')) {
+    let roomNum = Number(event.target.getAttribute('value'));
+    let onSuccess = () => {
+      getUpdatedBookings()
+    }
+    user.bookMyRoom(date, roomNum, onSuccess);
   }
-  domObject.showLogin()
-  event.preventDefault()
+}
+// TODO set a MIN DATE on calendar
+
+function getUpdatedBookings() {
+  fetchedBookingData = apiRequest.getBookingData();
+  fetchedBookingData.then(value => {
+    bookingData = value['bookings']
+    console.log(bookingData);
+  }).then(()=>loadAvailableRooms(date, bookingData))
 }
 
+// ------------------ functions ---------------------
 Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
   .then(value => {
     userData = value[0]['users'];
@@ -106,22 +105,117 @@ Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
     roomData = value[2]['rooms'];
     loadApp();
   })
-.catch(error => console.log(error))
+  .catch(error => console.log(error))
 
 function loadApp() {
-  user = new User()
+  user = new User(userData[49])
+  date = '2025/01/15';
+  //TODO set to normal after testing
+  console.log(bookingData);
+  console.log(user, date, 'remember to change this information back');
+}
+
+function refreshPage() {
+  window.location.reload();
+}
+
+function showMyBookings() {
+  clearDashboard();
+  loadUserBookings(date, bookingData);
+}
+
+// ------------------ display calls and helper functions ---------------------
+
+function clearDashboard(type) {
+  dashboardCustomer.innerHTML = '';
+  managerDashboard.innerHTML = '';
+  mainContentContainer.innerHTML = '';
+}
+
+function showCustomerDashboard() {
+  domObject.showCustomerDashboard(true);
+  domObject.showToolbar(true);
+  domObject.hideElement(managerUserSearch);
+  loadAvailableRooms(date, bookingData);
+}
+
+function showManagerDashboard() {
+  domObject.hideHomeView(true);
+  domObject.hideManagerView(false);
+  domObject.showToolbar(true);
+  // domObject.showCustomerDashboard(false);
+}
+
+function showHomePage() {
+  domObject.hideHomeView(false)
+}
+function returnUserInfo() {
+  if (event.key === 'Enter') {
+    console.log(user);
+    console.log(user.viewCustomerInfo(bookingData, roomData, userData, managerUserSearchInput.value))
+  }
+}
+// ------------ log in ---------------------
+
+function checkLogin() {
+  let usernamePre = usernameInput.value.split('').slice(0,8).join('').toLowerCase()
+  let userID = username.value.split('').slice(8).join('')
+  let password = passwordInput.value.toString()
+  if (password === 'overlook2020' && usernamePre === 'customer' && userID.length > 0 && userID < 51 && userID > 0) {
+    user = new User(userData[userID-1])
+    showCustomerDashboard()
+  } else if (password === 'overlook2020' && usernameInput.value.toLowerCase() === 'manager') {
+    user = new Manager()
+    showManagerDashboard()
+  } else {
+    alert('Invalid login information')
+  }
+  domObject.showLogin()
+  event.preventDefault()
 }
 
 
 
 
-
-function loadBookings(date) {
-  user.viewAvailableRooms(bookingData, roomData, date).forEach((room, i, availRooms) => {
-
+function loadUserBookings(date, bookingData) {
+  dashboardCustomer.innerHTML = ''
+  user.viewMyBookings(bookingData).forEach((booking, i) => {
+    let room = roomData.find(room => room.number === booking.roomNumber)
     let randomImage = roomImages[Math.floor(Math.random() * roomImages.length)];
 
-    document.querySelector('#dashboard-customer').insertAdjacentHTML('beforeend',
+    dashboardCustomer.insertAdjacentHTML('beforeend',
+    `
+    <article id='my-booking_card-${i}' class='my-booking_card'>
+      <div class='my-booking_image-wrapper'>
+        <img class='my-booking_image' src=${randomImage}>
+      </div>
+      <section class='my_booking-text_wrapper'>
+        <div>
+          <p>Room Type: ${room.roomType}</p>
+          <p>Room number: ${room.number}</p>
+          <p>${room.numBeds} ${room.numBeds > 1 ? room.bedSize + ' beds' : room.bedSize + ' bed'}</p>
+          <p>${room.bidet ? 'Amenities: bidet' : ''}</p>
+        </div>
+        <div>
+          <p>booked by: ${user.name}</p>
+          <p>for: ${booking.date}</p>
+          <p>customer id: ${booking.userID}</p>
+          <p>booking id: ${booking.id}</p>
+        </div>
+        <div>
+          <p>$${room.costPerNight.toFixed(2)}</p>
+        </div>
+      </section>
+    </article>
+    `);
+  });
+}
+
+function loadAvailableRooms(date, bookingData) {
+  dashboardCustomer.innerHTML = ''
+  user.viewAvailableRooms(bookingData, roomData, date).forEach((room, i) => {
+    let randomImage = roomImages[Math.floor(Math.random() * roomImages.length)];
+    dashboardCustomer.insertAdjacentHTML('beforeend',
     `
     <article id='result_card-${i}' class='result_card'>
       <div class='result_image-wrapper'>
@@ -136,12 +230,12 @@ function loadBookings(date) {
           <p>$${room.costPerNight.toFixed(2)}</p>
           <p>per night<br>excluding taxes and fees</p>
         </div>
-        <span><p class='result_text-link'>BOOK THIS ROOM</p></span>
+        <span><p value='${room.number}' class='result_book-room-link'>BOOK THIS ROOM</p></span>
       </section>
     </article>
     `);
   });
-  }
+}
 
 // <!-- <article id='result_card-1' class='result_card'>
 //   <div class='result_image-wrapper'>

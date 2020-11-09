@@ -70,11 +70,13 @@ profileIcon.addEventListener('click', domObject.showLogin);
 loginButton.addEventListener('click', checkLogin);
 logoutButton.addEventListener('click', refreshPage)
 navBooking.addEventListener('click', showCustomerDashboard);
-navCustomerHotel.addEventListener('click', showHomePage);
 managerUserSearchInput.addEventListener('keypress', returnUserInfo);
+navCustomerHotel.addEventListener('click', showHomePage);
 navCustomerAccount.addEventListener('click', showMyBookings);
+navCustomerFindRooms.addEventListener('click', showCustomerDashboard)
 dashboardCustomer.addEventListener('click', bookRoom)
 document.querySelector('#toolbar_submit_button').addEventListener('click', sortByRoomType)
+
 // navManagerHotel.addEventListener('click', domObject.showHomePageManager);
 
 // ------------------ scratch pad -------------------
@@ -244,7 +246,9 @@ function loadAvailableRooms(date, roomType) {
   dashboardCustomer.innerHTML = ''
 
   if (bookingArray.length === 0) {
-    dashboardCustomer.insertAdjacentHTML('beforeend', `<div id='sorry_message-wrapper'><p id='sorry_message'>Sorry, no availability for that date or room type</p></div>`)
+    dashboardCustomer.insertAdjacentHTML('beforeend', `
+      <div id='sorry_message-wrapper'><p id='sorry_message'>Sorry, no ${!roomType ? 'room' : roomType}s availabile on ${date}</p></div>
+    `)
   } else {
     bookingArray.forEach((room, i) => {
       let randomImage = roomImages[Math.floor(Math.random() * roomImages.length)];

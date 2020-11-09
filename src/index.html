@@ -8,7 +8,7 @@
   <body>
     <main>
       <section id='main_content'>
-        <header>
+        <header id='main_header'>
           <div aria-label="Hotel hero image" class="hero-image"></div>
           <div class='profile-container'>
             <?xml version="1.0" encoding="iso-8859-1"?>
@@ -43,7 +43,6 @@
             </ul>
           </nav>
         </header>
-
         <nav id='booking-toolbar' title='booking toolbar' class='booking-toolbar hidden'>
           <div id="manager-lookup-bar" class='nav-links'>
             <label for="date" class='nav-link'>user search</label>
@@ -69,8 +68,10 @@
             <p id='toolbar_submit_button'>find rooms</p>
           </div>
         </nav>
+        <header id='dashboard_header'>
+        </header>
 
-        <section id='main-content-container'>
+        <section id='main-content-container' class='dashboard_view'>
           <article id='main_intro' class='main_card'>
             <div class='main_image-wrapper'>
               <img class='main_image' src='./images/hotel-exterior.jpg'>
@@ -94,9 +95,9 @@
             </div>
           </article>
         </section>
-        <section id='dashboard-customer'>
+        <section id='dashboard-customer' class='dashboard_view-logged_in hidden'>
         </section>
-        <section id='dashboard-manager'>
+        <section id='dashboard-manager' class='dashboard_view-logged_in hidden'>
         </section>
       </section>
     </main>

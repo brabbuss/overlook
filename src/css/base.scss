@@ -15,11 +15,13 @@ html, body {
   width: 100%;
   margin: 0px;
   display: flex;
+  // height: 100vh;
 }
 
 
 body {
   flex-direction: row;
+  // height: 100vh;
 }
 
 main {
@@ -27,7 +29,7 @@ main {
   flex-direction: column;
 }
 
-header {
+#main_header {
   @include header(cornflowerblue);
   padding: 0 2em;
   color: $headerText;
@@ -40,6 +42,25 @@ header {
   .profile-container {
     display: flex;
     flex:1;
+  }
+}
+
+//OVERFLOW SCROLLING
+.dashboard_view {
+  overflow-y: scroll;
+  height: 90vh;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+  display: none;
+  }
+}
+
+.dashboard_view-logged_in {
+  overflow-y: scroll;
+  height: 80vh;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+  display: none;
   }
 }
 
@@ -108,11 +129,11 @@ header {
   }
 }
 
-.hero-image {
-  background-image: url(../images/hotel-rooftop.jpg);
-  height: 524px;
-  transform: translateY(44px);
-}
+// .hero-image {
+//   background-image: url(../images/hotel-rooftop.jpg);
+//   height: 524px;
+//   transform: translateY(44px);
+// }
 
 .login {
   @include flexDir(column)
@@ -333,6 +354,7 @@ header {
 #sidebar {
   @include sidebar-full-width();
   box-shadow: 24px 0px 20px 20px #000000a6;
+  height: 100vh;
   #sidebar_hotel-info-block {
     margin-top: 3em;
     height: 10em;

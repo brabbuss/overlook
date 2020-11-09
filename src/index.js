@@ -134,8 +134,8 @@ function getCalendarDate() {
 // ------------- Customer dashboard ------------------
 
 function showMyBookings() {
-  // clearDashboard();
-  loadUserAccountInfo(date, bookingData);
+  loadUserAccountInfo(bookingData);
+  domObject.showToolbar(false);
 }
 
 function bookRoom() {
@@ -206,7 +206,7 @@ function checkLogin() {
   event.preventDefault()
 }
 
-function loadUserAccountInfo(date, bookingData) {
+function loadUserAccountInfo(bookingData) {
   dashboardCustomer.innerHTML = ''
   user.viewMyBookings(bookingData).forEach((booking, i) => {
     let room = roomData.find(room => room.number === booking.roomNumber)
@@ -274,19 +274,3 @@ function loadAvailableRooms(date, roomType) {
     });
   };
 }
-
-// <!-- <article id='result_card-1' class='result_card'>
-//   <div class='result_image-wrapper'>
-//     <img class='result_image' src='./images/hotel-exterior.jpg'>
-//   </div>
-//   <section class='result_text-wrapper'>
-//     <h2>the residential suite</h2>
-//     <p>2 queen beds, incredible mountain vies,<br>and a bidet to shoot water in your asshole</p>
-//     <br>
-//     <div>
-//       <p>$145</p>
-//       <p>per night<br>excluding taxes and fees</p>
-//     </div>
-//     <span><p class='result_text-link'>BOOK THIS ROOM</p></span>
-//   </section>
-// </article> -->

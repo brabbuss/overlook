@@ -342,6 +342,22 @@ header {
   }
 }
 
+// Customer Dashboard
+
+#sorry_message-wrapper {
+  width: 100%;
+  height: 100vh;
+  padding: 10vh 20vw;
+  display: flex;
+  margin: 2em 0;
+  p {
+    font-size: 2em;
+    text-align: center;
+  }
+}
+
+// Fade In cross browser compatibility
+
 .fade-in {
   animation: fadeIn ease 1s;
   -webkit-animation: fadeIn ease 1s;
@@ -349,8 +365,6 @@ header {
   -o-animation: fadeIn ease 1s;
   -ms-animation: fadeIn ease 1s;
 }
-
-// Fade In cross browser compatibility
 
 @keyframes fadeIn {
   0% {

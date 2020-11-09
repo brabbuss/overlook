@@ -234,28 +234,34 @@ function loadUserAccountInfo(date, bookingData) {
 function loadAvailableRooms(date, roomType) {
   console.log(user.viewAvailableRoomsByType(bookingData, roomData, date, roomType));
   dashboardCustomer.innerHTML = ''
-  user.viewAvailableRoomsByType(bookingData, roomData, date, roomType).forEach((room, i) => {
-    let randomImage = roomImages[Math.floor(Math.random() * roomImages.length)];
-    dashboardCustomer.insertAdjacentHTML('beforeend',
-    `
-    <article id='result_card-${i}' class='result_card'>
-      <div class='result_image-wrapper'>
-        <img class='result_image' src=${randomImage}>
-      </div>
-      <section class='result_text-wrapper'>
-        <h2>${room.roomType} #${room.number}</h2>
-        <p>${room.numBeds} ${room.numBeds > 1 ? room.bedSize + ' beds' : room.bedSize + ' bed'}, incredible mountain views,
-        <br>a fully modern room and bathroom${room.bidet ? ' including a bidet!' : '.'}</p>
-        <br>
-        <div>
-          <p>$${room.costPerNight.toFixed(2)}</p>
-          <p>per night<br>excluding taxes and fees</p>
+
+  let bookingArray = user.viewAvailableRoomsByType(bookingData, roomData, date, roomType);
+  if (bookingArray.length === 0) {
+    dashboardCustomer.insertAdjacentHTML('beforeend', `<div id='sorry_message-wrapper'><p id='sorry_message'>Sorry, no availability for that date or room type</p></div>`)
+  } else {
+    bookingArray.forEach((room, i) => {
+      let randomImage = roomImages[Math.floor(Math.random() * roomImages.length)];
+      dashboardCustomer.insertAdjacentHTML('beforeend',
+      `
+      <article id='result_card-${i}' class='result_card'>
+        <div class='result_image-wrapper'>
+          <img class='result_image' src=${randomImage}>
         </div>
-        <span><p value='${room.number}' class='result_book-room-link'>BOOK THIS ROOM</p></span>
-      </section>
-    </article>
-    `);
-  });
+        <section class='result_text-wrapper'>
+          <h2>${room.roomType} #${room.number}</h2>
+          <p>${room.numBeds} ${room.numBeds > 1 ? room.bedSize + ' beds' : room.bedSize + ' bed'}, incredible mountain views,
+          <br>a fully modern room and bathroom${room.bidet ? ' including a bidet!' : '.'}</p>
+          <br>
+          <div>
+            <p>$${room.costPerNight.toFixed(2)}</p>
+            <p>per night<br>excluding taxes and fees</p>
+          </div>
+          <span><p value='${room.number}' class='result_book-room-link'>BOOK THIS ROOM</p></span>
+        </section>
+      </article>
+      `);
+    });
+  };
 }
 
 // <!-- <article id='result_card-1' class='result_card'>

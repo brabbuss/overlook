@@ -82,16 +82,20 @@ document.querySelector('#toolbar_submit_button').addEventListener('click', sortB
 function sortByRoomType() {
   let dropdown = document.querySelector('#room-types');
   let roomType = dropdown.options[dropdown.selectedIndex].value.toString();
+
+  console.log(getCalendarDate());
+  let selectedDate = getCalendarDate() ? getCalendarDate() : date;
+
   if (roomType === 'residential') {
-    loadAvailableRooms(date, 'residential suite');
+    loadAvailableRooms(selectedDate, 'residential suite');
   } else if (roomType === 'suite') {
-    loadAvailableRooms(date, 'suite');
+    loadAvailableRooms(selectedDate, 'suite');
   } else if (roomType === 'junior') {
-    loadAvailableRooms(date, 'junior suite');
+    loadAvailableRooms(selectedDate, 'junior suite');
   } else if (roomType === 'single') {
-    loadAvailableRooms(date, 'single room');
+    loadAvailableRooms(selectedDate, 'single room');
   } else if (roomType === 'all') {
-    loadAvailableRooms(date);
+    loadAvailableRooms(selectedDate);
   }
 }
 
@@ -112,13 +116,17 @@ function loadApp() {
   let formattedDate = date.replaceAll('/','-')
 
   calendarInput.setAttribute('min', formattedDate);
+  calendarInput.setAttribute('value', formattedDate);
   //TODO set to normal after testing
-  console.log(bookingData);
   console.log(user, date, 'remember to change this information back');
 }
 
 function refreshPage() {
   window.location.reload();
+}
+
+function getCalendarDate() {
+  return calendarInput.value.replaceAll('-','/')
 }
 
 // ------------- Customer dashboard ------------------
@@ -170,6 +178,7 @@ function showManagerDashboard() {
 function showHomePage() {
   domObject.hideHomeView(false)
 }
+
 function returnUserInfo() {
   if (event.key === 'Enter') {
     console.log(user);
@@ -229,13 +238,11 @@ function loadUserAccountInfo(date, bookingData) {
   });
 }
 
-//viewAvailableRoomsByType(bookingData, roomData, date, roomType)
-// NEED ALL roomtypes
 function loadAvailableRooms(date, roomType) {
-  console.log(user.viewAvailableRoomsByType(bookingData, roomData, date, roomType));
+  console.log(date);
+  let bookingArray = user.viewAvailableRoomsByType(bookingData, roomData, date, roomType);
   dashboardCustomer.innerHTML = ''
 
-  let bookingArray = user.viewAvailableRoomsByType(bookingData, roomData, date, roomType);
   if (bookingArray.length === 0) {
     dashboardCustomer.insertAdjacentHTML('beforeend', `<div id='sorry_message-wrapper'><p id='sorry_message'>Sorry, no availability for that date or room type</p></div>`)
   } else {
@@ -243,7 +250,7 @@ function loadAvailableRooms(date, roomType) {
       let randomImage = roomImages[Math.floor(Math.random() * roomImages.length)];
       dashboardCustomer.insertAdjacentHTML('beforeend',
       `
-      <article id='result_card-${i}' class='result_card'>
+      <article id='result_card-${i}' class='result_card fade-in'>
         <div class='result_image-wrapper'>
           <img class='result_image' src=${randomImage}>
         </div>

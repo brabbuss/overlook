@@ -54,16 +54,19 @@
             <input id='calendar-input' type="date" max='2022/01/01'>
           </div>
           <div>
-            <form id='home-nav-links' class='nav-links'>
-              <label for="room-type-select" class='nav-link'>sort by type</label>
-              <select name="room-types" id="room-type-select">
-                <option value=""> rooms </option>
+            <form id='room-type-dropdown-container' class='nav-links'>
+              <label id='room-type-dropdown-label' for="room-types" class='nav-link'>sort by type</label>
+              <select id="room-types">
+                <option value="all">all rooms </option>
                 <option value="residential">residential suite</option>
                 <option value="suite">suite</option>
                 <option value="junior">junior suite</option>
                 <option value="single">single room</option>
               </select>
             </form>
+          </div>
+          <div>
+            <p id='toolbar_submit_button'>find rooms</p>
           </div>
         </nav>
 

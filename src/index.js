@@ -45,7 +45,8 @@ import {
   managerDashboard,
   mainContentContainer,
   managerUserSearchInput,
-  calendarInput
+  calendarInput,
+  dashboardHeader
 } from './classes/domObject';
 
 let userData;
@@ -137,9 +138,11 @@ function showMyBookings() {
   loadUserAccountInfo(bookingData);
   domObject.showToolbar(false);
   domObject.showDashboardHeader(true);
+  showDashboardMessage();
 }
 
 function bookRoom() {
+  date = getCalendarDate()
   if (event.target.classList.contains('result_book-room-link')) {
     let roomNum = Number(event.target.getAttribute('value'));
     let onSuccess = () => {
@@ -149,7 +152,6 @@ function bookRoom() {
   }
 }
 
-// ------------------ display calls and helper functions ---------------------
 
 function getUpdatedAvailableList() {
   fetchedBookingData = apiRequest.getBookingData();
@@ -208,6 +210,15 @@ function checkLogin() {
   event.preventDefault()
 }
 
+function showDashboardMessage() {
+  let bookingTotal = user.viewMyBookings(bookingData).length;
+  dashboardHeader.innerHTML = '';
+  dashboardHeader.insertAdjacentHTML('beforeend',
+  `
+  <p>Thanks for your continued support ${user.name}. You have ${bookingTotal > 1 ? bookingTotal + ' bookings' : bookingTotal + ' booking'} on record with us${bookingTotal > 20 ? '. WHOA!' : '!'}</p>
+  `)
+}
+
 function loadUserAccountInfo(bookingData) {
   dashboardCustomer.innerHTML = ''
   user.viewMyBookings(bookingData).forEach((booking, i) => {
@@ -243,10 +254,10 @@ function loadUserAccountInfo(bookingData) {
 }
 
 function loadAvailableRooms(date, roomType) {
-  console.log(date);
+  date = getCalendarDate()
   let bookingArray = user.viewAvailableRoomsByType(bookingData, roomData, date, roomType);
+  console.log(bookingArray);
   dashboardCustomer.innerHTML = ''
-
   if (bookingArray.length === 0) {
     dashboardCustomer.insertAdjacentHTML('beforeend', `
       <div id='sorry_message-wrapper'><p id='sorry_message'>Sorry, there are no ${!roomType ? 'room' : roomType}s availabile for a ${date} booking</p></div>

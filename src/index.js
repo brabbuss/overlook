@@ -74,12 +74,12 @@ navCustomerHotel.addEventListener('click', showHomePage);
 managerUserSearchInput.addEventListener('keypress', returnUserInfo);
 navCustomerAccount.addEventListener('click', showMyBookings);
 dashboardCustomer.addEventListener('click', bookRoom)
-document.querySelector('#toolbar_submit_button').addEventListener('click', selectRoomType)
+document.querySelector('#toolbar_submit_button').addEventListener('click', sortByRoomType)
 // navManagerHotel.addEventListener('click', domObject.showHomePageManager);
 
 // ------------------ scratch pad -------------------
 
-function selectRoomType() {
+function sortByRoomType() {
   let dropdown = document.querySelector('#room-types');
   let roomType = dropdown.options[dropdown.selectedIndex].value.toString();
   if (roomType === 'residential') {

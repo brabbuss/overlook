@@ -216,7 +216,12 @@ header {
   .result_book-room-link {
     z-index: 10;
     font-weight: 400;
+    transition: all ease-in-out .3s;
     cursor: pointer;
+    &:hover {
+      background-color: $themeBlue;
+      font-size: 1.6em;
+    }
     // @include hoverLink(black, $themeBlue);
   }
 }

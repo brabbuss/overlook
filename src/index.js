@@ -247,7 +247,7 @@ function loadAvailableRooms(date, roomType) {
 
   if (bookingArray.length === 0) {
     dashboardCustomer.insertAdjacentHTML('beforeend', `
-      <div id='sorry_message-wrapper'><p id='sorry_message'>Sorry, no ${!roomType ? 'room' : roomType}s availabile on ${date}</p></div>
+      <div id='sorry_message-wrapper'><p id='sorry_message'>Sorry, there are no ${!roomType ? 'room' : roomType}s availabile for a ${date} booking</p></div>
     `)
   } else {
     bookingArray.forEach((room, i) => {

@@ -10,9 +10,9 @@ export const domObject = {
     boolean === true ? domObject.showElement(bookingToolbar) : domObject.hideElement(bookingToolbar);
   },
 
-  // showHomePage() {
-  //   domObject.hideHomeView(false);
-  // },
+  showDashboardHeader(boolean) {
+    boolean === true ? domObject.showElement(dashboardHeader) : domObject.hideElement(dashboardHeader);
+  },
 
   showHomePageManager() {
     domObject.hideHomeView(false);
@@ -30,6 +30,7 @@ export const domObject = {
     boolean === true ? domObject.hideElement(mainContentContainer) : domObject.showElement(mainContentContainer);
     // boolean === true ? domObject.hideElement(mainRoomTypes) : domObject.showElement(mainRoomTypes);
     domObject.hideCustomerView(true);
+    domObject.showDashboardHeader(false);
   },
 
   hideCustomerView(boolean) {
@@ -83,7 +84,7 @@ export const dashboardCustomer = document.querySelector('#dashboard-customer')
 export const managerDashboard = document.querySelector('#manager-dashboard')
 export const mainContentContainer = document.querySelector('#main-content-container')
 export const managerUserSearchInput = document.querySelector('#manager-search-user-input')
-// export const  = document.querySelector('#')
+export const dashboardHeader = document.querySelector('#dashboard_header')
 // export const  = document.querySelector('#')
 // export const  = document.querySelector('#')
 // export const  = document.querySelector('#')

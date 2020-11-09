@@ -136,6 +136,7 @@ function getCalendarDate() {
 function showMyBookings() {
   loadUserAccountInfo(bookingData);
   domObject.showToolbar(false);
+  domObject.showDashboardHeader(true);
 }
 
 function bookRoom() {
@@ -167,6 +168,7 @@ function showCustomerDashboard() {
   domObject.showCustomerDashboard(true);
   domObject.showToolbar(true);
   domObject.hideElement(managerUserSearch);
+  domObject.showDashboardHeader(false);
   loadAvailableRooms(date);
 }
 

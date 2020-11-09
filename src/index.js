@@ -82,25 +82,7 @@ document.querySelector('#toolbar_submit_button').addEventListener('click', sortB
 
 // ------------------ scratch pad -------------------
 
-function sortByRoomType() {
-  let dropdown = document.querySelector('#room-types');
-  let roomType = dropdown.options[dropdown.selectedIndex].value.toString();
 
-  console.log(getCalendarDate());
-  let selectedDate = getCalendarDate() ? getCalendarDate() : date;
-
-  if (roomType === 'residential') {
-    loadAvailableRooms(selectedDate, 'residential suite');
-  } else if (roomType === 'suite') {
-    loadAvailableRooms(selectedDate, 'suite');
-  } else if (roomType === 'junior') {
-    loadAvailableRooms(selectedDate, 'junior suite');
-  } else if (roomType === 'single') {
-    loadAvailableRooms(selectedDate, 'single room');
-  } else if (roomType === 'all') {
-    loadAvailableRooms(selectedDate);
-  }
-}
 
 // ------------------ functions ---------------------
 
@@ -112,6 +94,23 @@ Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
     loadApp();
   })
   .catch(error => console.log(error))
+
+function checkLogin() {
+    let usernamePre = usernameInput.value.split('').slice(0,8).join('').toLowerCase()
+    let userID = username.value.split('').slice(8).join('')
+    let password = passwordInput.value.toString()
+    if (password === 'overlook2020' && usernamePre === 'customer' && userID.length > 0 && userID < 51 && userID > 0) {
+      user = new User(userData[userID-1])
+      showCustomerDashboard()
+    } else if (password === 'overlook2020' && usernameInput.value.toLowerCase() === 'manager') {
+      user = new Manager()
+      showManagerDashboard()
+    } else {
+      alert('Invalid login information')
+    }
+    domObject.showLogin()
+    event.preventDefault()
+  }
 
 function loadApp() {
   user = new User(userData[33])
@@ -132,7 +131,7 @@ function getCalendarDate() {
   return calendarInput.value.replaceAll('-','/')
 }
 
-// ------------- Customer dashboard ------------------
+// ------------- Dashboard Display ------------------
 
 function showMyBookings() {
   loadUserAccountInfo(bookingData);
@@ -141,29 +140,13 @@ function showMyBookings() {
   showDashboardMessage();
 }
 
-function bookRoom() {
-  date = getCalendarDate()
-  if (event.target.classList.contains('result_book-room-link')) {
-    let roomNum = Number(event.target.getAttribute('value'));
-    let onSuccess = () => {
-      getUpdatedAvailableList()
-    }
-    user.bookMyRoom(date, roomNum, onSuccess);
-  }
-}
-
-
-function getUpdatedAvailableList() {
-  fetchedBookingData = apiRequest.getBookingData();
-  fetchedBookingData.then(value => {
-    bookingData = value['bookings']
-  }).then(()=>loadAvailableRooms(date))
-}
-
-function clearDashboard(type) {
-  dashboardCustomer.innerHTML = '';
-  // managerDashboard.innerHTML = '';
-  mainContentContainer.innerHTML = '';
+function showDashboardMessage() {
+  let bookingTotal = user.viewMyBookings(bookingData).length;
+  dashboardHeader.innerHTML = '';
+  dashboardHeader.insertAdjacentHTML('beforeend',
+  `
+  <p>Thanks for your continued support ${user.name}. You have ${bookingTotal > 1 ? bookingTotal + ' bookings' : bookingTotal + ' booking'} on record with us${bookingTotal > 20 ? '. WHOA!' : '!'}</p>
+  `)
 }
 
 function showCustomerDashboard() {
@@ -185,40 +168,6 @@ function showHomePage() {
   domObject.hideHomeView(false)
 }
 
-function returnUserInfo() {
-  if (event.key === 'Enter') {
-    console.log(user);
-    console.log(user.viewCustomerInfo(bookingData, roomData, userData, managerUserSearchInput.value))
-  }
-}
-// ------------ log in ---------------------
-
-function checkLogin() {
-  let usernamePre = usernameInput.value.split('').slice(0,8).join('').toLowerCase()
-  let userID = username.value.split('').slice(8).join('')
-  let password = passwordInput.value.toString()
-  if (password === 'overlook2020' && usernamePre === 'customer' && userID.length > 0 && userID < 51 && userID > 0) {
-    user = new User(userData[userID-1])
-    showCustomerDashboard()
-  } else if (password === 'overlook2020' && usernameInput.value.toLowerCase() === 'manager') {
-    user = new Manager()
-    showManagerDashboard()
-  } else {
-    alert('Invalid login information')
-  }
-  domObject.showLogin()
-  event.preventDefault()
-}
-
-function showDashboardMessage() {
-  let bookingTotal = user.viewMyBookings(bookingData).length;
-  dashboardHeader.innerHTML = '';
-  dashboardHeader.insertAdjacentHTML('beforeend',
-  `
-  <p>Thanks for your continued support ${user.name}. You have ${bookingTotal > 1 ? bookingTotal + ' bookings' : bookingTotal + ' booking'} on record with us${bookingTotal > 20 ? '. WHOA!' : '!'}</p>
-  `)
-}
-
 function loadUserAccountInfo(bookingData) {
   dashboardCustomer.innerHTML = ''
   user.viewMyBookings(bookingData).forEach((booking, i) => {
@@ -228,26 +177,26 @@ function loadUserAccountInfo(bookingData) {
     dashboardCustomer.insertAdjacentHTML('beforeend',
     `
     <article id='my-booking_card-${i}' class='my-booking_card'>
-      <div class='my-booking_image-wrapper'>
-        <img class='my-booking_image' src=${randomImage}>
-      </div>
-      <section class='my_booking-text_wrapper'>
-        <div>
-          <p>Room Type: ${room.roomType}</p>
-          <p>Room number: ${room.number}</p>
-          <p>${room.numBeds} ${room.numBeds > 1 ? room.bedSize + ' beds' : room.bedSize + ' bed'}</p>
-          <p>${room.bidet ? 'Amenities: bidet' : ''}</p>
-        </div>
-        <div>
-          <p>booked by: ${user.name}</p>
-          <p>for: ${booking.date}</p>
-          <p>customer id: ${booking.userID}</p>
-          <p>booking id: ${booking.id}</p>
-        </div>
-        <div>
-          <p>$${room.costPerNight.toFixed(2)}</p>
-        </div>
-      </section>
+    <div class='my-booking_image-wrapper'>
+    <img class='my-booking_image' src=${randomImage}>
+    </div>
+    <section class='my_booking-text_wrapper'>
+    <div>
+    <p>Room Type: ${room.roomType}</p>
+    <p>Room number: ${room.number}</p>
+    <p>${room.numBeds} ${room.numBeds > 1 ? room.bedSize + ' beds' : room.bedSize + ' bed'}</p>
+    <p>${room.bidet ? 'Amenities: bidet' : ''}</p>
+    </div>
+    <div>
+    <p>booked by: ${user.name}</p>
+    <p>for: ${booking.date}</p>
+    <p>customer id: ${booking.userID}</p>
+    <p>booking id: ${booking.id}</p>
+    </div>
+    <div>
+    <p>$${room.costPerNight.toFixed(2)}</p>
+    </div>
+    </section>
     </article>
     `);
   });
@@ -256,11 +205,10 @@ function loadUserAccountInfo(bookingData) {
 function loadAvailableRooms(date, roomType) {
   date = getCalendarDate()
   let bookingArray = user.viewAvailableRoomsByType(bookingData, roomData, date, roomType);
-  console.log(bookingArray);
   dashboardCustomer.innerHTML = ''
   if (bookingArray.length === 0) {
     dashboardCustomer.insertAdjacentHTML('beforeend', `
-      <div id='sorry_message-wrapper'><p id='sorry_message'>Sorry, there are no ${!roomType ? 'room' : roomType}s availabile for a ${date} booking</p></div>
+    <div id='sorry_message-wrapper'><p id='sorry_message'>Sorry, there are no ${!roomType ? 'room' : roomType}s availabile for a ${date} booking</p></div>
     `)
   } else {
     bookingArray.forEach((room, i) => {
@@ -268,22 +216,66 @@ function loadAvailableRooms(date, roomType) {
       dashboardCustomer.insertAdjacentHTML('beforeend',
       `
       <article id='result_card-${i}' class='result_card fade-in'>
-        <div class='result_image-wrapper'>
-          <img class='result_image' src=${randomImage}>
-        </div>
-        <section class='result_text-wrapper'>
-          <h2>${room.roomType} #${room.number}</h2>
-          <p>${room.numBeds} ${room.numBeds > 1 ? room.bedSize + ' beds' : room.bedSize + ' bed'}, incredible mountain views,
-          <br>a fully modern room and bathroom${room.bidet ? ' including a bidet!' : '.'}</p>
-          <br>
-          <div>
-            <p>$${room.costPerNight.toFixed(2)}</p>
-            <p>per night<br>excluding taxes and fees</p>
-          </div>
-          <span><p value='${room.number}' class='result_book-room-link'>BOOK THIS ROOM</p></span>
-        </section>
+      <div class='result_image-wrapper'>
+      <img class='result_image' src=${randomImage}>
+      </div>
+      <section class='result_text-wrapper'>
+      <h2>${room.roomType} #${room.number}</h2>
+      <p>${room.numBeds} ${room.numBeds > 1 ? room.bedSize + ' beds' : room.bedSize + ' bed'}, incredible mountain views,
+      <br>a fully modern room and bathroom${room.bidet ? ' including a bidet!' : '.'}</p>
+      <br>
+      <div>
+      <p>$${room.costPerNight.toFixed(2)}</p>
+      <p>per night<br>excluding taxes and fees</p>
+      </div>
+      <span><p value='${room.number}' class='result_book-room-link'>BOOK THIS ROOM</p></span>
+      </section>
       </article>
       `);
     });
   };
+}
+
+// ------------ Dashboard Data ---------------------
+
+function bookRoom() {
+  date = getCalendarDate()
+  if (event.target.classList.contains('result_book-room-link')) {
+    let roomNum = Number(event.target.getAttribute('value'));
+    let onSuccess = () => {
+      getUpdatedAvailableList()
+    }
+    user.bookMyRoom(date, roomNum, onSuccess);
+  }
+}
+
+function sortByRoomType() {
+  let dropdown = document.querySelector('#room-types');
+  let roomType = dropdown.options[dropdown.selectedIndex].value.toString();
+  let selectedDate = getCalendarDate();
+
+  if (roomType === 'residential') {
+    loadAvailableRooms(selectedDate, 'residential suite');
+  } else if (roomType === 'suite') {
+    loadAvailableRooms(selectedDate, 'suite');
+  } else if (roomType === 'junior') {
+    loadAvailableRooms(selectedDate, 'junior suite');
+  } else if (roomType === 'single') {
+    loadAvailableRooms(selectedDate, 'single room');
+  } else if (roomType === 'all') {
+    loadAvailableRooms(selectedDate);
+  }
+}
+
+function getUpdatedAvailableList() {
+  fetchedBookingData = apiRequest.getBookingData();
+  fetchedBookingData.then(value => {
+    bookingData = value['bookings']
+  }).then(()=>loadAvailableRooms(date))
+}
+
+function returnUserInfo() {
+  if (event.key === 'Enter') {
+    console.log(user.viewCustomerInfo(bookingData, roomData, userData, managerUserSearchInput.value))
+  }
 }

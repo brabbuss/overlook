@@ -6,6 +6,7 @@ export default class User {
     this.id = userData.id || 777;
     this.name = userData.name || 'GUEST';
   }
+
   bookMyRoom(date, roomNumber, onSuccess) {
     let booking =
     {
@@ -15,6 +16,7 @@ export default class User {
     }
     apiRequest.createBooking(booking, onSuccess)
   }
+
   viewMyBookings(bookingData) {
     let myBookings = bookingData.filter(booking => {
       return booking.userID === this.id
@@ -23,6 +25,7 @@ export default class User {
       return a.date < b.date ? -1 : 1;
     })
   }
+
   viewMyTotal(bookingData, roomData) {
     let grandTotal = this.viewMyBookings(bookingData).reduce((myGrandTotal, myBooking) => {
       let matchedRoom = roomData.find(room => room.number === myBooking.roomNumber)
@@ -31,6 +34,7 @@ export default class User {
     }, 0).toFixed(2);
     return Number(grandTotal)
   }
+
   viewUnavailableRooms(bookingData, roomData, date) {
     return bookingData.reduce((bookedRooms, booking) => {
       if (booking.date === date) {
@@ -39,13 +43,18 @@ export default class User {
       return bookedRooms
     }, []);
   }
+
   viewAvailableRooms(bookingData, roomData, date) {
-    let unavailableRooms = this.viewUnavailableRooms(bookingData, roomData, date)
-    return roomData.filter(room => !unavailableRooms.includes(room)) // not empathetic consider rewriting
+    let unavailableRooms = this.viewUnavailableRooms(bookingData, roomData, date);
+    return roomData.filter(room => !unavailableRooms.includes(room)); // not empathetic consider rewriting
   }
+
   viewAvailableRoomsByType(bookingData, roomData, date, roomType) {
     let availableRooms = this.viewAvailableRooms(bookingData, roomData, date);
-    return availableRooms.filter(room => room.roomType === roomType)
+    if (!roomType) {
+      return availableRooms;
+    }
+    return availableRooms.filter(room => room.roomType === roomType);
   }
 }
 

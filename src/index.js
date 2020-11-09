@@ -73,32 +73,30 @@ navBooking.addEventListener('click', showCustomerDashboard);
 navCustomerHotel.addEventListener('click', showHomePage);
 managerUserSearchInput.addEventListener('keypress', returnUserInfo);
 navCustomerAccount.addEventListener('click', showMyBookings);
+dashboardCustomer.addEventListener('click', bookRoom)
+document.querySelector('#toolbar_submit_button').addEventListener('click', selectRoomType)
 // navManagerHotel.addEventListener('click', domObject.showHomePageManager);
 
-// ----------- booking event listeners ----------------
+// ------------------ scratch pad -------------------
 
-dashboardCustomer.addEventListener('click', bookRoom)
-
-function bookRoom() {
-  if (event.target.classList.contains('result_book-room-link')) {
-    let roomNum = Number(event.target.getAttribute('value'));
-    let onSuccess = () => {
-      getUpdatedBookings()
-    }
-    user.bookMyRoom(date, roomNum, onSuccess);
+function selectRoomType() {
+  let dropdown = document.querySelector('#room-types');
+  let roomType = dropdown.options[dropdown.selectedIndex].value.toString();
+  if (roomType === 'residential') {
+    loadAvailableRooms(date, 'residential suite');
+  } else if (roomType === 'suite') {
+    loadAvailableRooms(date, 'suite');
+  } else if (roomType === 'junior') {
+    loadAvailableRooms(date, 'junior suite');
+  } else if (roomType === 'single') {
+    loadAvailableRooms(date, 'single room');
+  } else if (roomType === 'all') {
+    loadAvailableRooms(date);
   }
-}
-// TODO set a MIN DATE on calendar
-
-function getUpdatedBookings() {
-  fetchedBookingData = apiRequest.getBookingData();
-  fetchedBookingData.then(value => {
-    bookingData = value['bookings']
-    console.log(bookingData);
-  }).then(()=>loadAvailableRooms(date, bookingData))
 }
 
 // ------------------ functions ---------------------
+
 Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
   .then(value => {
     userData = value[0]['users'];
@@ -123,12 +121,31 @@ function refreshPage() {
   window.location.reload();
 }
 
+// ------------- Customer dashboard ------------------
+
 function showMyBookings() {
   // clearDashboard();
   loadUserAccountInfo(date, bookingData);
 }
 
+function bookRoom() {
+  if (event.target.classList.contains('result_book-room-link')) {
+    let roomNum = Number(event.target.getAttribute('value'));
+    let onSuccess = () => {
+      getUpdatedAvailableList()
+    }
+    user.bookMyRoom(date, roomNum, onSuccess);
+  }
+}
+
 // ------------------ display calls and helper functions ---------------------
+
+function getUpdatedAvailableList() {
+  fetchedBookingData = apiRequest.getBookingData();
+  fetchedBookingData.then(value => {
+    bookingData = value['bookings']
+  }).then(()=>loadAvailableRooms(date))
+}
 
 function clearDashboard(type) {
   dashboardCustomer.innerHTML = '';
@@ -140,7 +157,7 @@ function showCustomerDashboard() {
   domObject.showCustomerDashboard(true);
   domObject.showToolbar(true);
   domObject.hideElement(managerUserSearch);
-  loadAvailableRooms(date, bookingData);
+  loadAvailableRooms(date);
 }
 
 function showManagerDashboard() {
@@ -212,9 +229,12 @@ function loadUserAccountInfo(date, bookingData) {
   });
 }
 
-function loadAvailableRooms(date, bookingData) {
+//viewAvailableRoomsByType(bookingData, roomData, date, roomType)
+// NEED ALL roomtypes
+function loadAvailableRooms(date, roomType) {
+  console.log(user.viewAvailableRoomsByType(bookingData, roomData, date, roomType));
   dashboardCustomer.innerHTML = ''
-  user.viewAvailableRooms(bookingData, roomData, date).forEach((room, i) => {
+  user.viewAvailableRoomsByType(bookingData, roomData, date, roomType).forEach((room, i) => {
     let randomImage = roomImages[Math.floor(Math.random() * roomImages.length)];
     dashboardCustomer.insertAdjacentHTML('beforeend',
     `

@@ -79,19 +79,26 @@ navCustomerAccount.addEventListener('click', showMyBookings);
 navCustomerFindRooms.addEventListener('click', showCustomerDashboard)
 dashboardCustomer.addEventListener('click', bookRoom)
 toolbarSubmit.addEventListener('click', sortByRoomType)
+document.querySelector('#booking-toolbar').addEventListener('click', highlightLink)
+
+// } else if (event.target.id === 'calendar-input' || event.target.id === 'room-types') {
+//   toolbarSubmit.classList.add('active_nav');
+// }
+
 
 // navManagerHotel.addEventListener('click', domObject.showHomePageManager);
 
 // ------------------ scratch pad -------------------
 
 document.querySelector('nav').addEventListener('click', highlightLink) //TODO need click handler to target nav, remove indicuvdual target links, delegate task
+
 function highlightLink() {
   document.querySelectorAll('.highlightable_link').forEach(node => {
     node.classList.remove('active_nav')
   });
   if (event.target.classList.contains('highlightable_link')) {
-    event.target.classList.add('active_nav')
-  }
+    event.target.classList.add('active_nav');
+}
 }
 
 //onclick of navbar

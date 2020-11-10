@@ -63,7 +63,7 @@ import { apiRequest } from './classes/apiRequest';
 
 // ------------------ event listeners ------------------
 
-document.addEventListener('click', ()=> console.log(event.target.id));
+document.addEventListener('click', ()=> console.log(event.target.classList));
 
 document.addEventListener('click', domObject.showLogin);
 profileIcon.addEventListener('keypress', domObject.showLogin);
@@ -307,7 +307,7 @@ function loadAvailableRooms(date, roomType) {
       <p>$${room.costPerNight.toFixed(2)}</p>
       <p>per night<br>excluding taxes and fees</p>
       </div>
-      <span><p value='${room.number}' class='result_book-room-link'>BOOK THIS ROOM</p></span>
+      <span><p id='book_room_link' value='${room.number}' class='result_book-room-link'>BOOK THIS ROOM</p></span>
       </section>
       </article>
       `);
@@ -330,16 +330,16 @@ function bookRoom() {
 
 function bookRoomManager() {
   date = getCalendarDate()
+  console.log(event.target.classList.contains('result_book-room-link'));
   let name = managerUserSearchInput.value;
-  console.log(name);
   if (event.target.classList.contains('result_book-room-link') && name !== '') {
     let roomNum = Number(event.target.getAttribute('value'));
     let onSuccess = () => {
       getUpdatedAvailableList()
     }
     user.addCustomerBooking(userData, name, date, roomNum, onSuccess);
-  } else if (event.target.classList.contains('result_book-room-link') && name === '' || !name) {
-    alert('Please first select a user by searching their first and last name')
+  } else if (event.target.id === 'book_room_link' && name === '') {
+    alert('Please first select a user by their first and last name in the toolbar')
   }
 }
 

@@ -1,11 +1,4 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/base.scss';
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-
 import './images/hotel-exterior.jpg'
 import './images/user-profile.svg'
 import './images/hotel-rooftop.jpg'
@@ -48,7 +41,8 @@ import {
   calendarInput,
   dashboardHeader,
   toolbarSubmit,
-  roomTypeDropdown
+  roomTypeDropdown,
+  managerNavLinks
 } from './classes/domObject';
 
 let userData;
@@ -69,7 +63,6 @@ import { apiRequest } from './classes/apiRequest';
 
 // ------------------ event listeners ------------------
 
-
 document.addEventListener('click', ()=> console.log(event.target.id));
 
 document.addEventListener('click', domObject.showLogin);
@@ -84,32 +77,13 @@ navCustomerFindRooms.addEventListener('click', showCustomerDashboard)
 dashboardCustomer.addEventListener('click', bookRoom)
 toolbarSubmit.addEventListener('click', sortByRoomType)
 document.querySelector('#booking-toolbar').addEventListener('click', highlightLink)
-
-// } else if (event.target.id === 'calendar-input' || event.target.id === 'room-types') {
-//   toolbarSubmit.classList.add('active_nav');
-// }
-
-
-// navManagerHotel.addEventListener('click', domObject.showHomePageManager);
+managerNavLinks.addEventListener('click', managerClickHandler)
+document.querySelector('nav').addEventListener('click', highlightLink) //TODO need click handler to target nav, remove indicuvdual target links, delegate task
 
 // ------------------ scratch pad -------------------
 
-document.querySelector('nav').addEventListener('click', highlightLink) //TODO need click handler to target nav, remove indicuvdual target links, delegate task
 
-function highlightLink() {
-  document.querySelectorAll('.highlightable_link').forEach(node => {
-    node.classList.remove('active_nav')
-  });
-  if (event.target.classList.contains('highlightable_link')) {
-    event.target.classList.add('active_nav');
-}
-}
-
-//onclick of navbar
-//add active_nav to event.target if link
-//remove active_nav if any children contain it
-
-// ------------------ functions ---------------------
+// ------------------ General functions ---------------------
 
 Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
   .then(value => {
@@ -161,6 +135,25 @@ function getCalendarDate() {
   return calendarInput.value.replaceAll('-','/')
 }
 
+// -------------- Nav links and click handlers ----------------
+
+function managerClickHandler () {
+  if (event.target.id === 'nav-manager-history') {
+    returnUserInfo()
+  } else if (event.target.id === 'nav-manager-booking') {
+
+  }
+}
+
+function highlightLink() {
+  document.querySelectorAll('.highlightable_link').forEach(node => {
+    node.classList.remove('active_nav')
+  });
+  if (event.target.classList.contains('highlightable_link')) {
+    event.target.classList.add('active_nav');
+  }
+}
+
 // ------------- Dashboard Display ------------------
 
 function showMyBookings() {
@@ -198,6 +191,7 @@ function showManagerDashboard() {
   domObject.showToolbar(true);
   domObject.hideElement(document.querySelector('#toolbar_submit_button_wrapper'))
   domObject.hideElement(roomTypeDropdown)
+  domObject.hideElement(calendar)
   showManagerWelcomeMessage()
   updateManagerStats()
   // domObject.showCustomerDashboard(false);
@@ -205,7 +199,7 @@ function showManagerDashboard() {
 
 function updateManagerStats(customerName) {
   document.querySelector('#sidebar_manager_stats').classList.remove('hidden');
-  document.querySelector('#manager_stat_title').innerText = `${date}`
+  document.querySelector('#manager_stat_title_date').innerText = `${date}`
   document.querySelector('#manager_stat_availability').innerText = `${user.totalAvailableRooms(bookingData, roomData, date)} vacancies`
   document.querySelector('#manager_stat_total_revenue').innerText = `$${user.totalRevenue(bookingData, roomData, date).toFixed()}`
   document.querySelector('#manager_stat_total_occupancy').innerText = `${user.totalPercentOccupied(bookingData, roomData, date)*100}%`;
@@ -213,7 +207,7 @@ function updateManagerStats(customerName) {
     document.querySelector('#manager_stat_customer_total_wrapper').innerHTML ='';
     document.querySelector('#manager_stat_customer_total_wrapper').insertAdjacentHTML('beforeend', `
       <p>CUSTOMER TOTAL</p>
-      <p id='manager_stat_customer_total'>$${user.viewCustomerInfo(bookingData, roomData, userData, customerName).totalSpent.toFixed()}</p>
+      <p id='manager_stat_customer_total' class='stat_gold'>$${user.viewCustomerInfo(bookingData, roomData, userData, customerName).totalSpent.toFixed()}</p>
     `)
   }
 }
@@ -232,14 +226,19 @@ function showHomePage() {
   domObject.showToolbar(false);
 }
 
-function loadUserAccountInfo(bookingData, customerManager, name) {
+function getCorrectDashAndBooking(bookingData, customerManager, name) {
   let dashboard = customerManager === 'manager' ? managerDashboard : dashboardCustomer;
   let bookings = customerManager === 'manager' ? user.viewCustomerBookings(bookingData, userData, name) : user.viewMyBookings(bookingData);
-  dashboard.innerHTML = ''
-  bookings.forEach((booking, i) => {
+  return [dashboard, bookings]
+}
+
+function loadUserAccountInfo(bookingData, customerManager, name) {
+  let dashboardAndBookings = getCorrectDashAndBooking(bookingData, customerManager, name);
+  dashboardAndBookings[0].innerHTML = ''
+  dashboardAndBookings[1].forEach((booking, i) => {
     let room = roomData.find(room => room.number === booking.roomNumber)
     let randomImage = roomImages[Math.floor(Math.random() * roomImages.length)];
-    dashboard.insertAdjacentHTML('beforeend',
+    dashboardAndBookings[0].insertAdjacentHTML('beforeend',
     `
     <article id='my-booking_card-${i}' class='my-booking_card'>
     <div class='my-booking_image-wrapper'>
@@ -340,16 +339,6 @@ function getUpdatedAvailableList() {
   fetchedBookingData.then(value => {
     bookingData = value['bookings']
   }).then(()=>loadAvailableRooms(date))
-}
-
-managerNavLinks.addEventListener('click', managerClickHandler)
-
-function managerClickHandler () {
-  if (event.target.id === 'nav-manager-history') {
-    returnUserInfo()
-  } else if (event.target.id === 'nav-manager-booking') {
-    // get to booking screen for manager add delete button
-  }
 }
 
 function returnUserInfo() {

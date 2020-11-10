@@ -75,6 +75,7 @@ navCustomerHotel.addEventListener('click', showHomePage);
 navCustomerAccount.addEventListener('click', showMyBookings);
 navCustomerFindRooms.addEventListener('click', showCustomerDashboard)
 dashboardCustomer.addEventListener('click', bookRoom)
+managerDashboard.addEventListener('click', bookRoomManager)
 toolbarSubmit.addEventListener('click', sortByRoomType)
 document.querySelector('#booking-toolbar').addEventListener('click', highlightLink)
 managerNavLinks.addEventListener('click', managerClickHandler)
@@ -113,7 +114,7 @@ function checkLogin() {
 }
 
 function loadApp() {
-  date = '2020/03/01';
+  date = '2020/03/03';
   let formattedDate = date.replaceAll('/','-')
 
   calendarInput.setAttribute('min', formattedDate);
@@ -141,7 +142,10 @@ function managerClickHandler () {
   if (event.target.id === 'nav-manager-history') {
     returnUserInfo()
   } else if (event.target.id === 'nav-manager-booking') {
-
+    showManagerBookForCustomer();
+    loadAvailableRooms(date);
+  } else if (event.target.id === 'nav-manager-history') {
+    showManagerDashboard()
   }
 }
 
@@ -195,6 +199,12 @@ function showManagerDashboard() {
   showManagerWelcomeMessage()
   updateManagerStats()
   // domObject.showCustomerDashboard(false);
+}
+
+function showManagerBookForCustomer() {
+  domObject.showElement(document.querySelector('#toolbar_submit_button_wrapper'))
+  domObject.showElement(roomTypeDropdown)
+  domObject.showElement(calendar)
 }
 
 function updateManagerStats(customerName) {
@@ -272,16 +282,17 @@ function loadUserAccountInfo(bookingData, name) {
 
 function loadAvailableRooms(date, roomType) {
   date = getCalendarDate()
+  let dashboardAndBookings = getCorrectDashAndBooking(bookingData, name);
   let bookingArray = user.viewAvailableRoomsByType(bookingData, roomData, date, roomType);
-  dashboardCustomer.innerHTML = ''
+  dashboardAndBookings[0].innerHTML = ''
   if (bookingArray.length === 0) {
-    dashboardCustomer.insertAdjacentHTML('beforeend', `
+    dashboardAndBookings[0].insertAdjacentHTML('beforeend', `
     <div id='sorry_message-wrapper'><p id='sorry_message'>Sorry, there are no ${!roomType ? 'room' : roomType}s availabile for a ${date} booking</p></div>
     `)
   } else {
     bookingArray.forEach((room, i) => {
       let randomImage = roomImages[Math.floor(Math.random() * roomImages.length)];
-      dashboardCustomer.insertAdjacentHTML('beforeend',
+      dashboardAndBookings[0].insertAdjacentHTML('beforeend',
       `
       <article id='result_card-${i}' class='result_card fade-in'>
       <div class='result_image-wrapper'>
@@ -317,6 +328,21 @@ function bookRoom() {
   }
 }
 
+function bookRoomManager() {
+  date = getCalendarDate()
+  let name = managerUserSearchInput.value;
+  console.log(name);
+  if (event.target.classList.contains('result_book-room-link') && name !== '') {
+    let roomNum = Number(event.target.getAttribute('value'));
+    let onSuccess = () => {
+      getUpdatedAvailableList()
+    }
+    user.addCustomerBooking(userData, name, date, roomNum, onSuccess);
+  } else if (event.target.classList.contains('result_book-room-link') && name === '' || !name) {
+    alert('Please first select a user by searching their first and last name')
+  }
+}
+
 function sortByRoomType() {
   let dropdown = document.querySelector('#room-types');
   let roomType = dropdown.options[dropdown.selectedIndex].value.toString();
@@ -339,7 +365,11 @@ function getUpdatedAvailableList() {
   fetchedBookingData = apiRequest.getBookingData();
   fetchedBookingData.then(value => {
     bookingData = value['bookings']
-  }).then(()=>loadAvailableRooms(date))
+  }).then(()=>loadAvailableRooms(date)).then(()=> {
+    if (user instanceof Manager) {
+      updateManagerStats(managerUserSearchInput.value)
+    }
+  })
 }
 
 function returnUserInfo() {

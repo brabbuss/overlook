@@ -70,6 +70,7 @@ import { apiRequest } from './classes/apiRequest';
 // ------------------ event listeners ------------------
 
 profileIcon.addEventListener('click', domObject.showLogin);
+profileIcon.addEventListener('keypress', domObject.showLogin);
 loginButton.addEventListener('click', checkLogin);
 logoutButton.addEventListener('click', refreshPage)
 navBooking.addEventListener('click', showCustomerDashboard);
@@ -257,7 +258,7 @@ function loadAvailableRooms(date, roomType) {
       `
       <article id='result_card-${i}' class='result_card fade-in'>
       <div class='result_image-wrapper'>
-      <img class='result_image' src=${randomImage}>
+      <img class='result_image' src=${randomImage} alt='A ${room.numBeds} bed, calm and serene modern ${room.roomType}'>
       </div>
       <section class='result_text-wrapper'>
       <h2>${room.roomType} #${room.number}</h2>

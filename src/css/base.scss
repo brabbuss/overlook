@@ -32,14 +32,13 @@ main {
 #main_header {
   @include header(white);
   box-shadow: -11px -3px 20px 0px black;
-  padding: 0 2em;
+  padding: 0 3em;
   color: $headerText;
   .profile-container {
-    height: 40px;
   }
   svg {
     @include svgIcon($headerText, $themeBlue);
-    // height: 40px;
+    opacity: 1;
   }
   nav {
     flex:1;
@@ -448,7 +447,7 @@ main {
 // Fade In cross browser compatibility
 
 .fade-in-pageLoad {
-  animation: longFadeIn ease 3s;
+  animation: longFadeIn ease 2s;
 }
 
 @keyframes longFadeIn {

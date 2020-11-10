@@ -81,17 +81,19 @@ main {
   justify-content: space-around;
   padding: 0 2em;
   color: $themeGray;
+  width: 100%;
   div:nth-child(1) {
     display: flex;
     font-size: 1em;
     line-height: 1.3em;
-    flex:1;
+    padding: 0 2em;
+    // flex:1;
   }
   div:nth-child(2) {
     display: flex;
     font-size: 1em;
     line-height: 1.3em;
-    flex:1;
+    // flex:1;
   }
   div:nth-child(3) {
     display: flex;
@@ -437,6 +439,43 @@ main {
   }
 }
 
+.manager_stat_wrapper {
+  @include flexDir(row);
+  padding: 1.8em 1em;
+  justify-content: space-between;
+  border-bottom: 1px solid $themeBlue;
+  margin: 0 20px;
+  p {
+    font-weight: 600;
+  }
+  p:nth-child(2) {
+    font-weight: 200;
+  }
+}
+
+#sidebar_manager_stats {
+  @include flexDir(column);
+  #manager_stat_title_wrapper {
+    @include flexDir(column);
+    // justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 2em;
+  }
+  #manager_stat_availability_wrapper {
+
+  }
+  #manager_stat_total_revenue_wrapper {
+
+  }
+  #manager_stat_total_occupancy_wrapper {
+
+  }
+  #manager_stat_customer_total_wrapper {
+    border: none;
+  }
+}
+
 .pattern_block {
   align-self: flex-end;
   height: 100%;
@@ -458,7 +497,6 @@ main {
 }
 
 #manager-lookup-bar {
-  padding: 0 8em;
 }
 
 #sorry_message-wrapper {

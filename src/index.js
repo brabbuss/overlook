@@ -198,11 +198,27 @@ function showManagerDashboard() {
   domObject.showToolbar(true);
   domObject.hideElement(document.querySelector('#toolbar_submit_button_wrapper'))
   domObject.hideElement(roomTypeDropdown)
-  showManagerEmptyDash()
+  showManagerWelcomeMessage()
+  updateManagerStats()
   // domObject.showCustomerDashboard(false);
 }
 
-function showManagerEmptyDash() {
+function updateManagerStats(customerName) {
+  document.querySelector('#sidebar_manager_stats').classList.remove('hidden');
+  document.querySelector('#manager_stat_title').innerText = `${date}`
+  document.querySelector('#manager_stat_availability').innerText = `${user.totalAvailableRooms(bookingData, roomData, date)} vacancies`
+  document.querySelector('#manager_stat_total_revenue').innerText = `$${user.totalRevenue(bookingData, roomData, date).toFixed()}`
+  document.querySelector('#manager_stat_total_occupancy').innerText = `${user.totalPercentOccupied(bookingData, roomData, date)*100}%`;
+  if (customerName) {
+    document.querySelector('#manager_stat_customer_total_wrapper').innerHTML ='';
+    document.querySelector('#manager_stat_customer_total_wrapper').insertAdjacentHTML('beforeend', `
+      <p>CUSTOMER TOTAL</p>
+      <p id='manager_stat_customer_total'>$${user.viewCustomerInfo(bookingData, roomData, userData, customerName).totalSpent.toFixed()}</p>
+    `)
+  }
+}
+
+function showManagerWelcomeMessage() {
   managerDashboard.innerHTML = ''
   let roomsToRent = user.totalAvailableRooms(bookingData, roomData, getCalendarDate())
   console.log(roomsToRent);
@@ -219,10 +235,6 @@ function showHomePage() {
 function loadUserAccountInfo(bookingData, customerManager, name) {
   let dashboard = customerManager === 'manager' ? managerDashboard : dashboardCustomer;
   let bookings = customerManager === 'manager' ? user.viewCustomerBookings(bookingData, userData, name) : user.viewMyBookings(bookingData);
-  // TODO add empty state for manager
-  // dashboard.insertAdjacentHTML('afterbegin', `
-  //   <div id='sorry_message-wrapper'><p id='sorry_message'>Welcome Boss, let's get to work</p></div>
-  // `)
   dashboard.innerHTML = ''
   bookings.forEach((booking, i) => {
     let room = roomData.find(room => room.number === booking.roomNumber)
@@ -330,8 +342,26 @@ function getUpdatedAvailableList() {
   }).then(()=>loadAvailableRooms(date))
 }
 
+managerNavLinks.addEventListener('click', managerClickHandler)
+
+function managerClickHandler () {
+  if (event.target.id === 'nav-manager-history') {
+    returnUserInfo()
+  } else if (event.target.id === 'nav-manager-booking') {
+    // get to booking screen for manager add delete button
+  }
+}
+
 function returnUserInfo() {
   if (event.key === 'Enter') {
     loadUserAccountInfo(bookingData, 'manager', managerUserSearchInput.value);
+    updateManagerStats(managerUserSearchInput.value)
+    navManagerHistory.classList.add('active_nav')
+  } else if (managerUserSearchInput.value) {
+    loadUserAccountInfo(bookingData, 'manager', managerUserSearchInput.value);
+    updateManagerStats(managerUserSearchInput.value)
+    navManagerHistory.classList.add('active_nav')
+  } else {
+    navManagerHistory.classList.add('active_nav')
   }
 }

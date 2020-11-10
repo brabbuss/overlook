@@ -41,6 +41,7 @@ export const domObject = {
   hideManagerView(boolean) {
     boolean === true ? domObject.hideElement(managerNavLinks) : domObject.showElement(managerNavLinks);
     !boolean === true ? domObject.hideElement(customerNavLinks) : domObject.showElement(customerNavLinks)
+    boolean === true ? domObject.hideElement(managerDashboard) : domObject.showElement(managerDashboard)
   },
 
   // hideGuestView(boolean) {
@@ -81,10 +82,13 @@ export const managerUserSearch = document.querySelector('#manager-lookup-bar')
 export const bookingToolbar = document.querySelector('#booking-toolbar')
 export const logoutButton = document.querySelector('#logout-button')
 export const dashboardCustomer = document.querySelector('#dashboard-customer')
-export const managerDashboard = document.querySelector('#manager-dashboard')
+export const managerDashboard = document.querySelector('#dashboard-manager')
 export const mainContentContainer = document.querySelector('#main-content-container')
 export const managerUserSearchInput = document.querySelector('#manager-search-user-input')
 export const dashboardHeader = document.querySelector('#dashboard_header')
+export const toolbarSubmit = document.querySelector('#toolbar_submit_button')
+export const roomTypeDropdown = document.querySelector('#room-type-dropdown-container')
+
 // export const  = document.querySelector('#')
 // export const  = document.querySelector('#')
 // export const  = document.querySelector('#')

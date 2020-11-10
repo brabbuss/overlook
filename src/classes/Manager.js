@@ -25,6 +25,10 @@ export default class Manager extends User {
   viewCustomer(userData, name) {
     return new User(userData.find(user => user.name === name))
   }
+  viewCustomerBookings(bookingData, userData, name) {
+    let customer = this.viewCustomer(userData, name);
+    return customer.viewMyBookings(bookingData);
+  }
   viewCustomerInfo(bookingData, roomData, userData, name) {
     let customer = this.viewCustomer(userData, name);
     let bookings = customer.viewMyBookings(bookingData);

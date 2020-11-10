@@ -46,7 +46,9 @@ import {
   mainContentContainer,
   managerUserSearchInput,
   calendarInput,
-  dashboardHeader
+  dashboardHeader,
+  toolbarSubmit,
+  roomTypeDropdown
 } from './classes/domObject';
 
 let userData;
@@ -76,7 +78,7 @@ navCustomerHotel.addEventListener('click', showHomePage);
 navCustomerAccount.addEventListener('click', showMyBookings);
 navCustomerFindRooms.addEventListener('click', showCustomerDashboard)
 dashboardCustomer.addEventListener('click', bookRoom)
-document.querySelector('#toolbar_submit_button').addEventListener('click', sortByRoomType)
+toolbarSubmit.addEventListener('click', sortByRoomType)
 
 // navManagerHotel.addEventListener('click', domObject.showHomePageManager);
 
@@ -96,30 +98,34 @@ Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
   .catch(error => console.log(error))
 
 function checkLogin() {
-    let usernamePre = usernameInput.value.split('').slice(0,8).join('').toLowerCase()
-    let userID = username.value.split('').slice(8).join('')
-    let password = passwordInput.value.toString()
-    if (password === 'overlook2020' && usernamePre === 'customer' && userID.length > 0 && userID < 51 && userID > 0) {
-      user = new User(userData[userID-1])
-      showCustomerDashboard()
-    } else if (password === 'overlook2020' && usernameInput.value.toLowerCase() === 'manager') {
-      user = new Manager()
-      showManagerDashboard()
-    } else {
-      alert('Invalid login information')
-    }
-    domObject.showLogin()
-    showMyBookings()
-    event.preventDefault()
+  let usernamePre = usernameInput.value.split('').slice(0,8).join('').toLowerCase()
+  let userID = username.value.split('').slice(8).join('')
+  let password = passwordInput.value.toString()
+  if (password === 'overlook2020' && usernamePre === 'customer' && userID.length > 0 && userID < 51 && userID > 0) {
+    user = new User(userData[userID-1])
+    showCustomerDashboard()
+  } else if (password === 'overlook2020' && usernameInput.value.toLowerCase() === 'manager') {
+    user = new Manager()
+    showManagerDashboard()
+  } else {
+    alert('Invalid login information')
   }
+  domObject.showLogin()
+  showMyBookings()
+  event.preventDefault()
+}
 
 function loadApp() {
-  // user = new User(userData[33])
-  date = '2021/01/01';
+  date = '2020/03/01';
   let formattedDate = date.replaceAll('/','-')
 
   calendarInput.setAttribute('min', formattedDate);
   calendarInput.setAttribute('value', formattedDate);
+
+  // user = new User(userData[3])
+  user = new Manager()
+  showManagerDashboard()
+
   //TODO set to normal after testing
   console.log(user, date, 'remember to change this information back');
 }
@@ -135,7 +141,7 @@ function getCalendarDate() {
 // ------------- Dashboard Display ------------------
 
 function showMyBookings() {
-  loadUserAccountInfo(bookingData);
+  loadUserAccountInfo(bookingData, 'customer');
   domObject.showToolbar(false);
   domObject.showDashboardHeader(true);
   showDashboardMessage();
@@ -166,6 +172,8 @@ function showManagerDashboard() {
   domObject.hideHomeView(true);
   domObject.hideManagerView(false);
   domObject.showToolbar(true);
+  domObject.hideElement(toolbarSubmit)
+  domObject.hideElement(roomTypeDropdown)
   // domObject.showCustomerDashboard(false);
 }
 
@@ -174,13 +182,18 @@ function showHomePage() {
   domObject.showToolbar(false);
 }
 
-function loadUserAccountInfo(bookingData) {
-  dashboardCustomer.innerHTML = ''
-  user.viewMyBookings(bookingData).forEach((booking, i) => {
+function loadUserAccountInfo(bookingData, customerManager, name) {
+  let dashboard = customerManager === 'manager' ? managerDashboard : dashboardCustomer;
+  let bookings = customerManager === 'manager' ? user.viewCustomerBookings(bookingData, userData, name) : user.viewMyBookings(bookingData);
+  // TODO add empty state for manager
+  // dashboard.insertAdjacentHTML('afterbegin', `
+  //   <div id='sorry_message-wrapper'><p id='sorry_message'>Welcome Boss, let's get to work</p></div>
+  // `)
+  dashboard.innerHTML = ''
+  bookings.forEach((booking, i) => {
     let room = roomData.find(room => room.number === booking.roomNumber)
     let randomImage = roomImages[Math.floor(Math.random() * roomImages.length)];
-
-    dashboardCustomer.insertAdjacentHTML('beforeend',
+    dashboard.insertAdjacentHTML('beforeend',
     `
     <article id='my-booking_card-${i}' class='my-booking_card'>
     <div class='my-booking_image-wrapper'>
@@ -194,7 +207,7 @@ function loadUserAccountInfo(bookingData) {
     <p>${room.bidet ? 'Amenities: bidet' : ''}</p>
     </div>
     <div>
-    <p>booked by: ${user.name}</p>
+    <p>booked for: ${name ? name : user.name}</p>
     <p>for: ${booking.date}</p>
     <p>customer id: ${booking.userID}</p>
     <p>booking id: ${booking.id}</p>
@@ -282,6 +295,6 @@ function getUpdatedAvailableList() {
 
 function returnUserInfo() {
   if (event.key === 'Enter') {
-    console.log(user.viewCustomerInfo(bookingData, roomData, userData, managerUserSearchInput.value))
+    loadUserAccountInfo(bookingData, 'manager', managerUserSearchInput.value);
   }
 }

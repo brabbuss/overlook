@@ -34,8 +34,12 @@ main {
   box-shadow: -11px -3px 20px 0px black;
   padding: 0 2em;
   color: $headerText;
+  .profile-container {
+    height: 40px;
+  }
   svg {
     @include svgIcon($headerText, $themeBlue);
+    // height: 40px;
   }
   nav {
     flex:1;

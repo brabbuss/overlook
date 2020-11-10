@@ -14,6 +14,13 @@ export const domObject = {
     boolean === true ? domObject.showElement(bookingToolbar) : domObject.hideElement(bookingToolbar);
   },
 
+  showToolbarCustomerHistory() {
+    domObject.showToolbar(true);
+    domObject.hideElement(document.querySelector('#toolbar_submit_button_wrapper'))
+    domObject.hideElement(roomTypeDropdown)
+    domObject.hideElement(calendar)
+  },
+
   showDashboardHeader(boolean) {
     boolean === true ? domObject.showElement(dashboardHeader) : domObject.hideElement(dashboardHeader);
   },

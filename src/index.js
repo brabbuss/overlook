@@ -63,7 +63,7 @@ import { apiRequest } from './classes/apiRequest';
 
 // ------------------ event listeners ------------------
 
-document.addEventListener('click', ()=> console.log(event.target.classList));
+document.addEventListener('click', ()=> console.log(event.target.id));
 
 document.addEventListener('click', domObject.showLogin);
 profileIcon.addEventListener('keypress', domObject.showLogin);
@@ -192,10 +192,7 @@ function showCustomerDashboard() {
 function showManagerDashboard() {
   domObject.hideHomeView(true);
   domObject.hideManagerView(false);
-  domObject.showToolbar(true);
-  domObject.hideElement(document.querySelector('#toolbar_submit_button_wrapper'))
-  domObject.hideElement(roomTypeDropdown)
-  domObject.hideElement(calendar)
+  domObject.showToolbarCustomerHistory();
   showManagerWelcomeMessage()
   updateManagerStats()
   // domObject.showCustomerDashboard(false);
@@ -330,7 +327,6 @@ function bookRoom() {
 
 function bookRoomManager() {
   date = getCalendarDate()
-  console.log(event.target.classList.contains('result_book-room-link'));
   let name = managerUserSearchInput.value;
   if (event.target.classList.contains('result_book-room-link') && name !== '') {
     let roomNum = Number(event.target.getAttribute('value'));
@@ -384,4 +380,5 @@ function returnUserInfo() {
   } else {
     navManagerHistory.classList.add('active_nav')
   }
+  domObject.showToolbarCustomerHistory();
 }

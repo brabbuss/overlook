@@ -289,15 +289,16 @@ function loadUserAccountInfo(bookingData, name) {
     <p>booking id:</p>
     <p>${booking.id}</p>
     </div>
-    <div>
+    <div id='booking_total_${i}'>
     <p>$${room.costPerNight.toFixed(2)}</p>
     </div>
     </section>
     </article>
     `);
     if (user instanceof Manager && booking.date > todaysDate) {
-      dashboardAndBookings[0].insertAdjacentHTML('beforeend', `
-        <h4 class='delete_booking_button'>DELETE BOOKING</h4>
+      // dashboardAndBookings[0].insertAdjacentHTML('beforeend', `
+      document.querySelector(`#booking_total_${i}`).insertAdjacentHTML('beforeend', `
+        <p class='delete_booking_button'>DELETE <br>BOOKING</p>
       `)
     }
   });

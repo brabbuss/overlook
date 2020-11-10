@@ -365,15 +365,32 @@ main {
     }
   }
   div:nth-child(2) {
-    padding: 0 2em;
+    padding: 0 1em;
   }
   div:nth-child(3) {
     @include flexDir(column)
     justify-content: center;
     font-weight: 500;
     font-size: 1.6em;
+    align-items: center;
     p {
       text-decoration: none;
+      color: $themeGray;
+    }
+    p:nth-child(2) {
+      color: $themeGray;
+      text-align: center;
+      font-weight: 700;
+      line-height: 1em;
+      padding: 5px;
+      border: 1px solid $themeGray;
+      border-radius: 3px;
+      transition: all ease-in-out .5s;
+      &:hover {
+        background-color: red;
+        color: white;
+        cursor: pointer;
+      }
     }
   }
 }

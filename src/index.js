@@ -50,6 +50,7 @@ let bookingData;
 let roomData;
 let user;
 let date;
+let todaysDate;
 
 let fetchedUserData = apiRequest.getUserData();
 let fetchedBookingData = apiRequest.getBookingData();
@@ -115,10 +116,11 @@ function checkLogin() {
 
 function loadApp() {
   date = '2020/03/03';
-  let formattedDate = date.replaceAll('/','-')
+  todaysDate = getFormattedDate();
+  let calDate = todaysDate.replaceAll('/','-');
 
-  calendarInput.setAttribute('min', formattedDate);
-  calendarInput.setAttribute('value', formattedDate);
+  calendarInput.setAttribute('min', calDate);
+  calendarInput.setAttribute('value', calDate);
 
   // user = new User(userData[3])
   user = new Manager()
@@ -134,6 +136,20 @@ function refreshPage() {
 
 function getCalendarDate() {
   return calendarInput.value.replaceAll('-','/')
+}
+
+function getFormattedDate() {
+  let newDate = new Date();
+  let month = newDate.getMonth()+1;
+  let date = newDate.getDate();
+
+  if (date.toString().length < 2) {
+    date = '0' + date
+  }
+  if (month.toString().length < 2) {
+    month = '0' + month
+  }
+  return `${newDate.getFullYear()}/${month}/${date}`
 }
 
 // -------------- Nav links and click handlers ----------------
@@ -237,12 +253,17 @@ function getCorrectDashAndBooking(bookingData, name) {
   let customerOrManager = user instanceof Manager ? 'manager' : 'customer';
   let dashboard = customerOrManager === 'manager' ? managerDashboard : dashboardCustomer;
   let bookings = customerOrManager === 'manager' ? user.viewCustomerBookings(bookingData, userData, name) : user.viewMyBookings(bookingData);
-  return [dashboard, bookings]
+  console.log(bookings);
+  let sortedBookings = bookings.sort((a,b) => {
+    // a.date < b.date ? 1 : -1;
+    return new Date(b.date) - new Date(a.date)
+  })
+  return [dashboard, sortedBookings]
 }
 
 function loadUserAccountInfo(bookingData, name) {
   let dashboardAndBookings = getCorrectDashAndBooking(bookingData, name);
-  dashboardAndBookings[0].innerHTML = ''
+  dashboardAndBookings[0].innerHTML = '';
   dashboardAndBookings[1].forEach((booking, i) => {
     let room = roomData.find(room => room.number === booking.roomNumber)
     let randomImage = roomImages[Math.floor(Math.random() * roomImages.length)];
@@ -274,7 +295,13 @@ function loadUserAccountInfo(bookingData, name) {
     </section>
     </article>
     `);
+    if (user instanceof Manager && booking.date > todaysDate) {
+      dashboardAndBookings[0].insertAdjacentHTML('beforeend', `
+        <h4 class='delete_booking_button'>DELETE BOOKING</h4>
+      `)
+    }
   });
+
 }
 
 function loadAvailableRooms(date, roomType) {

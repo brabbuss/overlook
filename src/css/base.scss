@@ -464,6 +464,21 @@ main {
   }
 }
 
+.customer_stat_wrapper {
+  @extend .manager_stat_wrapper
+}
+
+#sidebar_customer_stats {
+  @extend #sidebar_manager_stats;
+  #customer_stat_title_wrapper {
+    @include flexDir(column);
+    // justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 2em;
+  }
+}
+
 .manager_stat_wrapper {
   @include flexDir(row);
   padding: 1.5em 1em;
@@ -487,19 +502,11 @@ main {
     font-weight: 600;
     font-size: 2em;
   }
-  #manager_stat_availability_wrapper {
-
-  }
-  #manager_stat_total_revenue_wrapper {
-
-  }
-  #manager_stat_total_occupancy_wrapper {
-
-  }
   #manager_stat_customer_total_wrapper {
     border: none;
   }
 }
+
 .stat_gold {
   color: gold;
 }
@@ -522,9 +529,6 @@ main {
 
 #manager_welcome-wrapper{
   @include emptyDashboardText;
-}
-
-#manager-lookup-bar {
 }
 
 #sorry_message-wrapper {

@@ -99,7 +99,6 @@ export const managerUserSearchInput = document.querySelector('#manager-search-us
 export const dashboardHeader = document.querySelector('#dashboard_header')
 export const toolbarSubmit = document.querySelector('#toolbar_submit_button')
 export const roomTypeDropdown = document.querySelector('#room-type-dropdown-container')
-
-// export const  = document.querySelector('#')
+export const customerStats = document.querySelector('#sidebar_customer_stats')
 // export const  = document.querySelector('#')
 // export const  = document.querySelector('#')

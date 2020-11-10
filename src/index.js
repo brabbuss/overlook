@@ -42,7 +42,8 @@ import {
   dashboardHeader,
   toolbarSubmit,
   roomTypeDropdown,
-  managerNavLinks
+  managerNavLinks,
+  customerStats
 } from './classes/domObject';
 
 let userData;
@@ -115,16 +116,16 @@ function checkLogin() {
 }
 
 function loadApp() {
-  date = '2020/03/03';
+  // date = '2020/03/03';
   todaysDate = getFormattedDate();
   let calDate = todaysDate.replaceAll('/','-');
   calendarInput.setAttribute('min', calDate);
   calendarInput.setAttribute('value', calDate);
 
   //TODO set to normal after testing
-  // user = new User(userData[3])
-  user = new Manager()
-  showManagerDashboard()
+  user = new User(userData[3])
+  // user = new Manager()
+  // showManagerDashboard()
   console.log(user, date, 'remember to change this information back');
 }
 
@@ -204,6 +205,7 @@ function showCustomerDashboard() {
     domObject.showToolbar(true);
     domObject.hideElement(managerUserSearch);
     domObject.showDashboardHeader(false);
+    domObject.showElement(customerStats);
     loadAvailableRooms(date);
     navCustomerFindRooms.classList.add('active_nav')
   } else {

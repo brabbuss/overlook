@@ -30,7 +30,8 @@ main {
 }
 
 #main_header {
-  @include header(cornflowerblue);
+  @include header(white);
+  box-shadow: -11px -3px 20px 0px black;
   padding: 0 2em;
   color: $headerText;
   svg {
@@ -364,21 +365,42 @@ main {
 
 #sidebar {
   @include sidebar-full-width();
+  @include flexDir(column);
   box-shadow: 24px 0px 20px 20px #000000a6;
   height: 100vh;
   #sidebar_hotel-info-block {
-    margin-top: 3em;
+    @include flexDir(row);
+    justify-content: space-between;
     height: 10em;
-    align-self: center;
+    margin-left: 1.5em;
     p {
+      margin-top: .5em;
+      align-self: center;
       font-size: 1.3em;
       font-weight: 400;
+      line-height: 1.3em;
     }
     p:nth-child(2) {
-      font-size: 1.1em;
-      font-weight: 200;
+      font-size: 1em;
+      font-weight: 100;
+      margin-top: .5em;
+      align-self: center;
     }
   }
+}
+
+.pattern_block {
+  align-self: flex-end;
+  height: 100%;
+  width: 40%;
+  color: $themeBlue;
+  background: repeating-linear-gradient(
+  -60deg,
+  $themeBlue,
+  $themeBlue 10px,
+  $themeGray 10px,
+  $themeGray 20px
+  );
 }
 
 // Customer Dashboard

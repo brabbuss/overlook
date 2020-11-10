@@ -109,11 +109,12 @@ function checkLogin() {
       alert('Invalid login information')
     }
     domObject.showLogin()
+    showMyBookings()
     event.preventDefault()
   }
 
 function loadApp() {
-  user = new User(userData[33])
+  // user = new User(userData[33])
   date = '2021/01/01';
   let formattedDate = date.replaceAll('/','-')
 
@@ -150,11 +151,15 @@ function showDashboardMessage() {
 }
 
 function showCustomerDashboard() {
-  domObject.showCustomerDashboard(true);
-  domObject.showToolbar(true);
-  domObject.hideElement(managerUserSearch);
-  domObject.showDashboardHeader(false);
-  loadAvailableRooms(date);
+  if (user instanceof User) {
+    domObject.showCustomerDashboard(true);
+    domObject.showToolbar(true);
+    domObject.hideElement(managerUserSearch);
+    domObject.showDashboardHeader(false);
+    loadAvailableRooms(date);
+  } else {
+    alert('Please log in to view available rooms')
+  }
 }
 
 function showManagerDashboard() {
@@ -166,6 +171,7 @@ function showManagerDashboard() {
 
 function showHomePage() {
   domObject.hideHomeView(false)
+  domObject.showToolbar(false);
 }
 
 function loadUserAccountInfo(bookingData) {

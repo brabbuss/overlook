@@ -157,7 +157,7 @@ function highlightLink() {
 // ------------- Dashboard Display ------------------
 
 function showMyBookings() {
-  loadUserAccountInfo(bookingData, 'customer');
+  loadUserAccountInfo(bookingData);
   domObject.showToolbar(false);
   domObject.showDashboardHeader(true);
   showDashboardMessage();
@@ -226,14 +226,15 @@ function showHomePage() {
   domObject.showToolbar(false);
 }
 
-function getCorrectDashAndBooking(bookingData, customerManager, name) {
-  let dashboard = customerManager === 'manager' ? managerDashboard : dashboardCustomer;
-  let bookings = customerManager === 'manager' ? user.viewCustomerBookings(bookingData, userData, name) : user.viewMyBookings(bookingData);
+function getCorrectDashAndBooking(bookingData, name) {
+  let customerOrManager = user instanceof Manager ? 'manager' : 'customer';
+  let dashboard = customerOrManager === 'manager' ? managerDashboard : dashboardCustomer;
+  let bookings = customerOrManager === 'manager' ? user.viewCustomerBookings(bookingData, userData, name) : user.viewMyBookings(bookingData);
   return [dashboard, bookings]
 }
 
-function loadUserAccountInfo(bookingData, customerManager, name) {
-  let dashboardAndBookings = getCorrectDashAndBooking(bookingData, customerManager, name);
+function loadUserAccountInfo(bookingData, name) {
+  let dashboardAndBookings = getCorrectDashAndBooking(bookingData, name);
   dashboardAndBookings[0].innerHTML = ''
   dashboardAndBookings[1].forEach((booking, i) => {
     let room = roomData.find(room => room.number === booking.roomNumber)
@@ -343,11 +344,11 @@ function getUpdatedAvailableList() {
 
 function returnUserInfo() {
   if (event.key === 'Enter') {
-    loadUserAccountInfo(bookingData, 'manager', managerUserSearchInput.value);
+    loadUserAccountInfo(bookingData, managerUserSearchInput.value);
     updateManagerStats(managerUserSearchInput.value)
     navManagerHistory.classList.add('active_nav')
   } else if (managerUserSearchInput.value) {
-    loadUserAccountInfo(bookingData, 'manager', managerUserSearchInput.value);
+    loadUserAccountInfo(bookingData, managerUserSearchInput.value);
     updateManagerStats(managerUserSearchInput.value)
     navManagerHistory.classList.add('active_nav')
   } else {

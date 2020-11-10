@@ -143,15 +143,23 @@ main {
   border-bottom: 1px solid black;
 }
 
+.toolbar_text {
+  @include navLinkTextFormatting;
+}
+
+.toolbar_input {
+  &:hover {
+    cursor: pointer!important;
+  }
+}
+
 .nav-links {
   display: flex;
   justify-content: space-around;
   list-style: none;
   .nav-link {
-    @include hoverLink($headerText, $themeBlue)
-    padding: 0 .35em;
-    font-size: 1.5em;
-    text-decoration: none;
+    @include hoverLink($headerText, $themeBlue);
+    @include navLinkTextFormatting;
   }
 }
 
@@ -441,7 +449,7 @@ main {
 
 .manager_stat_wrapper {
   @include flexDir(row);
-  padding: 1.8em 1em;
+  padding: 1.5em 1em;
   justify-content: space-between;
   border-bottom: 1px solid $themeBlue;
   margin: 0 20px;
@@ -474,6 +482,9 @@ main {
   #manager_stat_customer_total_wrapper {
     border: none;
   }
+}
+.stat_gold {
+  color: gold;
 }
 
 .pattern_block {

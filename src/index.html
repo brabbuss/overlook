@@ -45,16 +45,16 @@
         </header>
         <nav id='booking-toolbar' title='booking toolbar' class='booking-toolbar hidden'>
           <div id="manager-lookup-bar" class='nav-links'>
-            <label for="date" class='nav-link'>user search</label>
-            <input id='manager-search-user-input' class='toolbar-input highlightable_link' type="text" name="username" placeholder="User Name or ID" required>
+            <label for="date" class='toolbar_text'>user search</label>
+            <input id='manager-search-user-input' class='toolbar-input' type="text" name="username" placeholder="first & last name" required>
           </div>
           <div id='calendar' class='nav-links'>
-            <label for="date" class='nav-link'>select a date</label>
+            <label for="date" class='toolbar_text'>select a date</label>
             <input id='calendar-input' class='toolbar-input' type="date" max='2022/01/01'>
           </div>
           <div>
             <form id='room-type-dropdown-container' class='nav-links'>
-              <label id='room-type-dropdown-label' for="room-types" class='nav-link'>sort by type</label>
+              <label id='room-type-dropdown-label' for="room-types" class='toolbar_text'>sort by type</label>
               <select id="room-types" class='toolbar-input'>
                 <option value="all">all rooms </option>
                 <option value="residential">residential suite</option>
@@ -116,20 +116,20 @@
         </article>
         <article id='sidebar_manager_stats' class='hidden'>
           <div id='manager_stat_title_wrapper' class='manager_stat_wrapper'>
-            <p>the numbers</p>
-            <p id='manager_stat_title'>today's numbers</p>
+            <p id='manager_stat_title'>the numbers</p>
+            <p id='manager_stat_title_date' class='stat_gold'></p>
           </div>
           <div id='manager_stat_total_revenue_wrapper' class='manager_stat_wrapper'>
             <p>REVENUE</p>
-            <p id='manager_stat_total_revenue'></p>
+            <p id='manager_stat_total_revenue' class='stat_gold'></p>
           </div>
           <div id='manager_stat_total_occupancy_wrapper' class='manager_stat_wrapper'>
             <p>OCCUPANCY</p>
-            <p id='manager_stat_total_occupancy'></p>
+            <p id='manager_stat_total_occupancy' class='stat_gold'></p>
           </div>
           <div id='manager_stat_availability_wrapper' class='manager_stat_wrapper'>
             <p>AVAILABILITY</p>
-            <p id='manager_stat_availability'></p>
+            <p id='manager_stat_availability' class='stat_gold'></p>
           </div>
           <div id='manager_stat_customer_total_wrapper' class='manager_stat_wrapper'>
 

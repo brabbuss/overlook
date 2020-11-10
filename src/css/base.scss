@@ -168,7 +168,8 @@ main {
 .login {
   @include flexDir(column)
   backdrop-filter: blur(3px);
-  border: .1px solid $themeGray;
+  box-shadow: 0 0 15px #000000a1;
+  // border: .1px solid $themeGray;
   color: $themeGray;
   height: content;
   width: content;
@@ -245,6 +246,7 @@ main {
 
 .result_text-wrapper {
   padding: 2em;
+  padding-left: 3.3em;
   min-width: 50%;
   h2 {
     // text-decoration: underline;
@@ -325,24 +327,43 @@ main {
 .my_booking-text_wrapper {
   @include flexDir(row);
   padding: 2em;
+  padding-left: 3.3em;
   min-width: 50%;
   div {
     p:nth-child(1) {
-      // text-decoration: underline;
+      text-decoration: underline;
       padding-bottom: 1em;
-      font-size: 1.3em;
+      font-size: 1.2em;
       // font-size: 2em;
-      font-weight: 500;
+      font-weight: 300;
     }
     p:nth-child(2) {
-      font-size: 1.3em;
+      font-size: 1em;
       line-height: 1.8em;
       font-weight: 200;
     }
-    p:nth-child(2) {
-      font-size: 1.3em;
+    p:nth-child(3) {
+      font-size: 1em;
       line-height: 1.8em;
       font-weight: 200;
+    }
+    p:nth-child(4) {
+      padding-bottom: .5em;
+      font-size: 1em;
+      line-height: 1.8em;
+      font-weight: 200;
+    }
+  }
+  div:nth-child(2) {
+    padding: 0 2em;
+  }
+  div:nth-child(3) {
+    @include flexDir(column)
+    justify-content: center;
+    font-weight: 500;
+    font-size: 1.6em;
+    p {
+      text-decoration: none;
     }
   }
 }

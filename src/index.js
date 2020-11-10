@@ -69,7 +69,10 @@ import { apiRequest } from './classes/apiRequest';
 
 // ------------------ event listeners ------------------
 
-profileIcon.addEventListener('click', domObject.showLogin);
+
+document.addEventListener('click', ()=> console.log(event.target.id));
+
+document.addEventListener('click', domObject.showLogin);
 profileIcon.addEventListener('keypress', domObject.showLogin);
 loginButton.addEventListener('click', checkLogin);
 logoutButton.addEventListener('click', refreshPage)
@@ -223,16 +226,19 @@ function loadUserAccountInfo(bookingData, customerManager, name) {
     </div>
     <section class='my_booking-text_wrapper'>
     <div>
-    <p>Room Type: ${room.roomType}</p>
-    <p>Room number: ${room.number}</p>
+    <p>room details</p>
+    <p>${room.roomType}</p>
+    <p>room no: ${room.number}</p>
     <p>${room.numBeds} ${room.numBeds > 1 ? room.bedSize + ' beds' : room.bedSize + ' bed'}</p>
-    <p>${room.bidet ? 'Amenities: bidet' : ''}</p>
+    <p>${room.bidet ? 'amenities: <br>bidet' : ''}</p>
     </div>
     <div>
-    <p>booked for: ${name ? name : user.name}</p>
+    <p>booking details</p>
+    <p>${name ? name : user.name}</p>
     <p>for: ${booking.date}</p>
     <p>customer id: ${booking.userID}</p>
-    <p>booking id: ${booking.id}</p>
+    <p>booking id:</p>
+    <p>${booking.id}</p>
     </div>
     <div>
     <p>$${room.costPerNight.toFixed(2)}</p>

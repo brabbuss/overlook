@@ -1,8 +1,12 @@
 export const domObject = {
   showLogin() {
-    usernameInput.value = '';
-    passwordInput.value = '';
-    loginBox.classList.contains('hidden') ? loginBox.classList.remove('hidden') : loginBox.classList.add('hidden');
+    if (event.target.id === 'Layer_1' || event.target === 'svg') {
+      usernameInput.value = '';
+      passwordInput.value = '';
+      loginBox.classList.contains('hidden') ? loginBox.classList.remove('hidden') : loginBox.classList.add('hidden');
+    } else {
+      loginBox.classList.add('hidden');
+    }
   },
 
   showToolbar(boolean) {

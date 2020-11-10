@@ -451,24 +451,24 @@ main {
   );
 }
 
-// Customer Dashboard
+// Dashboard
+
+#manager_welcome-wrapper{
+  @include emptyDashboardText;
+}
+
+#manager-lookup-bar {
+  padding: 0 8em;
+}
 
 #sorry_message-wrapper {
-  width: 100%;
-  height: 100vh;
-  padding: 10vh 20vw;
-  display: flex;
-  margin: 2em 0;
-  p {
-    font-size: 2em;
-    text-align: center;
-  }
+  @include emptyDashboardText;
 }
 
 // Fade In cross browser compatibility
 
 .fade-in-pageLoad {
-  animation: longFadeIn ease 2s;
+  animation: longFadeIn ease 3s;
 }
 
 @keyframes longFadeIn {

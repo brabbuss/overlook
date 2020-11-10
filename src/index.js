@@ -145,9 +145,9 @@ function loadApp() {
   calendarInput.setAttribute('min', formattedDate);
   calendarInput.setAttribute('value', formattedDate);
 
-  user = new User(userData[3])
-  // user = new Manager()
-  // showManagerDashboard()
+  // user = new User(userData[3])
+  user = new Manager()
+  showManagerDashboard()
 
   //TODO set to normal after testing
   console.log(user, date, 'remember to change this information back');
@@ -190,16 +190,25 @@ function showCustomerDashboard() {
   } else {
     alert('Please log in to view available rooms')
   }
-  console.log(navCustomerFindRooms.classList);
 }
 
 function showManagerDashboard() {
   domObject.hideHomeView(true);
   domObject.hideManagerView(false);
   domObject.showToolbar(true);
-  domObject.hideElement(toolbarSubmit)
+  domObject.hideElement(document.querySelector('#toolbar_submit_button_wrapper'))
   domObject.hideElement(roomTypeDropdown)
+  showManagerEmptyDash()
   // domObject.showCustomerDashboard(false);
+}
+
+function showManagerEmptyDash() {
+  managerDashboard.innerHTML = ''
+  let roomsToRent = user.totalAvailableRooms(bookingData, roomData, getCalendarDate())
+  console.log(roomsToRent);
+  managerDashboard.insertAdjacentHTML('beforeend', `
+  <div id='manager_welcome-wrapper'><p id='manager_welcome'>Hey Boss! We've got ${!roomsToRent ? 'nothing' : roomsToRent + ' rooms'} availabile to book today!</p></div>
+  `)
 }
 
 function showHomePage() {

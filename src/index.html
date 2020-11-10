@@ -46,16 +46,16 @@
         <nav id='booking-toolbar' title='booking toolbar' class='booking-toolbar hidden'>
           <div id="manager-lookup-bar" class='nav-links'>
             <label for="date" class='nav-link'>user search</label>
-            <input id='manager-search-user-input'type="text" name="username" placeholder="User Name or ID" required>
+            <input id='manager-search-user-input' class='toolbar-input' type="text" name="username" placeholder="User Name or ID" required>
           </div>
           <div id='calendar' class='nav-links'>
             <label for="date" class='nav-link'>select a date</label>
-            <input id='calendar-input' type="date" max='2022/01/01'>
+            <input id='calendar-input' class='toolbar-input' type="date" max='2022/01/01'>
           </div>
           <div>
             <form id='room-type-dropdown-container' class='nav-links'>
               <label id='room-type-dropdown-label' for="room-types" class='nav-link'>sort by type</label>
-              <select id="room-types">
+              <select id="room-types" class='toolbar-input'>
                 <option value="all">all rooms </option>
                 <option value="residential">residential suite</option>
                 <option value="suite">suite</option>

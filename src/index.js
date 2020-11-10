@@ -76,11 +76,11 @@ navCustomerHotel.addEventListener('click', showHomePage);
 navCustomerAccount.addEventListener('click', showMyBookings);
 navCustomerFindRooms.addEventListener('click', showCustomerDashboard)
 dashboardCustomer.addEventListener('click', bookRoom)
-managerDashboard.addEventListener('click', bookRoomManager)
+managerDashboard.addEventListener('click', managerDashboardClickHandler)
 toolbarSubmit.addEventListener('click', sortByRoomType)
 document.querySelector('#booking-toolbar').addEventListener('click', highlightLink)
-managerNavLinks.addEventListener('click', managerClickHandler)
-document.querySelector('nav').addEventListener('click', highlightLink) //TODO need click handler to target nav, remove indicuvdual target links, delegate task
+managerNavLinks.addEventListener('click', managerNavHandler)
+document.querySelector('nav').addEventListener('click', highlightLink)
 
 // ------------------ scratch pad -------------------
 
@@ -118,15 +118,13 @@ function loadApp() {
   date = '2020/03/03';
   todaysDate = getFormattedDate();
   let calDate = todaysDate.replaceAll('/','-');
-
   calendarInput.setAttribute('min', calDate);
   calendarInput.setAttribute('value', calDate);
 
+  //TODO set to normal after testing
   // user = new User(userData[3])
   user = new Manager()
   showManagerDashboard()
-
-  //TODO set to normal after testing
   console.log(user, date, 'remember to change this information back');
 }
 
@@ -154,7 +152,15 @@ function getFormattedDate() {
 
 // -------------- Nav links and click handlers ----------------
 
-function managerClickHandler () {
+function managerDashboardClickHandler() {
+  if (event.target.classList.contains('delete_booking_button')) {
+    managerDeleteBooking(event.target.getAttribute('value'), event.target.nextElementSibling.innerText)
+  } else if (event.target.classList.contains('result_book-room-link')) {
+    bookRoomManager()
+  }
+}
+
+function managerNavHandler () {
   if (event.target.id === 'nav-manager-history') {
     returnUserInfo()
   } else if (event.target.id === 'nav-manager-booking') {
@@ -253,11 +259,7 @@ function getCorrectDashAndBooking(bookingData, name) {
   let customerOrManager = user instanceof Manager ? 'manager' : 'customer';
   let dashboard = customerOrManager === 'manager' ? managerDashboard : dashboardCustomer;
   let bookings = customerOrManager === 'manager' ? user.viewCustomerBookings(bookingData, userData, name) : user.viewMyBookings(bookingData);
-  console.log(bookings);
-  let sortedBookings = bookings.sort((a,b) => {
-    // a.date < b.date ? 1 : -1;
-    return new Date(b.date) - new Date(a.date)
-  })
+  let sortedBookings = bookings.sort((a,b) => new Date(b.date) - new Date(a.date))
   return [dashboard, sortedBookings]
 }
 
@@ -298,11 +300,11 @@ function loadUserAccountInfo(bookingData, name) {
     if (user instanceof Manager && booking.date > todaysDate) {
       // dashboardAndBookings[0].insertAdjacentHTML('beforeend', `
       document.querySelector(`#booking_total_${i}`).insertAdjacentHTML('beforeend', `
-        <p class='delete_booking_button'>DELETE <br>BOOKING</p>
+        <p class='delete_booking_button' value=${booking.id}>DELETE <br>BOOKING</p>
+        <span class='hidden'>${name}</span>
       `)
     }
   });
-
 }
 
 function loadAvailableRooms(date, roomType) {
@@ -367,6 +369,16 @@ function bookRoomManager() {
   }
 }
 
+function managerDeleteBooking(id, name) {
+  console.log(id, name);
+  if (confirm(`Are you sure you want to delete booking ${id}?`)) {
+    let onSuccess = () => {
+      updateManagerUserInfo(name)
+    }
+    user.deleteCustomerBooking(bookingData, id, onSuccess);
+  }
+}
+
 function sortByRoomType() {
   let dropdown = document.querySelector('#room-types');
   let roomType = dropdown.options[dropdown.selectedIndex].value.toString();
@@ -384,6 +396,17 @@ function sortByRoomType() {
     loadAvailableRooms(selectedDate);
   }
 }
+
+function updateManagerUserInfo(name) {
+  fetchedBookingData = apiRequest.getBookingData();
+  fetchedBookingData.then(value => {
+    bookingData = value['bookings']
+  }).then(()=>loadUserAccountInfo(bookingData, name)).then(()=> {
+    updateManagerStats(managerUserSearchInput.value)
+  })
+}
+
+
 
 function getUpdatedAvailableList() {
   fetchedBookingData = apiRequest.getBookingData();

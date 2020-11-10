@@ -47,21 +47,29 @@ export default class Manager extends User {
     return customer.bookMyRoom(date, roomNumber, onSuccess);
   }
 
-  deleteCustomerBooking(bookingData, bookingID) {
-    let matchedBooking = bookingData.find(booking => booking.id === bookingID);
-    if (!matchedBooking) {
-      console.log(`Cannot find booking id: ${bookingID}`);
-      return `Cannot find booking id: ${bookingID}`
-    } else if (matchedBooking && matchedBooking.date > this.getDate()) {
+  deleteCustomerBooking(bookingData, bookingID, onSuccess) {
+    console.log(bookingData);
+    //
+    // let matchedBooking = bookingData.find(booking => booking.id === bookingID);
+    // if (!matchedBooking) {
+    //   console.log(`Cannot find booking id: ${bookingID}`);
+    //   return `Cannot find booking id: ${bookingID}`
+    // } else if (matchedBooking && matchedBooking.date > this.getDate()) {
+
+
       let booking =
         {
-          "id": bookingID
+          "id": Number(bookingID)
         }
-      apiRequest.deleteBooking(booking);
-    } else {
-      console.log(`Cannot delete bookings on or before today\'s date: ${this.getDate()}`);
-      return `Cannot delete bookings on or before today\'s date: ${this.getDate()}`
-    }
+      apiRequest.deleteBooking(booking, onSuccess);
+      console.log(booking);
+
+
+
+    // } else {
+    //   console.log(`Cannot delete bookings on or before today\'s date: ${this.getDate()}`);
+    //   return `Cannot delete bookings on or before today\'s date: ${this.getDate()}`
+    // }
   }
 
   getDate() {

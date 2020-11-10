@@ -84,7 +84,19 @@ toolbarSubmit.addEventListener('click', sortByRoomType)
 
 // ------------------ scratch pad -------------------
 
+document.querySelector('nav').addEventListener('click', highlightLink) //TODO need click handler to target nav, remove indicuvdual target links, delegate task
+function highlightLink() {
+  document.querySelectorAll('.highlightable_link').forEach(node => {
+    node.classList.remove('active_nav')
+  });
+  if (event.target.classList.contains('highlightable_link')) {
+    event.target.classList.add('active_nav')
+  }
+}
 
+//onclick of navbar
+//add active_nav to event.target if link
+//remove active_nav if any children contain it
 
 // ------------------ functions ---------------------
 
@@ -122,9 +134,9 @@ function loadApp() {
   calendarInput.setAttribute('min', formattedDate);
   calendarInput.setAttribute('value', formattedDate);
 
-  // user = new User(userData[3])
-  user = new Manager()
-  showManagerDashboard()
+  user = new User(userData[3])
+  // user = new Manager()
+  // showManagerDashboard()
 
   //TODO set to normal after testing
   console.log(user, date, 'remember to change this information back');
@@ -163,9 +175,11 @@ function showCustomerDashboard() {
     domObject.hideElement(managerUserSearch);
     domObject.showDashboardHeader(false);
     loadAvailableRooms(date);
+    navCustomerFindRooms.classList.add('active_nav')
   } else {
     alert('Please log in to view available rooms')
   }
+  console.log(navCustomerFindRooms.classList);
 }
 
 function showManagerDashboard() {

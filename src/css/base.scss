@@ -72,7 +72,7 @@ main {
 }
 
 .booking-toolbar {
-  @include header(pink);
+  @include header(#00504c17);
   display: flex;
   justify-content: space-around;
   padding: 0 2em;
@@ -125,7 +125,7 @@ main {
   font-size: 1em;
   border: none;
   color: $themeGray;
-  background-color: #FFC0CB;
+  background-color: #00504c00;
   border-bottom: 1px solid black;
 }
 
@@ -139,6 +139,12 @@ main {
     font-size: 1.5em;
     text-decoration: none;
   }
+}
+
+.active_nav {
+  background-color: $themeBlue;
+  color: white!important;
+  font-weight: 700;
 }
 
 // .hero-image {

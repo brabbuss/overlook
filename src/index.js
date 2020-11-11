@@ -67,7 +67,6 @@ import { apiRequest } from './classes/apiRequest';
 
 document.addEventListener('click', ()=> console.log(event.target.id));
 
-document.addEventListener('click', domObject.showLogin);
 profileIcon.addEventListener('keypress', domObject.showLogin);
 loginButton.addEventListener('click', checkLogin);
 logoutButton.addEventListener('click', refreshPage)
@@ -79,9 +78,11 @@ navCustomerFindRooms.addEventListener('click', showCustomerDashboard)
 dashboardCustomer.addEventListener('click', bookRoom)
 managerDashboard.addEventListener('click', managerDashboardClickHandler)
 toolbarSubmit.addEventListener('click', sortByRoomType)
-document.querySelector('#booking-toolbar').addEventListener('click', highlightLink)
 managerNavLinks.addEventListener('click', managerNavHandler)
+document.querySelector('#booking-toolbar').addEventListener('click', highlightLink)
 document.querySelector('nav').addEventListener('click', highlightLink)
+document.addEventListener('click', domObject.showLogin);
+document.querySelector('#nav-contact').addEventListener('click', highlightHotelInfo);
 
 // ------------------ scratch pad -------------------
 
@@ -181,10 +182,15 @@ function highlightLink() {
   }
 }
 
+function highlightHotelInfo() {
+  document.querySelector('#sidebar_hotel-info-block').classList.add('pulse_info')
+}
+
 // ------------- Dashboard Display ------------------
 function showHomePage() {
-  domObject.hideHomeView(false)
+  domObject.hideHomeView(false);
   domObject.showToolbar(false);
+  document.querySelector('#sidebar_hotel-info-block').classList.remove('pulse_info');
 }
 
 function showMyBookings() {

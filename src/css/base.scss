@@ -19,6 +19,14 @@ html, body {
 
 body {
   flex-direction: row;
+  @media screen and (max-width: 992px) {
+    flex-flow: wrap;
+    width: 100%;
+  }
+  @media screen and (max-width: 600px) {
+    flex-flow: wrap;
+    width: 100%;
+  }
 }
 
 main {
@@ -153,20 +161,42 @@ main {
 }
 
 .dashboard_view {
-  overflow-y: scroll;
-  height: 90vh;
-  -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-  display: none;
+  @media screen {
+    overflow-y: scroll;
+    height: 90vh;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 992px) {
+    overflow-y: none;
+    height: 100%;
+  }
+  @media screen and (max-width: 600px) {
+
   }
 }
 
 .dashboard_view-logged_in {
-  overflow-y: scroll;
-  height: 80vh;
-  -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-  display: none;
+  @media screen {
+    overflow-y: scroll;
+    height: 80vh;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+    display: none;
+    }
+  }
+
+  @media screen and (max-width: 992px) {
+    overflow-y: none;
+    height: 100%;
+  }
+
+  @media screen and (max-width: 600px) {
+    flex-flow: wrap;
+    width: 100%;
   }
 }
 
@@ -192,23 +222,17 @@ main {
 }
 
 .main_image {
-  width: 100%;
-  min-width: 350px;
-  position: relative;
+  @include mainImageResponseSize;
 }
 
 .main_card-text-wrapper {
   padding: 2em;
   min-width: 50%;
   h2 {
-    padding-bottom: 1em;
-    font-size: 4em;
-    font-weight: 700;
+    @include mainTextResponseSizeH2;
   }
   p {
-    font-size: 1.3em;
-    line-height: 1.8em;
-    font-weight: 200;
+    @include mainTextResponseSizeP;
   }
   div {
     width: content;
@@ -369,10 +393,20 @@ main {
 // -------------- Sidebar User/Manager Stats --------
 
 #sidebar {
-  @include sidebar-full-width();
-  @include flexDir(column);
-  box-shadow: 24px 0px 20px 20px #000000a6;
-  height: 100vh;
+  @media screen {
+    @include flexDir(column);
+    @include sidebar-full-width();
+    box-shadow: 24px 0px 20px 20px #000000a6;
+    height: 100vh;
+  }
+  @media screen and (max-width: 992px) {
+    @include flexDir(row);
+    @include sidebar-tablet;
+  }
+  @media screen and (max-width: 600px) {
+    flex-flow: wrap;
+    width: 100%;
+  }
   #sidebar_hotel-info-block {
     @include flexDir(row);
     justify-content: space-between;

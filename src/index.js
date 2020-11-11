@@ -12,7 +12,7 @@ import './images/room-suite.jpg'
 import './images/room-xtrasmall.jpg'
 import './images/room-xtrasmall2.jpg'
 
-import { roomImages, bathroomImages, lobbyImages } from './images/image-assets';
+import { roomImages } from './images/image-assets';
 
 import {
   domObject,
@@ -22,10 +22,7 @@ import {
   usernameInput,
   passwordInput,
   navBooking,
-  navRooms,
   navContact,
-  navManagerHotel,
-  navManagerBooking,
   navManagerHistory,
   navCustomerFindRooms,
   navCustomerAccount,
@@ -36,7 +33,6 @@ import {
   bookingToolbar,
   dashboardCustomer,
   managerDashboard,
-  mainContentContainer,
   managerUserSearchInput,
   calendarInput,
   dashboardHeader,
@@ -58,13 +54,10 @@ let fetchedRoomData = apiRequest.getRoomData();
 
 import User from './classes/User';
 import Manager from './classes/Manager';
-import Booking from './classes/Booking';
 
 import { apiRequest } from './classes/apiRequest';
 
 // ------------------ event listeners ------------------
-
-document.addEventListener('click', ()=> console.log(event.target.id));
 
 profileIcon.addEventListener('keypress', domObject.showLogin);
 loginButton.addEventListener('click', checkLogin);
@@ -78,10 +71,10 @@ dashboardCustomer.addEventListener('click', bookRoom)
 managerDashboard.addEventListener('click', managerDashboardClickHandler)
 toolbarSubmit.addEventListener('click', sortByRoomType)
 managerNavLinks.addEventListener('click', managerNavHandler)
-document.querySelector('#booking-toolbar').addEventListener('click', highlightLink)
+bookingToolbar.addEventListener('click', highlightLink)
+navContact.addEventListener('click', highlightHotelInfo);
 document.querySelector('nav').addEventListener('click', highlightLink)
 document.addEventListener('click', domObject.showLogin);
-document.querySelector('#nav-contact').addEventListener('click', highlightHotelInfo);
 
 // ------------------ General functions ---------------------
 
@@ -95,11 +88,11 @@ Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
   .catch(error => console.log(error))
 
 function checkLogin() {
-  let usernamePre = usernameInput.value.split('').slice(0,8).join('').toLowerCase()
-  let userID = username.value.split('').slice(8).join('')
+  let usernamePre = usernameInput.value.split('').slice(0, 8).join('').toLowerCase()
+  let userID = usernameInput.value.split('').slice(8).join('')
   let password = passwordInput.value.toString()
   if (password === 'overlook2020' && usernamePre === 'customer' && userID.length > 0 && userID < 51 && userID > 0) {
-    user = new User(userData[userID-1])
+    user = new User(userData[userID - 1])
     showCustomerDashboard()
   } else if (password === 'overlook2020' && usernameInput.value.toLowerCase() === 'manager') {
     user = new Manager()
@@ -112,7 +105,7 @@ function checkLogin() {
 }
 
 function loadApp() {
-  let calDate = date.replaceAll('/','-');
+  let calDate = date.replaceAll('/', '-');
   calendarInput.setAttribute('min', calDate);
   calendarInput.setAttribute('value', calDate);
 }
@@ -122,12 +115,12 @@ function refreshPage() {
 }
 
 function getCalendarDate() {
-  return calendarInput.value.replaceAll('-','/')
+  return calendarInput.value.replaceAll('-', '/')
 }
 
 function getFormattedDate() {
   let newDate = new Date();
-  let month = newDate.getMonth()+1;
+  let month = newDate.getMonth() + 1;
   let date = newDate.getDate();
 
   if (date.toString().length < 2) {
@@ -155,8 +148,6 @@ function managerNavHandler () {
   } else if (event.target.id === 'nav-manager-booking') {
     showManagerBookForCustomer();
     loadAvailableRooms(date);
-  } else if (event.target.id === 'nav-manager-history') {
-    showManagerDashboard()
   }
 }
 
@@ -192,8 +183,8 @@ function showDashboardMessage() {
   let bookingTotal = user.viewMyBookings(bookingData).length;
   dashboardHeader.innerHTML = '';
   dashboardHeader.insertAdjacentHTML('beforeend',
-  `
-  <p>Thanks for your continued support ${user.name}. You have ${bookingTotal > 1 ? bookingTotal + ' bookings' : bookingTotal + ' booking'} on record with us${bookingTotal > 20 ? '. WHOA!' : '!'}</p>
+    `
+      <p>Thanks for your continued support ${user.name}. You have ${bookingTotal > 1 ? bookingTotal + ' bookings' : bookingTotal + ' booking'} on record with us${bookingTotal > 20 ? '. WHOA!' : '!'}</p>
   `)
 }
 
@@ -266,9 +257,9 @@ function updateManagerStats(customerName) {
   document.querySelector('#manager_stat_title_date').innerText = `${date}`;
   document.querySelector('#manager_stat_availability').innerText = `${user.totalAvailableRooms(bookingData, roomData, date)} vacancies`;
   document.querySelector('#manager_stat_total_revenue').innerText = `$${user.totalRevenue(bookingData, roomData, date).toFixed()}`;
-  document.querySelector('#manager_stat_total_occupancy').innerText = `${user.totalPercentOccupied(bookingData, roomData, date)*100}%`;
+  document.querySelector('#manager_stat_total_occupancy').innerText = `${user.totalPercentOccupied(bookingData, roomData, date) * 100}%`;
   if (customerName) {
-    document.querySelector('#manager_stat_customer_total_wrapper').innerHTML ='';
+    document.querySelector('#manager_stat_customer_total_wrapper').innerHTML = '';
     document.querySelector('#manager_stat_customer_total_wrapper').insertAdjacentHTML('beforeend', `
       <p>CUSTOMER TOTAL</p>
       <p id='manager_stat_customer_total' class='stat_gold'>$${user.viewCustomerInfo(bookingData, roomData, userData, customerName).totalSpent.toFixed()}</p>
@@ -283,32 +274,32 @@ function loadUserAccountInfo(bookingData, name) {
     let room = roomData.find(room => room.number === booking.roomNumber)
     let randomImage = roomImages[Math.floor(Math.random() * roomImages.length)];
     dashboardAndBookings[0].insertAdjacentHTML('beforeend',
-    `
-    <article id='my-booking_card-${i}' class='my-booking_card'>
-    <div class='my-booking_image-wrapper'>
-    <img class='my-booking_image' src=${randomImage}>
-    </div>
-    <section class='my_booking-text_wrapper'>
-    <div>
-    <p>room details</p>
-    <p>${room.roomType}</p>
-    <p>room no: ${room.number}</p>
-    <p>${room.numBeds} ${room.numBeds > 1 ? room.bedSize + ' beds' : room.bedSize + ' bed'}</p>
-    <p>${room.bidet ? 'amenities: <br>bidet' : ''}</p>
-    </div>
-    <div>
-    <p>booking details</p>
-    <p>${name ? name : user.name}</p>
-    <p>for: ${booking.date}</p>
-    <p>customer id: ${booking.userID}</p>
-    <p>booking id:</p>
-    <p>${booking.id}</p>
-    </div>
-    <div id='booking_total_${i}'>
-    <p>$${room.costPerNight.toFixed(2)}</p>
-    </div>
-    </section>
-    </article>
+      `
+      <article id='my-booking_card-${i}' class='my-booking_card'>
+      <div class='my-booking_image-wrapper'>
+      <img class='my-booking_image' src=${randomImage}>
+      </div>
+      <section class='my_booking-text_wrapper'>
+      <div>
+      <p>room details</p>
+      <p>${room.roomType}</p>
+      <p>room no: ${room.number}</p>
+      <p>${room.numBeds} ${room.numBeds > 1 ? room.bedSize + ' beds' : room.bedSize + ' bed'}</p>
+      <p>${room.bidet ? 'amenities: <br>bidet' : ''}</p>
+      </div>
+      <div>
+      <p>booking details</p>
+      <p>${name ? name : user.name}</p>
+      <p>for: ${booking.date}</p>
+      <p>customer id: ${booking.userID}</p>
+      <p>booking id:</p>
+      <p>${booking.id}</p>
+      </div>
+      <div id='booking_total_${i}'>
+      <p>$${room.costPerNight.toFixed(2)}</p>
+      </div>
+      </section>
+      </article>
     `);
     if (user instanceof Manager && booking.date > date) {
       document.querySelector(`#booking_total_${i}`).insertAdjacentHTML('beforeend', `
@@ -332,26 +323,26 @@ function loadAvailableRooms(date, roomType) {
     bookingArray.forEach((room, i) => {
       let randomImage = roomImages[Math.floor(Math.random() * roomImages.length)];
       dashboardAndBookings[0].insertAdjacentHTML('beforeend',
-      `
-      <article id='result_card-${i}' class='result_card fade-in'>
-      <div class='result_image-wrapper'>
-      <img class='result_image' src=${randomImage} alt='A ${room.numBeds} bed, calm and serene modern ${room.roomType}'>
-      </div>
-      <section class='result_text-wrapper'>
-      <h2>${room.roomType} #${room.number}</h2>
-      <p>${room.numBeds} ${room.numBeds > 1 ? room.bedSize + ' beds' : room.bedSize + ' bed'}, incredible mountain views,
-      <br>a fully modern room and bathroom${room.bidet ? ' including a bidet!' : '.'}</p>
-      <br>
-      <div>
-      <p>$${room.costPerNight.toFixed(2)}</p>
-      <p>per night<br>excluding taxes and fees</p>
-      </div>
-      <span><p id='book_room_link' value='${room.number}' class='result_book-room-link'>BOOK THIS ROOM</p></span>
-      </section>
-      </article>
+        `
+        <article id='result_card-${i}' class='result_card fade-in'>
+        <div class='result_image-wrapper'>
+        <img class='result_image' src=${randomImage} alt='A ${room.numBeds} bed, calm and serene modern ${room.roomType}'>
+        </div>
+        <section class='result_text-wrapper'>
+        <h2>${room.roomType} #${room.number}</h2>
+        <p>${room.numBeds} ${room.numBeds > 1 ? room.bedSize + ' beds' : room.bedSize + ' bed'}, incredible mountain views,
+        <br>a fully modern room and bathroom${room.bidet ? ' including a bidet!' : '.'}</p>
+        <br>
+        <div>
+        <p>$${room.costPerNight.toFixed(2)}</p>
+        <p>per night<br>excluding taxes and fees</p>
+        </div>
+        <span><p id='book_room_link' value='${room.number}' class='result_book-room-link'>BOOK THIS ROOM</p></span>
+        </section>
+        </article>
       `);
     });
-  };
+  }
 }
 
 // ------------ Dashboard Data ---------------------
@@ -360,7 +351,7 @@ function getCorrectDashAndBooking(bookingData, name) {
   let customerOrManager = user instanceof Manager ? 'manager' : 'customer';
   let dashboard = customerOrManager === 'manager' ? managerDashboard : dashboardCustomer;
   let bookings = customerOrManager === 'manager' ? user.viewCustomerBookings(bookingData, userData, name) : user.viewMyBookings(bookingData);
-  let sortedBookings = bookings.sort((a,b) => new Date(b.date) - new Date(a.date))
+  let sortedBookings = bookings.sort((a, b) => new Date(b.date) - new Date(a.date))
   return [dashboard, sortedBookings]
 }
 

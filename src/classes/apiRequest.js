@@ -33,7 +33,7 @@ export const apiRequest = {
       .catch(error => console.log(error, "Encountered an error"))
   },
 
-  deleteBooking(booking) {
+  deleteBooking(booking, onSuccess) {
     return fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
       method: 'DELETE',
       headers: {
@@ -42,7 +42,10 @@ export const apiRequest = {
       body: JSON.stringify(booking),
     })
       .then(response => response.json())
-      .then(response => console.log("Booking successfully DELETED"))
+      .then(response => {
+        onSuccess()
+        console.log("Booking successfully DELETED")
+      })
       .catch(error => console.log(error, "Encountered an error"))
   }
 };

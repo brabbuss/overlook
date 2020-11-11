@@ -1,3 +1,21 @@
+@mixin emptyDashboardText {
+  width: 100%;
+  height: 100vh;
+  padding: 10vh 20vw;
+  display: flex;
+  margin: 2em 0;
+  p {
+    font-size: 2em;
+    text-align: center;
+  }
+}
+
+@mixin navLinkTextFormatting {
+  padding: 0 .35em;
+  font-size: 1.5em;
+  text-decoration: none;
+}
+
 @mixin textCenter() {
 
 }
@@ -54,8 +72,6 @@
   min-width: 20em;
   max-width: 20em;
   color: $sidebarText;
-  display: flex;
-  flex-direction: column;
   // height: 100%;
   flex:1;
   background-color: $themeGray;

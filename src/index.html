@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html class='fade-in' lang="en-US">
+<html class='fade-in-pageLoad' lang="en-US">
   <head>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Overlooked Hotel</title>
+    <title>Stay at The Overlook</title>
   </head>
   <body>
     <main>
-      <section id='main_content'>
-        <header>
+      <section id='main_content' class='fade-in'>
+        <header id='main_header'>
           <div aria-label="Hotel hero image" class="hero-image"></div>
-          <div class='profile-container'>
+          <div class='profile-container' height:'50px'>
             <?xml version="1.0" encoding="iso-8859-1"?>
-            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            <svg opacity='0' tabindex="0" title='open login' height:'50px' version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
             	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
             	<g>
             		<path d="M256,0c-84.83,0-153.6,85.965-153.6,192S171.17,384,256,384s153.6-85.965,153.6-192S340.83,0,256,0z M256,358.4
@@ -26,38 +26,37 @@
             </svg>
           </div>
           <nav>
-            <ul id='home-nav-links' class='nav-links'>
-              <li id='nav-booking' class='nav-link'><a href='#'></a>Booking</li>
-              <li id='nav-rooms' class='nav-link'><a href='#'></a>Rooms</li>
-              <li id='nav-contact' class='nav-link'><a href='#'></a>Contact</li>
+            <ul tabindex="0" id='home-nav-links' class='nav-links'>
+              <li id='nav-booking' class='nav-link highlightable_link'><a href='#'></a>Booking</li>
+              <li id='nav-rooms' class='nav-link highlightable_link'><a href='#'></a>Rooms</li>
+              <li id='nav-contact' class='nav-link highlightable_link'><a href='#'></a>Contact</li>
             </ul>
-            <ul id='manager-nav-links' class='nav-links hidden'>
+            <ul tabindex="0" id='manager-nav-links' class='nav-links hidden'>
               <!-- <li id='nav-manager-hotel' class='nav-link'><a href='#'></a>hotel</li> -->
-              <li id='nav-manager-booking' class='nav-link'><a href='#'></a>book for customer</li>
-              <li id='nav-manager-history' class='nav-link'><a href='#'></a>customer history</li>
+              <li id='nav-manager-booking' class='nav-link highlightable_link'><a href='#'></a>book for customer</li>
+              <li id='nav-manager-history' class='nav-link highlightable_link'><a href='#'></a>customer history</li>
             </ul>
-            <ul id='customer-nav-links' class='nav-links hidden'>
-              <li id='nav-customer-hotel' class='nav-link'><a href='#'></a>hotel</li>
-              <li id='nav-customer-account' class='nav-link'><a href='#'></a>my account</li>
-              <li id='nav-customer-find-rooms' class='nav-link'><a href='#'></a>find rooms</li>
+            <ul tabindex="0" id='customer-nav-links' class='nav-links hidden'>
+              <li id='nav-customer-hotel' class='nav-link highlightable_link'><a href='#'></a>hotel</li>
+              <li id='nav-customer-account' class='nav-link highlightable_link'><a href='#'></a>my account</li>
+              <li id='nav-customer-find-rooms' class='nav-link highlightable_link'><a href='#'></a>find rooms</li>
             </ul>
           </nav>
         </header>
-
         <nav id='booking-toolbar' title='booking toolbar' class='booking-toolbar hidden'>
           <div id="manager-lookup-bar" class='nav-links'>
-            <label for="date" class='nav-link'>user search</label>
-            <input id='manager-search-user-input'type="text" name="username" placeholder="User Name or ID" required>
+            <label for="date" class='toolbar_text'>user search</label>
+            <input id='manager-search-user-input' class='toolbar-input' type="text" name="username" placeholder="first & last name" required>
           </div>
           <div id='calendar' class='nav-links'>
-            <label for="date" class='nav-link'>select a date</label>
-            <input type="date" max='2022/01/01'>
+            <label for="date" class='toolbar_text'>select a date</label>
+            <input id='calendar-input' class='toolbar-input' type="date" max='2022/01/01'>
           </div>
           <div>
-            <form id='home-nav-links' class='nav-links'>
-              <label for="room-type-select" class='nav-link'>sort by type</label>
-              <select name="room-types" id="room-type-select">
-                <option value=""> rooms </option>
+            <form id='room-type-dropdown-container' class='nav-links'>
+              <label id='room-type-dropdown-label' for="room-types" class='toolbar_text'>sort by type</label>
+              <select id="room-types" class='toolbar-input'>
+                <option value="all">all rooms </option>
                 <option value="residential">residential suite</option>
                 <option value="suite">suite</option>
                 <option value="junior">junior suite</option>
@@ -65,58 +64,95 @@
               </select>
             </form>
           </div>
+          <div id='toolbar_submit_button_wrapper'>
+            <p id='toolbar_submit_button'>search</p>
+          </div>
         </nav>
-
-        <section id='main-content-container'>
+        <header id='dashboard_header' class='booking-toolbar hidden'>
+        </header>
+        <section id='main-content-container' class='dashboard_view fade-in'>
           <article id='main_intro' class='main_card'>
             <div class='main_image-wrapper'>
-              <img class='main_image' src='./images/hotel-exterior.jpg'>
+              <img class='main_image' src='./images/hotel-exterior.jpg' alt='A charming cobblestone walkway on a wet evening in front of the Overlook'>
             </div>
             <section class='main_card-text-wrapper'>
-              <h2>the world reknown<br>overlook hotel</h2>
-              <p>Here is some text about a hotel and all of its award winning features and probably a link or two to something below here</p>
+              <h2>the world reknown overlook hotel</h2>
+              <p>Here is some text about a hotel and all of its award winning features and probably a link or two to some other info to woo you!</p>
               <br>
-              <div><p class='main-card_text-link'>see rooms</p></div>
+              <div><p class='main-card_text-link'>sign in to book</p></div>
             </section>
           </article>
           <article id='main_room-types' class='main_card'>
             <section class='main_card-text-wrapper'>
-              <h2>the world reknown<br>overlook hotel</h2>
-              <p>Here is some text about a hotel and all of its award winning features and probably a link or two to something below here</p>
+              <h2>you're probably gonna fall in ❤️</h2>
+              <p>Modern rooms for a modern age for some mountain views for a modern you</p>
               <br>
-              <div><p class='main-card_text-link'>see rooms</p></div>
+              <div><p class='main-card_text-link'>sign in to book</p></div>
             </section>
             <div class='main_image-wrapper'>
-              <img class='main_image' src='./images/room-kinfolk.jpg'>
+              <img class='main_image' src='./images/room-kinfolk.jpg' alt='Bask in the quiet warmth of our mountain facing modern suite'>
             </div>
           </article>
         </section>
-        <section id='dashboard-customer'>
+        <section id='dashboard-customer' class='dashboard_view-logged_in fade-in hidden'>
         </section>
-        <section id='dashboard-manager'>
+        <section id='dashboard-manager' class='dashboard_view-logged_in fade-in hidden'>
         </section>
       </section>
     </main>
     <section id='sidebar'>
-        <article id='sidebar_hotel-info-block'>
-          <section id='sidebar_hotel-information' title="hotel information">
-            <p>the overlook hotel</p>
-            <p>
-            123 madeup blvd<br>
-            denver, co 90210<br>
-            720.626.0000
-            </p>
-          </section>
-          <div class='pattern-block'>
-          </div>
-        </article>
-        <article id='sidebar_room-availability'>
-          <p>Month</p>
-          <p>Date</p>
-          <p>11</p>
-          <p>03</p>
-        </article>
-      </section>
+      <article id='sidebar_hotel-info-block'>
+        <section tabindex="0" id='sidebar_hotel-information' title="hotel information">
+          <p>the <br>overlook <br>hotel</p>
+          <p>
+          123 madeup blvd<br>
+          denver, co 90210<br>
+          720.626.0000
+          </p>
+        </section>
+        <div id='sidebar_hotel_info_decoration' class='pattern_block'>
+        </div>
+      </article>
+      <article id='sidebar_customer_stats'>
+        <div id='customer_stat_title_wrapper' class='customer_stat_wrapper'>
+          <p id='customer_stat_title'>my stats</p>
+          <p id='customer_stat_title_date' class='stat_gold'>sign up to...</p>
+        </div>
+        <div id='customer_stat_total_spent_wrapper' class='customer_stat_wrapper'>
+          <p>TOTAL SPENT</p>
+          <p id='customer_stat_total_spent' class='stat_gold'>get</p>
+        </div>
+        <div id='customer_stat_total_stays_wrapper' class='customer_stat_wrapper'>
+          <p>TOTAL STAYS</p>
+          <p id='customer_stat_total_stays' class='stat_gold'>some</p>
+        </div>
+        <div id='customer_stat_loyalty_wrapper' class='customer_stat_wrapper'>
+          <p>LOYALTY LEVEL</p>
+          <p id='customer_stat_total_stays' class='stat_gold'>deals!</p>
+        </div>
+      </article>
+      <article id='sidebar_manager_stats' class='hidden'>
+        <div id='manager_stat_title_wrapper' class='manager_stat_wrapper'>
+          <p id='manager_stat_title'>the numbers</p>
+          <p id='manager_stat_title_date' class='stat_gold'></p>
+        </div>
+        <div id='manager_stat_total_revenue_wrapper' class='manager_stat_wrapper'>
+          <p>REVENUE</p>
+          <p id='manager_stat_total_revenue' class='stat_gold'></p>
+        </div>
+        <div id='manager_stat_total_occupancy_wrapper' class='manager_stat_wrapper'>
+          <p>OCCUPANCY</p>
+          <p id='manager_stat_total_occupancy' class='stat_gold'></p>
+        </div>
+        <div id='manager_stat_availability_wrapper' class='manager_stat_wrapper'>
+          <p>AVAILABILITY</p>
+          <p id='manager_stat_availability' class='stat_gold'></p>
+        </div>
+        <div id='manager_stat_customer_total_wrapper' class='manager_stat_wrapper'>
+        </div>
+      </article>
+
+    </section>
     <form class='login hidden'>
       <div>
           <label for="username">username:</label>

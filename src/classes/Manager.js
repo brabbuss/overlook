@@ -8,49 +8,53 @@ export default class Manager extends User {
     this.id = 0;
     this.name = 'MANAGER'
   }
+
   totalAvailableRooms(bookingData, roomData, date) {
     return this.viewAvailableRooms(bookingData, roomData, date).length
   }
+
   totalRevenue(bookingData, roomData, date) {
     return Number(this.viewUnavailableRooms(bookingData, roomData, date)
-    .reduce((totalRevenue, room) => {
+    .reduce((totalRevenue, room, i) => {
       totalRevenue += room.costPerNight;
       return totalRevenue
     }, 0).toFixed(2))
   }
+
   totalPercentOccupied(bookingData, roomData, date) {
     return (this.viewUnavailableRooms(bookingData, roomData, date).length /
     roomData.length).toFixed(2)
   }
+
   viewCustomer(userData, name) {
     return new User(userData.find(user => user.name === name))
   }
+
+  viewCustomerBookings(bookingData, userData, name) {
+    let customer = this.viewCustomer(userData, name);
+    return customer.viewMyBookings(bookingData);
+  }
+
   viewCustomerInfo(bookingData, roomData, userData, name) {
     let customer = this.viewCustomer(userData, name);
     let bookings = customer.viewMyBookings(bookingData);
     let total = customer.viewMyTotal(bookingData, roomData);
     return {id: customer.id, name: customer.name, bookingHistory: bookings, totalSpent: total}
   }
-  addCustomerBooking(userData, name, date, roomNumber) { //TDD see if API call is made
+
+  addCustomerBooking(userData, name, date, roomNumber, onSuccess) { //TDD see if API call is made
     let customer = this.viewCustomer(userData, name);
-    return customer.bookMyRoom(date, roomNumber);
+    return customer.bookMyRoom(date, roomNumber, onSuccess);
   }
-  deleteCustomerBooking(bookingData, bookingID) {
-    let matchedBooking = bookingData.find(booking => booking.id === bookingID);
-    if (!matchedBooking) {
-      console.log(`Cannot find booking id: ${bookingID}`);
-      return `Cannot find booking id: ${bookingID}`
-    } else if (matchedBooking && matchedBooking.date > this.getDate()) {
-      let booking =
-        {
-          "id": bookingID
-        }
-      apiRequest.deleteBooking(booking);
-    } else {
-      console.log(`Cannot delete bookings on or before today\'s date: ${this.getDate()}`);
-      return `Cannot delete bookings on or before today\'s date: ${this.getDate()}`
-    }
+
+  deleteCustomerBooking(bookingData, bookingID, onSuccess) {
+    let booking =
+      {
+        "id": Number(bookingID)
+      }
+    apiRequest.deleteBooking(booking, onSuccess);
   }
+
   getDate() {
     let newDate = new Date();
     let month = newDate.getMonth()+1;
@@ -64,5 +68,4 @@ export default class Manager extends User {
     }
     return `${newDate.getFullYear()}/${month}/${date}`
   }
-
 }

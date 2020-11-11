@@ -57,14 +57,3 @@ export default class User {
     return availableRooms.filter(room => room.roomType === roomType);
   }
 }
-
-//TODO when calculating price, use toFixed(2) b/c bad data
-/*
-Parse past, today, future BOOKINGS by checking against todaysDate
-Separate BOOKINGS into past, today, and future dates
-
-Three options to display - past, present, today drawing on one of those
-three arrays
-?? USER.method on click of ‘past’ or ‘future’ bookings to return from
-myBookings array items that are < todaysDate, or > todaysDate
-*/

@@ -15,7 +15,7 @@ export default class Manager extends User {
 
   totalRevenue(bookingData, roomData, date) {
     return Number(this.viewUnavailableRooms(bookingData, roomData, date)
-    .reduce((totalRevenue, room) => {
+    .reduce((totalRevenue, room, i) => {
       totalRevenue += room.costPerNight;
       return totalRevenue
     }, 0).toFixed(2))
@@ -48,28 +48,11 @@ export default class Manager extends User {
   }
 
   deleteCustomerBooking(bookingData, bookingID, onSuccess) {
-    console.log(bookingData);
-    //
-    // let matchedBooking = bookingData.find(booking => booking.id === bookingID);
-    // if (!matchedBooking) {
-    //   console.log(`Cannot find booking id: ${bookingID}`);
-    //   return `Cannot find booking id: ${bookingID}`
-    // } else if (matchedBooking && matchedBooking.date > this.getDate()) {
-
-
-      let booking =
-        {
-          "id": Number(bookingID)
-        }
-      apiRequest.deleteBooking(booking, onSuccess);
-      console.log(booking);
-
-
-
-    // } else {
-    //   console.log(`Cannot delete bookings on or before today\'s date: ${this.getDate()}`);
-    //   return `Cannot delete bookings on or before today\'s date: ${this.getDate()}`
-    // }
+    let booking =
+      {
+        "id": Number(bookingID)
+      }
+    apiRequest.deleteBooking(booking, onSuccess);
   }
 
   getDate() {

@@ -1,11 +1,9 @@
 export const domObject = {
   showLogin() {
-    if (event.target.id === 'Layer_1' || event.target === 'svg') {
+    if (event.target.id === 'Layer_1' || event.target === 'svg' || event.target.classList.contains('main-card_text-link')) {
       usernameInput.value = '';
       passwordInput.value = '';
       loginBox.classList.contains('hidden') ? loginBox.classList.remove('hidden') : loginBox.classList.add('hidden');
-    } else {
-      loginBox.classList.add('hidden');
     }
   },
 
@@ -39,7 +37,6 @@ export const domObject = {
   hideHomeView(boolean) {
     boolean === true ? domObject.hideElement(homeNavLinks) : domObject.showElement(homeNavLinks);
     boolean === true ? domObject.hideElement(mainContentContainer) : domObject.showElement(mainContentContainer);
-    // boolean === true ? domObject.hideElement(mainRoomTypes) : domObject.showElement(mainRoomTypes);
     domObject.hideCustomerView(true);
     domObject.showDashboardHeader(false);
   },
@@ -54,10 +51,6 @@ export const domObject = {
     !boolean === true ? domObject.hideElement(customerNavLinks) : domObject.showElement(customerNavLinks)
     boolean === true ? domObject.hideElement(managerDashboard) : domObject.showElement(managerDashboard)
   },
-
-  // hideGuestView(boolean) {
-  //   boolean ? domObject.hideElement(customerNavLinks) : domObject.showElement(customerNavLinks)
-  // },
 
   showElement(element) {
     element.classList.remove('hidden')

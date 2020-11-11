@@ -209,15 +209,16 @@ main {
     width: content;
     height: 1em;
     transition: all ease-in-out .5s;
-    &:hover {
-      z-index: 0;
-      width: 150px;
-      background-color: $themeBlue;
-    }
     .main-card_text-link {
       z-index: 10;
       font-weight: 600;
       cursor: pointer;
+      transition: all ease-in-out .3s;
+      &:hover {
+        color: white;
+        z-index: 0;
+        background-color: $themeBlue;
+      }
     }
   }
 }
@@ -498,7 +499,7 @@ main {
   }
 
   100% {
-    color: gold;
+    color: #ff69b4;
   }
 }
 

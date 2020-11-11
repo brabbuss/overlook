@@ -50,8 +50,7 @@ let userData;
 let bookingData;
 let roomData;
 let user;
-let date;
-let todaysDate;
+let date = getFormattedDate();
 
 let fetchedUserData = apiRequest.getUserData();
 let fetchedBookingData = apiRequest.getBookingData();
@@ -84,9 +83,6 @@ document.querySelector('nav').addEventListener('click', highlightLink)
 document.addEventListener('click', domObject.showLogin);
 document.querySelector('#nav-contact').addEventListener('click', highlightHotelInfo);
 
-// ------------------ scratch pad -------------------
-
-
 // ------------------ General functions ---------------------
 
 Promise.all([fetchedUserData, fetchedBookingData, fetchedRoomData])
@@ -111,23 +107,14 @@ function checkLogin() {
   } else {
     alert('Invalid login information')
   }
-  domObject.showLogin()
-  showMyBookings()
-  event.preventDefault()
+  domObject.hideElement(loginBox);
+  event.preventDefault();
 }
 
 function loadApp() {
-  date = '2020/03/03';
-  todaysDate = getFormattedDate();
-  let calDate = todaysDate.replaceAll('/','-');
+  let calDate = date.replaceAll('/','-');
   calendarInput.setAttribute('min', calDate);
   calendarInput.setAttribute('value', calDate);
-
-  //TODO set to normal after testing
-  user = new User(userData[3])
-  // user = new Manager()
-  // showManagerDashboard()
-  console.log(user, date, 'remember to change this information back');
 }
 
 function refreshPage() {
@@ -187,6 +174,7 @@ function highlightHotelInfo() {
 }
 
 // ------------- Dashboard Display ------------------
+
 function showHomePage() {
   domObject.hideHomeView(false);
   domObject.showToolbar(false);
@@ -251,6 +239,7 @@ function getLoyaltyStatus() {
 }
 
 function showManagerDashboard() {
+  domObject.hideElement(customerStats)
   domObject.hideHomeView(true);
   domObject.hideManagerView(false);
   domObject.showToolbarCustomerHistory();
@@ -260,10 +249,9 @@ function showManagerDashboard() {
 
 function showManagerWelcomeMessage() {
   managerDashboard.innerHTML = ''
-  let roomsToRent = user.totalAvailableRooms(bookingData, roomData, getCalendarDate())
-  console.log(roomsToRent);
+  let roomsToRent = user.totalAvailableRooms(bookingData, roomData, date)
   managerDashboard.insertAdjacentHTML('beforeend', `
-  <div id='manager_welcome-wrapper'><p id='manager_welcome'>Hey Boss! We've got ${!roomsToRent ? 'nothing' : roomsToRent + ' rooms'} availabile to book today!</p></div>
+  <div id='manager_welcome-wrapper'><p id='manager_welcome'>Hey Boss! We've got ${!roomsToRent ? 'nothing' : roomsToRent + ' rooms'} available to book today!</p></div>
   `)
 }
 
@@ -275,9 +263,9 @@ function showManagerBookForCustomer() {
 
 function updateManagerStats(customerName) {
   document.querySelector('#sidebar_manager_stats').classList.remove('hidden');
-  document.querySelector('#manager_stat_title_date').innerText = `${date}`
-  document.querySelector('#manager_stat_availability').innerText = `${user.totalAvailableRooms(bookingData, roomData, date)} vacancies`
-  document.querySelector('#manager_stat_total_revenue').innerText = `$${user.totalRevenue(bookingData, roomData, date).toFixed()}`
+  document.querySelector('#manager_stat_title_date').innerText = `${date}`;
+  document.querySelector('#manager_stat_availability').innerText = `${user.totalAvailableRooms(bookingData, roomData, date)} vacancies`;
+  document.querySelector('#manager_stat_total_revenue').innerText = `$${user.totalRevenue(bookingData, roomData, date).toFixed()}`;
   document.querySelector('#manager_stat_total_occupancy').innerText = `${user.totalPercentOccupied(bookingData, roomData, date)*100}%`;
   if (customerName) {
     document.querySelector('#manager_stat_customer_total_wrapper').innerHTML ='';
@@ -322,8 +310,7 @@ function loadUserAccountInfo(bookingData, name) {
     </section>
     </article>
     `);
-    if (user instanceof Manager && booking.date > todaysDate) {
-      // dashboardAndBookings[0].insertAdjacentHTML('beforeend', `
+    if (user instanceof Manager && booking.date > date) {
       document.querySelector(`#booking_total_${i}`).insertAdjacentHTML('beforeend', `
         <p class='delete_booking_button' value=${booking.id}>DELETE <br>BOOKING</p>
         <span class='hidden'>${name}</span>
@@ -438,8 +425,6 @@ function updateManagerUserInfo(name) {
     updateManagerStats(managerUserSearchInput.value)
   })
 }
-
-
 
 function getUpdatedAvailableList() {
   fetchedBookingData = apiRequest.getBookingData();

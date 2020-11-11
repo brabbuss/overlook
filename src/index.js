@@ -360,7 +360,7 @@ function getCorrectDashAndBooking(bookingData, name) {
 }
 
 function bookRoom() {
-  let bookingDate = event.target.getAttribute('value');
+  let bookingDate = getCalendarDate();
   if (event.target.classList.contains('result_book-room-link')) {
     let roomNum = Number(event.target.getAttribute('value'));
     let onSuccess = () => {
@@ -371,7 +371,8 @@ function bookRoom() {
 }
 
 function bookRoomManager() {
-  let bookingDate = event.target.getAttribute('value')
+  let bookingDate = getCalendarDate();
+  console.log(bookingDate);
   let name = managerUserSearchInput.value;
   if (event.target.classList.contains('result_book-room-link') && name !== '') {
     let roomNum = Number(event.target.getAttribute('value'));

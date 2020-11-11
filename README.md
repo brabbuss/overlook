@@ -123,6 +123,10 @@ And here's that API request with the callback insde of the `.then()`:
 
 ![API request with callback](https://user-images.githubusercontent.com/66697338/98864111-9c9faf00-2426-11eb-802a-ff681eac9163.png)
 
+And the result :-)
+
+![Manager Stats Dynamically Updating](https://media.giphy.com/media/aobp16tiZ9b4kcjoAw/giphy.gif)
+
 #### Roadmap
 
 In future iterations, additions will include:

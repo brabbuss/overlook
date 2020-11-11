@@ -1,4 +1,3 @@
-import Booking from './Booking';
 import User from './User';
 import { apiRequest } from './apiRequest';
 
@@ -15,10 +14,10 @@ export default class Manager extends User {
 
   totalRevenue(bookingData, roomData, date) {
     return Number(this.viewUnavailableRooms(bookingData, roomData, date)
-    .reduce((totalRevenue, room, i) => {
-      totalRevenue += room.costPerNight;
-      return totalRevenue
-    }, 0).toFixed(2))
+      .reduce((totalRevenue, room) => {
+        totalRevenue += room.costPerNight;
+        return totalRevenue
+      }, 0).toFixed(2))
   }
 
   totalPercentOccupied(bookingData, roomData, date) {
@@ -57,7 +56,7 @@ export default class Manager extends User {
 
   getDate() {
     let newDate = new Date();
-    let month = newDate.getMonth()+1;
+    let month = newDate.getMonth() + 1;
     let date = newDate.getDate();
 
     if (date.toString().length < 2) {

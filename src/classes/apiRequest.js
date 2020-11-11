@@ -19,12 +19,12 @@ export const apiRequest = {
 
   createBooking(booking, onSuccess) {
     return fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(booking),
-    })
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(booking),
+      })
       .then(response => response.json())
       .then(response => {
         onSuccess()
@@ -35,12 +35,12 @@ export const apiRequest = {
 
   deleteBooking(booking, onSuccess) {
     return fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(booking),
-    })
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(booking),
+      })
       .then(response => response.json())
       .then(response => {
         onSuccess()

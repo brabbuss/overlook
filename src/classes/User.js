@@ -1,4 +1,3 @@
-import Booking from './Booking';
 import { apiRequest } from './apiRequest';
 
 export default class User {
@@ -21,7 +20,7 @@ export default class User {
     let myBookings = bookingData.filter(booking => {
       return booking.userID === this.id
     });
-    return myBookings.sort((a,b) => {
+    return myBookings.sort((a, b) => {
       return a.date < b.date ? -1 : 1;
     })
   }

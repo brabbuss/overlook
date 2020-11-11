@@ -67,10 +67,10 @@ describe('Manager class properties and methods', function() {
   });
 
   it('should be able to delete a booking for a user', function() {
-    manager.deleteCustomerBooking(bookingData, 'randomIDnumber3');
+    manager.deleteCustomerBooking(bookingData, '123213123123');
 
     expect(apiRequest.deleteBooking).to.have.been.called(1);
-    expect(apiRequest.deleteBooking).to.have.been.called.with({"id": 'randomIDnumber3'});
+    expect(apiRequest.deleteBooking).to.have.been.called.with({"id": 123213123123});
   });
 
   it('should not be able to delete a booking in the past or today', function() {
@@ -78,5 +78,5 @@ describe('Manager class properties and methods', function() {
 
     expect(apiRequest.deleteBooking).to.have.been.called(0);
   });
-  
+
 });

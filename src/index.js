@@ -12,7 +12,9 @@ import './images/room-suite.jpg'
 import './images/room-xtrasmall.jpg'
 import './images/room-xtrasmall2.jpg'
 
-import { roomImages } from './images/image-assets';
+import {
+  roomImages
+} from './images/image-assets';
 
 import {
   domObject,
@@ -55,7 +57,9 @@ let fetchedRoomData = apiRequest.getRoomData();
 import User from './classes/User';
 import Manager from './classes/Manager';
 
-import { apiRequest } from './classes/apiRequest';
+import {
+  apiRequest
+} from './classes/apiRequest';
 
 // ------------------ event listeners ------------------
 
@@ -142,7 +146,7 @@ function managerDashboardClickHandler() {
   }
 }
 
-function managerNavHandler () {
+function managerNavHandler() {
   if (event.target.id === 'nav-manager-history') {
     returnUserInfo()
   } else if (event.target.id === 'nav-manager-booking') {
@@ -412,7 +416,7 @@ function updateManagerUserInfo(name) {
   fetchedBookingData = apiRequest.getBookingData();
   fetchedBookingData.then(value => {
     bookingData = value['bookings']
-  }).then(()=>loadUserAccountInfo(bookingData, name)).then(()=> {
+  }).then(() => loadUserAccountInfo(bookingData, name)).then(() => {
     updateManagerStats(managerUserSearchInput.value)
   })
 }
@@ -421,7 +425,7 @@ function getUpdatedAvailableList() {
   fetchedBookingData = apiRequest.getBookingData();
   fetchedBookingData.then(value => {
     bookingData = value['bookings']
-  }).then(()=>loadAvailableRooms(date)).then(()=> {
+  }).then(() => loadAvailableRooms(date)).then(() => {
     if (user instanceof Manager) {
       updateManagerStats(managerUserSearchInput.value);
     } else {

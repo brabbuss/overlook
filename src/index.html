@@ -64,7 +64,7 @@
             </form>
           </div>
           <div id='toolbar_submit_button_wrapper'>
-            <p id='toolbar_submit_button'>search</p>
+            <p tabindex="0" aria-label='toolbar search' id='toolbar_submit_button'>search</p>
           </div>
         </nav>
         <header id='dashboard_header' class='booking-toolbar hidden'>
@@ -161,9 +161,9 @@
           <label for="pass">password:</label>
           <input type="password" id="password" name="password" minlength="4" required>
       </div>
-      <input type="submit" id='submit-login' value="sign in">
+      <input tabindex="0" aria-label='submit login button' type="submit" id='submit-login' value="sign in">
       <br>
-      <input type="button" id='logout-button' value="log out">
+      <input tabindex="0" aria-label='logout button' type="button" id='logout-button' value="log out">
     </form>
   </body>
 </html>

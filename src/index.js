@@ -283,7 +283,7 @@ function loadUserAccountInfo(bookingData, name) {
       <div class='my-booking_image-wrapper'>
       <img class='my-booking_image' src=${randomImage}>
       </div>
-      <section class='my_booking-text_wrapper'>
+      <section tabindex="0" aria-label='booking information' class='my_booking-text_wrapper'>
       <div>
       <p>room details</p>
       <p>${room.roomType}</p>
@@ -307,7 +307,7 @@ function loadUserAccountInfo(bookingData, name) {
     `);
     if (user instanceof Manager && booking.date > date) {
       document.querySelector(`#booking_total_${i}`).insertAdjacentHTML('beforeend', `
-        <p class='delete_booking_button' value=${booking.id}>DELETE <br>BOOKING</p>
+        <p tabindex="0" aria-label='delete customer booking' class='delete_booking_button' value=${booking.id}>DELETE <br>BOOKING</p>
         <span class='hidden'>${name}</span>
       `)
     }
@@ -332,7 +332,7 @@ function loadAvailableRooms(date, roomType) {
         <div class='result_image-wrapper'>
         <img class='result_image' src=${randomImage} alt='A ${room.numBeds} bed, calm and serene modern ${room.roomType}'>
         </div>
-        <section class='result_text-wrapper'>
+        <section tabindex="0" aria-label='room information' class='result_text-wrapper'>
         <h2>${room.roomType} #${room.number}</h2>
         <p>${room.numBeds} ${room.numBeds > 1 ? room.bedSize + ' beds' : room.bedSize + ' bed'}, incredible mountain views,
         <br>a fully modern room and bathroom${room.bidet ? ' including a bidet!' : '.'}</p>
@@ -341,7 +341,7 @@ function loadAvailableRooms(date, roomType) {
         <p>$${room.costPerNight.toFixed(2)}</p>
         <p>per night<br>excluding taxes and fees</p>
         </div>
-        <span><p id='book_room_link' value='${room.number}' class='result_book-room-link'>BOOK THIS ROOM</p></span>
+        <span><p tabindex="0" aria-label='book room button' id='book_room_link' value='${room.number}' class='result_book-room-link'>BOOK THIS ROOM</p></span>
         </section>
         </article>
       `);

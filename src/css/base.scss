@@ -472,10 +472,19 @@ main {
   @extend #sidebar_manager_stats;
   #customer_stat_title_wrapper {
     @include flexDir(column);
-    // justify-content: center;
     align-items: center;
     font-weight: 600;
     font-size: 2em;
+    #customer_stat_title {
+      text-decoration: underline;
+      padding-top: 0;
+      padding-bottom: 1em;
+      margin: 0;
+    }
+    #customer_stat_title_date {
+      text-align: center;
+      line-height: 1.2em;
+    }
   }
 }
 

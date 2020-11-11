@@ -116,7 +116,7 @@ function checkLogin() {
 }
 
 function loadApp() {
-  // date = '2020/03/03';
+  date = '2020/03/03';
   todaysDate = getFormattedDate();
   let calDate = todaysDate.replaceAll('/','-');
   calendarInput.setAttribute('min', calDate);
@@ -182,6 +182,10 @@ function highlightLink() {
 }
 
 // ------------- Dashboard Display ------------------
+function showHomePage() {
+  domObject.hideHomeView(false)
+  domObject.showToolbar(false);
+}
 
 function showMyBookings() {
   loadUserAccountInfo(bookingData);
@@ -205,11 +209,38 @@ function showCustomerDashboard() {
     domObject.showToolbar(true);
     domObject.hideElement(managerUserSearch);
     domObject.showDashboardHeader(false);
-    domObject.showElement(customerStats);
+    updateCustomerStats();
     loadAvailableRooms(date);
     navCustomerFindRooms.classList.add('active_nav')
   } else {
     alert('Please log in to view available rooms')
+  }
+}
+
+function updateCustomerStats() {
+  document.querySelector('#sidebar_customer_stats').classList.remove('hidden');
+  document.querySelector('#customer_stat_title_date').innerText = `${user.name}`
+  document.querySelector('#customer_stat_total_spent').innerText = `$${user.viewMyTotal(bookingData, roomData).toFixed()}`
+  document.querySelector('#customer_stat_total_stays').innerText = `${user.viewMyBookings(bookingData).length}`
+  document.querySelector('#customer_stat_loyalty_wrapper').innerHTML = '';
+  document.querySelector('#customer_stat_loyalty_wrapper').insertAdjacentHTML('beforeend', `
+    <p>LOYALTY LEVEL</p>
+    <p id='customer_stat_loyalty' class='stat_gold'>${getLoyaltyStatus()}</p>
+  `);
+}
+
+function getLoyaltyStatus() {
+  let total = Number(user.viewMyTotal(bookingData, roomData));
+  if (total < 1000) {
+    return 'Associate'
+  } else if (total > 1000 && total < 5000) {
+    return 'Premier'
+  } else if (total > 5000 && total < 10000) {
+    return 'Executive'
+  } else if (total > 10000 && total < 15000) {
+    return 'Royalty'
+  } else if (total > 15000) {
+    return 'Venerated'
   }
 }
 
@@ -219,7 +250,15 @@ function showManagerDashboard() {
   domObject.showToolbarCustomerHistory();
   showManagerWelcomeMessage()
   updateManagerStats()
-  // domObject.showCustomerDashboard(false);
+}
+
+function showManagerWelcomeMessage() {
+  managerDashboard.innerHTML = ''
+  let roomsToRent = user.totalAvailableRooms(bookingData, roomData, getCalendarDate())
+  console.log(roomsToRent);
+  managerDashboard.insertAdjacentHTML('beforeend', `
+  <div id='manager_welcome-wrapper'><p id='manager_welcome'>Hey Boss! We've got ${!roomsToRent ? 'nothing' : roomsToRent + ' rooms'} availabile to book today!</p></div>
+  `)
 }
 
 function showManagerBookForCustomer() {
@@ -241,28 +280,6 @@ function updateManagerStats(customerName) {
       <p id='manager_stat_customer_total' class='stat_gold'>$${user.viewCustomerInfo(bookingData, roomData, userData, customerName).totalSpent.toFixed()}</p>
     `)
   }
-}
-
-function showManagerWelcomeMessage() {
-  managerDashboard.innerHTML = ''
-  let roomsToRent = user.totalAvailableRooms(bookingData, roomData, getCalendarDate())
-  console.log(roomsToRent);
-  managerDashboard.insertAdjacentHTML('beforeend', `
-  <div id='manager_welcome-wrapper'><p id='manager_welcome'>Hey Boss! We've got ${!roomsToRent ? 'nothing' : roomsToRent + ' rooms'} availabile to book today!</p></div>
-  `)
-}
-
-function showHomePage() {
-  domObject.hideHomeView(false)
-  domObject.showToolbar(false);
-}
-
-function getCorrectDashAndBooking(bookingData, name) {
-  let customerOrManager = user instanceof Manager ? 'manager' : 'customer';
-  let dashboard = customerOrManager === 'manager' ? managerDashboard : dashboardCustomer;
-  let bookings = customerOrManager === 'manager' ? user.viewCustomerBookings(bookingData, userData, name) : user.viewMyBookings(bookingData);
-  let sortedBookings = bookings.sort((a,b) => new Date(b.date) - new Date(a.date))
-  return [dashboard, sortedBookings]
 }
 
 function loadUserAccountInfo(bookingData, name) {
@@ -346,6 +363,14 @@ function loadAvailableRooms(date, roomType) {
 
 // ------------ Dashboard Data ---------------------
 
+function getCorrectDashAndBooking(bookingData, name) {
+  let customerOrManager = user instanceof Manager ? 'manager' : 'customer';
+  let dashboard = customerOrManager === 'manager' ? managerDashboard : dashboardCustomer;
+  let bookings = customerOrManager === 'manager' ? user.viewCustomerBookings(bookingData, userData, name) : user.viewMyBookings(bookingData);
+  let sortedBookings = bookings.sort((a,b) => new Date(b.date) - new Date(a.date))
+  return [dashboard, sortedBookings]
+}
+
 function bookRoom() {
   date = getCalendarDate()
   if (event.target.classList.contains('result_book-room-link')) {
@@ -416,7 +441,9 @@ function getUpdatedAvailableList() {
     bookingData = value['bookings']
   }).then(()=>loadAvailableRooms(date)).then(()=> {
     if (user instanceof Manager) {
-      updateManagerStats(managerUserSearchInput.value)
+      updateManagerStats(managerUserSearchInput.value);
+    } else {
+      updateCustomerStats();
     }
   })
 }

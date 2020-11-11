@@ -22,6 +22,8 @@ The working dataset is retrieved and updated with API calls, with some minor pro
 
 The vast nature of the project on a demanding timeline (7 days from assignment to completion) forces the employment of careful planning with project management tools and utilizing wireframing and mind-mapping.
 
+![Wireframing has been huge](https://user-images.githubusercontent.com/66697338/98865616-e8535800-2428-11eb-8a8d-140788af8295.png)
+
 Lastly, be sure to click this here when you see it:
 <details>
   <summary>**Under the Hood**</summary>

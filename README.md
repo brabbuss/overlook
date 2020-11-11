@@ -1,107 +1,129 @@
-Looks like it works
-
-# Webpack Starter Kit
-
-## Clone This Repo
-
-That's right, _clone_ not fork. You will use this repo multiple times, but you can only fork a repository once. So here is what you need to do to clone the repo and still be able to push changes to your repo:
-
-1. Clone down this repo. Since you don't want to name your project "webpack-starter-kit", you can use an optional argument when you run `git clone` (you replace the `[...]` with the terminal command arguments): `git clone [remote-address] [what you want to name the repo]`
-1. Remove the default remote: `git remote rm origin` (notice that `git remote -v` not gives you back nothing)
-1. Create a new repo on GitHub with the name of `[what you want to name the repo]` to be consistent with naming
-1. Copy the address that you would use to clone down this repo - something like `git@github.com:...`
-1. Add this remote to your cloned down repo: `git remote add origin [address you copied in the previous step]` - do not include the brackets
-
-Now try to commit something and push it up to your new repo. If everything is setup correctly, you should see the changes on GitHub.
-
-## Setup
-
-After one person has gone through the steps of cloning down this repo and editing the remote, everyone should clone down the repo.
-
-Then install the library dependencies. Run:
-
-```bash
-npm install
-```
-
-To verify that it is setup correctly, run `npm start` in your terminal. Go to `http://localhost:8080/` and you should see a page with some `h1` text, Turing logo image and a beautiful gradient background. If that's the case, you're good to go. Enter `control + c` in your terminal to stop the server at any time.
-
-## Where to Add Your Code
-
-### JavaScript
-
-You have to be very intentional with where you add your feature code. This repo uses a tool called [webpack](https://webpack.js.org/) to combine many JavaScript files into one big file. Webpack enables you to have many, separate JavaScript files to keep your code organized and readable. Webpack expects all of your code files to be in a specific place, or else it doesn't know how to combine them all behind the scenes.
-
-**Create all of your feature code files in the `src` directory.**
-
-Since code is separated into multiple files, you need to use the `import` and `export` syntax to share code across file.
-
-Here is a video that walks through some information about [import and export](https://www.youtube.com/watch?v=_3oSWwapPKQ). There are a lot of resources out there about `import` and `export`, and resources will sometimes call them `ES6 modules`. It's something you will see in React and beyond.
-
-### HTML
-
-Add the HTML you need in the `index.html` file in the `./src` directory. There is some boilerplate HTML that exists from the start that you can modify.
-
-### CSS (SCSS/SASS)
-
-This project is setup to use SCSS/SASS files by default instead of your regular CSS files. Add your SCSS files in the `src/css` directory. There is a `base.scss` file already there, but you can change this file and add multiple SCSS files in this directory.
-
-This might sound weird, but you need to `import` your SCSS files in the JavaScript entry file (`index.js`) for the styles to be applied to your HTML. The example `base.scss` file has already been imported in the JavaScript entry file as an example.
-
-### Images
-
-Add your image files in the `src/images` directory. Similar to CSS files, you need to `import` image files in the JavaScript entry file (`index.js`). Then go into the HTML and add an `img` element with the `src` attribute pointing to the `images` directory. There is an example in the `index.html` file for you to see.
-
-## How to View Your Code in Action
-
-In the terminal, run:
-
-```bash
-npm start
-```
-
-You will see a bunch of lines output to your terminal. One of those lines will be something like:
-
-```bash
-Project is running at http://localhost:8080/
-```
-
-Go to `http://localhost:8080/` in your browser to view your code running in the browser.
+Deployed Site: https://brabbuss.github.io/overlook/
 
 ---
 
-## Test Files Organization
-
-Similar to feature code, your test code needs to be put in a specific place for it to run successfully.
-
-**Put all of your test files in the `test` directory.** As a convention, all test filenames should end with `-test.js`. For instance: `box-test.js`.
-
-## Running Your Tests
-
-Run your test suite using the command:
-
-```bash
-npm test
-```
-
-The test results will output to the terminal.
+# The Overlook Hotel - A hotel booking and management solution
+###### A simple and elegant site where one can manage their bookings 
 
 ---
+## Table of Contents
+* [Introduction](#introduction)
+* [Features](#features)
+* [Resources](#resources)
+* [Bio](#bio)
 
-## Linting Your Code
+## Introduction
 
-Run the command in your terminal `npm run lint` to run the linter on your JavaScript code. There will be errors and warnings right from the start in this starter kit - the linter is still running successfully.
+![Homepage](https://user-images.githubusercontent.com/66697338/98857183-f2228e80-241b-11eb-8138-403beaa0d500.png)
 
-Your linter will look at the JavaScript files you have within the `src` directory and the `test` directory.
+The Overlook web app is the final deliverable based on the Mod 2 solo capstone project for Turing Front End students, as laid out [here](https://frontend.turing.io/projects/overlook.html). The project seeks to challenge the totality of learning of students to this point, pulling together their knowledge of HTML, CSS (Sass/scss), JS, DOM interaction, TDD (test driven development), API requests (POST, DELETE, GET), as well as working proficiency in the terminal and GitHub, in order to construct a fully functional web site from scratch. 
 
-## Webpack?
+The working dataset is retrieved and updated with API calls, with some minor protections from badly formatted data on the back end. The nature of working with constantly updated information demands that students carefully plan out Class structure and the flow of information in their main scripts. 
 
-If you look in the `package.json` file, you'll see one of the library dependencies called `webpack`. If you're interested in learning more about what Webpack is and how it works behind the scenes, take a look through the [Webpack configuration documentation](https://webpack.js.org/concepts/).
+The vast nature of the project on a demanding timeline (7 days from assignment to completion) forces the employment of careful planning with project management tools and utilizing wireframing and mind-mapping.
 
-## Deploying to GitHub Pages
+Lastly, be sure to click this here when you see it:
+<details>
+  <summary>**Under the Hood**</summary>
+On the surface the site is quite simple, presenting an interface for users to search and book available rooms and view their booking history (as well as deleting upcoming booking as a manager). However, the simple exterior belies extensive logic operations beneath the hood. The site pulls in three sets of data with API calls - a list of customers, a list of bookings (where POST and DELETE requests are made - the list changes with each booking/deletion), and a list of rooms. Inside of the class architecture, heavy use of array iterating methods are employed to cross reference data from these three data sets.
+</details>
 
-_If you are finished with the functionality and testing of your project_, then you can consider deploying your project to the web! This way anyone can play it without cloning down your repo.
+## Features
+---
+* [General Site Features](#general-site-features)
+* [UX, Animations and Extensions](#ux-animations-and-extensions)
+* [Test Driven Development](#test-driven-development)
+* [Roadmap](#roadmap)
+---
 
-[GitHub Pages](https://pages.github.com/) is a great way to deploy your project to the web. Don't worry about this until your project is free of bugs and well tested!
+#### General Site Features
+Landing on the homepage, users are provided with some basic information about the hotel. The sidebar is a placeholder for user and manager statistics for the day. The meat of the app is inside of a logged in view - users would begin by logging in. Credentials to log in are:
 
-If you _are_ done, you can follow [this procedure](./gh-pages-procedure.md) to get your project live on GitHub Pages.
+```
+for manager view:
+Username: manager
+Password: overlook2020
+```
+
+```
+for customer view - where 'xx' is a number between 1 - 50:
+Username: customerxx
+Password: overlook2020
+```
+
+![Log In Modal](https://media.giphy.com/media/Th1eAaeJEuMZdHRrOd/giphy.gif)
+
+<details>
+  <summary>**Under the Hood**</summary>
+The login functionality was fun to write from scratch. It's much easier given that all of the passwords are canned, and that the user login name is always 8 characters, plus a number with a maximum length of two. It would be interesting to learn how a real-world login validation occurs, how the API requests work, and what additional authentication measures are generally in place.
+</details>
+
+###### Customer View
+
+The customer dashboard has two views, 'My account' and 'Find rooms'. Find rooms provides the user with a toolbar with which to search available rooms. My account lists the customer's previous and upcoming bookings, sorted by the most recent.
+
+![Customer View - My account](https://user-images.githubusercontent.com/66697338/98857185-f353bb80-241b-11eb-8aad-ce3a6938d329.png)
+
+Below you can see the context dependent toolbar appear for searching vacant rooms by date and type.
+
+![Customer View - Find Rooms](https://media.giphy.com/media/Z8tkLiBzEtsVNuLj1a/giphy.gif)
+
+In this view is also a list of the customer's 'stats'. There was a bit of fun had with assigning a 'loyalty level' based on the amount spent by the customer. Can you reach the top tier?? The stats are dynamic and update when a user books a room.
+
+![Customer Stats](https://user-images.githubusercontent.com/66697338/98857190-f51d7f00-241b-11eb-9fe8-0c28367f9b78.png)
+
+
+<details>
+  <summary>**Under the Hood**</summary>
+One of the most challenging pieces of this project was learning how to work with the API, and specifically inside the `.then()`, to employ dynamic updates, which of course needs a competent class structure to function smoothly. Dynamic updates were successfully accomplished with a callback function passed into the API call that would fire on success of the promise being fulfilled. That helped callback function would then call on the needed function that would update the display with the newly fetched data. ASYNC LIFE.
+</details>
+
+###### Manager View
+Manager users recieve visual feedback that they have been logged into the site with a welcome message in the empty dashboard containing a bit of information. They also receive feedback for which part of the user view they are in. 
+
+![Manager View - Customer History](https://user-images.githubusercontent.com/66697338/98857178-edf67100-241b-11eb-8720-2e815a22b6e3.png)
+
+![Manager stats](https://user-images.githubusercontent.com/66697338/98857191-f51d7f00-241b-11eb-9bc4-15c1c5d1acf4.png)
+
+The manager has access to two views. In the customer history, the manager can access a customer's booking history with a full name search - there are plans to add the ability to search by ID. In this history, the manager can delete any future bookings. All statistics and availability are updated dynamically. In the below gif, you'll note that the manager is presented with a confirmation message after clicking the delete button - better safe than sorry!
+
+![Deleting a booking](https://media.giphy.com/media/clZfTva5NvSpGulgyN/giphy.gif)
+
+In the 'Book for Customer' view, the manager can do just that! Those bookings are reflected in that moment in the customer's bookings as well.
+
+![Manager Booking gif](https://media.giphy.com/media/utRs9iZlNDh9rOCQFI/giphy.gif)
+
+As you can see, the numbers update with the given action.
+
+![Manager Stats Dynamically Updating](https://media.giphy.com/media/aobp16tiZ9b4kcjoAw/giphy.gif)
+
+#### UX, Animations and Extensions
+
+A major goal for this project was to reduce confusion around UX by adequately planning and researching other hotel sites. Styling and UI is a major component of UX. To that, the site is relatively sparse, offering clean lines and only necessary information once signed in. 
+
+Attempts at media queries were made for responsive design. There was some success, but not to the degree that a polished live product would warrant. 
+
+In pushing for a high-end theme, a 'fade' is applied during transitions from different views. The fade is two fold, though. The fade also helps the delay between API calls become less noticable and almost seemingly intentional.
+
+#### Roadmap
+
+In future iterations, additions will include:
+- further accessibility additions - Lighthouse returns a 100/100, but I think there is plenty of room for improvement
+- clean, smooth responsive design, and design specified to a tablet and phone
+- integration of service fees
+
+#### Resources
+
+CSS tricks:
+- Cropping an SVG with a div container to get images to size correctly without skewing card image: https://www.educative.io/edpresso/how-to-crop-an-image-in-css
+- Free SVG icons https://www.svgrepo.com/svg/17356/empty-cart
+- Fade in animation: https://blog.hubspot.com/website/css-fade-in
+
+## Bio
+<img src="https://avatars1.githubusercontent.com/u/66697338?s=460&u=3d2e338fdeb625c1940a87b1cfdb7ba6e7d16c5c&v=4" alt="Coding Magician"
+ width="150" height="auto" style="float: left" />\
+**Scott Brabson**
+
+[GitHub Profile](https://github.com/brabbuss)
+
+FE Engineering student at Turing School who has found no end to the joy that is speaking the language of JS.

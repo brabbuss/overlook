@@ -16,8 +16,78 @@
   text-decoration: none;
 }
 
-@mixin textCenter() {
+@mixin flexAround {
+  display: flex;
+  justify-content: space-around;
+}
 
+@mixin bookingText {
+  font-size: 1em;
+  line-height: 1.8em;
+  font-weight: 200;
+}
+
+@mixin toolText() {
+  display: flex;
+  font-size: 1em;
+  line-height: 1.3em;
+}
+
+@mixin mainTextResponseSizeH2 {
+  @media screen {
+    padding-bottom: 1em;
+    font-size: 4em;
+    font-weight: 700;
+  }
+
+  @media screen and (max-width: 992px) {
+    font-size: 2em;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  @media screen and (max-width: 600px) {
+    font-size: 1.5em;
+    font-weight: 700;
+    line-height: normal;
+  }
+}
+
+@mixin mainTextResponseSizeP {
+  @media screen {
+    font-size: 1.3em;
+    line-height: 1.8em;
+    font-weight: 200;
+  }
+
+  @media screen and (max-width: 992px) {
+    font-size: 1.2em;
+    line-height: 1.4em;
+    font-weight: 200;
+  }
+
+  @media screen and (max-width: 600px) {
+    font-size: 1em;
+    line-height: 1.4em;
+    font-weight: 200;
+  }
+}
+
+
+@mixin mainImageResponseSize {
+  @media screen {
+    width: 100%;
+    min-width: 350px;
+    position: relative;
+  }
+
+  @media screen and (max-width: 992px) {
+    min-width: 300px;
+  }
+
+  @media screen and (max-width: 600px) {
+    min-width: 150px;
+  }
 }
 
 @mixin imageWrapper {
@@ -29,14 +99,6 @@
   display: flex;
   flex-direction: $direction;
 }
-
-// @mixin flexCenter($direction) {
-//   height: 100vh;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   flex-direction: $direction;
-// }
 
 @mixin header($background) {
   height: 10vh;
@@ -72,17 +134,13 @@
   min-width: 20em;
   max-width: 20em;
   color: $sidebarText;
-  // height: 100%;
   flex:1;
   background-color: $themeGray;
 }
 
-
-
-// @mixin flexCenter($direction) {
-//   height: 100vh;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   flex-direction: $direction;
-// }
+@mixin sidebar-tablet {
+  box-shadow: none;
+  color: $sidebarText;
+  flex:1;
+  background-color: $themeGray;
+}

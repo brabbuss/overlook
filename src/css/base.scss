@@ -19,12 +19,22 @@ html, body {
 
 body {
   flex-direction: row;
+  @media screen and (max-width: 992px) {
+    flex-flow: wrap;
+    width: 100%;
+  }
+  @media screen and (max-width: 600px) {
+    flex-flow: wrap;
+    width: 100%;
+  }
 }
 
 main {
   display: flex;
   flex-direction: column;
 }
+
+//  ----------- Nav links & toolbar ------------
 
 #main_header {
   @include header(white);
@@ -46,51 +56,36 @@ main {
   }
 }
 
-.dashboard_view {
-  overflow-y: scroll;
-  height: 90vh;
-  -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-  display: none;
+.nav-links {
+  @include flexAround;
+  list-style: none;
+  .nav-link {
+    @include hoverLink($headerText, $themeBlue);
+    @include navLinkTextFormatting;
   }
 }
 
-.dashboard_view-logged_in {
-  overflow-y: scroll;
-  height: 80vh;
-  -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-  display: none;
-  }
-}
-
-#main-content {
-  width: 100%;
-  height: 100vh;
+.active_nav {
+  background-color: $themeBlue;
+  color: white!important;
+  font-weight: 700;
 }
 
 .booking-toolbar {
   @include header(#00504c17);
-  display: flex;
-  justify-content: space-around;
+  @include flexAround;
   padding: 0 2em;
   color: $themeGray;
   width: 100%;
   div:nth-child(1) {
-    display: flex;
-    font-size: 1em;
-    line-height: 1.3em;
+    @include toolText;
     padding: 0 2em;
   }
   div:nth-child(2) {
-    display: flex;
-    font-size: 1em;
-    line-height: 1.3em;
+    @include toolText;
   }
   div:nth-child(3) {
-    display: flex;
-    font-size: 1em;
-    line-height: 1.3em;
+    @include toolText;
     flex:1;
   }
   div:nth-child(4) {
@@ -122,33 +117,16 @@ main {
   color: $themeGray;
   background-color: #00504c00;
   border-bottom: 1px solid black;
+  &:hover {
+    cursor: pointer!important;
+  }
 }
 
 .toolbar_text {
   @include navLinkTextFormatting;
 }
 
-.toolbar_input {
-  &:hover {
-    cursor: pointer!important;
-  }
-}
-
-.nav-links {
-  display: flex;
-  justify-content: space-around;
-  list-style: none;
-  .nav-link {
-    @include hoverLink($headerText, $themeBlue);
-    @include navLinkTextFormatting;
-  }
-}
-
-.active_nav {
-  background-color: $themeBlue;
-  color: white!important;
-  font-weight: 700;
-}
+// ---------- Log In modal ---------------
 
 .login {
   @include flexDir(column)
@@ -172,6 +150,63 @@ main {
   }
 }
 
+//------------- Dashboard Views -------------
+
+#manager_welcome-wrapper{
+  @include emptyDashboardText;
+}
+
+#sorry_message-wrapper {
+  @include emptyDashboardText;
+}
+
+.dashboard_view {
+  @media screen {
+    overflow-y: scroll;
+    height: 90vh;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 992px) {
+    overflow-y: none;
+    height: 100%;
+  }
+  @media screen and (max-width: 600px) {
+
+  }
+}
+
+.dashboard_view-logged_in {
+  @media screen {
+    overflow-y: scroll;
+    height: 80vh;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+    display: none;
+    }
+  }
+
+  @media screen and (max-width: 992px) {
+    overflow-y: none;
+    height: 100%;
+  }
+
+  @media screen and (max-width: 600px) {
+    flex-flow: wrap;
+    width: 100%;
+  }
+}
+
+//  --------------- Home Page info blocks --------------
+
+#main-content {
+  width: 100%;
+  height: 100vh;
+}
+
 .main-intro {
   display: flex;
 }
@@ -187,23 +222,17 @@ main {
 }
 
 .main_image {
-  width: 100%;
-  min-width: 350px;
-  position: relative;
+  @include mainImageResponseSize;
 }
 
 .main_card-text-wrapper {
   padding: 2em;
   min-width: 50%;
   h2 {
-    padding-bottom: 1em;
-    font-size: 4em;
-    font-weight: 700;
+    @include mainTextResponseSizeH2;
   }
   p {
-    font-size: 1.3em;
-    line-height: 1.8em;
-    font-weight: 200;
+    @include mainTextResponseSizeP;
   }
   div {
     width: content;
@@ -222,6 +251,8 @@ main {
     }
   }
 }
+
+// -------------- Available Rooms - styling blocks --------
 
 .result_text-wrapper {
   padding: 2em;
@@ -271,10 +302,6 @@ main {
   }
 }
 
-.main-intro {
-  display: flex;
-}
-
 .result_card {
   display: flex;
   margin: 2em 0;
@@ -291,6 +318,8 @@ main {
   min-width: 300px;
 }
 
+// -------------- User Account Bookings - styling blocks --------
+
 .my_booking-text_wrapper {
   @include flexDir(row);
   padding: 2em;
@@ -304,20 +333,14 @@ main {
       font-weight: 300;
     }
     p:nth-child(2) {
-      font-size: 1em;
-      line-height: 1.8em;
-      font-weight: 200;
+      @include bookingText;
     }
     p:nth-child(3) {
-      font-size: 1em;
-      line-height: 1.8em;
-      font-weight: 200;
+      @include bookingText;
     }
     p:nth-child(4) {
       padding-bottom: .5em;
-      font-size: 1em;
-      line-height: 1.8em;
-      font-weight: 200;
+      @include bookingText;
     }
   }
   div:nth-child(2) {
@@ -343,16 +366,12 @@ main {
       border-radius: 3px;
       transition: all ease-in-out .5s;
       &:hover {
-        background-color: red;
+        background-color: #ff69b4;
         color: white;
         cursor: pointer;
       }
     }
   }
-}
-
-.main-intro {
-  display: flex;
 }
 
 .my-booking_card {
@@ -371,21 +390,23 @@ main {
   min-width: 300px;
 }
 
-#hero-image {
-  background-position: 0em -28em;
-  background-size: 100%;
-  border: none;
-  height: 15vw;
-  width: 100%;
-  background-repeat: no-repeat;
-  background-image: url(../images/hotel-lobby-mod1.jpg)
-}
+// -------------- Sidebar User/Manager Stats --------
 
 #sidebar {
-  @include sidebar-full-width();
-  @include flexDir(column);
-  box-shadow: 24px 0px 20px 20px #000000a6;
-  height: 100vh;
+  @media screen {
+    @include flexDir(column);
+    @include sidebar-full-width();
+    box-shadow: 24px 0px 20px 20px #000000a6;
+    height: 100vh;
+  }
+  @media screen and (max-width: 992px) {
+    @include flexDir(row);
+    @include sidebar-tablet;
+  }
+  @media screen and (max-width: 600px) {
+    flex-flow: wrap;
+    width: 100%;
+  }
   #sidebar_hotel-info-block {
     @include flexDir(row);
     justify-content: space-between;
@@ -476,15 +497,7 @@ main {
   );
 }
 
-#manager_welcome-wrapper{
-  @include emptyDashboardText;
-}
-
-#sorry_message-wrapper {
-  @include emptyDashboardText;
-}
-
-// Animations + cross browser compatibility
+// ---------- Animations + cross browser compatibility ----------
 
 .pulse_info {
   animation: pulse ease 1s;
@@ -575,6 +588,8 @@ main {
     opacity: 1;
   }
 }
+
+// ------------ hide ----------------
 
 .hidden {
   display: none!important;

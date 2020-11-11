@@ -16,8 +16,21 @@
   text-decoration: none;
 }
 
-@mixin textCenter() {
+@mixin flexAround {
+  display: flex;
+  justify-content: space-around;
+}
 
+@mixin bookingText {
+  font-size: 1em;
+  line-height: 1.8em;
+  font-weight: 200;
+}
+
+@mixin toolText() {
+  display: flex;
+  font-size: 1em;
+  line-height: 1.3em;
 }
 
 @mixin imageWrapper {
@@ -29,14 +42,6 @@
   display: flex;
   flex-direction: $direction;
 }
-
-// @mixin flexCenter($direction) {
-//   height: 100vh;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   flex-direction: $direction;
-// }
 
 @mixin header($background) {
   height: 10vh;
@@ -72,17 +77,6 @@
   min-width: 20em;
   max-width: 20em;
   color: $sidebarText;
-  // height: 100%;
   flex:1;
   background-color: $themeGray;
 }
-
-
-
-// @mixin flexCenter($direction) {
-//   height: 100vh;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   flex-direction: $direction;
-// }

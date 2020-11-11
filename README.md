@@ -105,6 +105,14 @@ Attempts at media queries were made for responsive design. There was some succes
 
 In pushing for a high-end theme, a 'fade' is applied during transitions from different views. The fade is two fold, though. The fade also helps the delay between API calls become less noticable and almost seemingly intentional.
 
+#### Classes and TDD
+
+Classes were built side by side with `expect` evaluative statements using the `chai` library. TDD helped build a rock solid class architecture that is simple and to the point, gets the job done. No data is 'pulled into' the class - through array iterator methods, the data is retrieved and then released. Any new data is sent to the server via API POST or DELETE. This allowed a pairing down of classes to just two classes - the User and the Manager, which extends the User class.
+
+Chai spies were implemented to test the API calls, which are a part of three methods. Two inside of manager for booking on behalf of a customer and deleting on behalf of a customer, and one in the user - for the user to create a new booking.
+
+Testing utilizes `mocha` and `chai`. To test, after cloning down the repo, ensure that these NPM packages are installed before testing. `npm test` inside the `tests` directory will test the classes.
+
 #### Roadmap
 
 In future iterations, additions will include:

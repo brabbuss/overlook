@@ -48,7 +48,7 @@ let userData;
 let bookingData;
 let roomData;
 let user;
-let date = getFormattedDate();
+let todaysDate = getFormattedDate();
 
 let fetchedUserData = apiRequest.getUserData();
 let fetchedBookingData = apiRequest.getBookingData();
@@ -109,7 +109,7 @@ function checkLogin() {
 }
 
 function loadApp() {
-  let calDate = date.replaceAll('/', '-');
+  let calDate = todaysDate.replaceAll('/', '-');
   calendarInput.setAttribute('min', calDate);
   calendarInput.setAttribute('value', calDate);
 }
@@ -151,7 +151,7 @@ function managerNavHandler() {
     returnUserInfo()
   } else if (event.target.id === 'nav-manager-booking') {
     showManagerBookForCustomer();
-    loadAvailableRooms(date);
+    loadAvailableRooms(todaysDate);
   }
 }
 
@@ -199,7 +199,7 @@ function showCustomerDashboard() {
     domObject.hideElement(managerUserSearch);
     domObject.showDashboardHeader(false);
     updateCustomerStats();
-    loadAvailableRooms(date);
+    loadAvailableRooms(todaysDate);
     navCustomerFindRooms.classList.add('active_nav')
   } else {
     alert('Please log in to view available rooms')
@@ -244,7 +244,7 @@ function showManagerDashboard() {
 
 function showManagerWelcomeMessage() {
   managerDashboard.innerHTML = ''
-  let roomsToRent = user.totalAvailableRooms(bookingData, roomData, date)
+  let roomsToRent = user.totalAvailableRooms(bookingData, roomData, todaysDate)
   managerDashboard.insertAdjacentHTML('beforeend', `
   <div id='manager_welcome-wrapper'><p id='manager_welcome'>Hey Boss! We've got ${!roomsToRent ? 'nothing' : roomsToRent + ' rooms'} available to book today!</p></div>
   `)
@@ -258,10 +258,10 @@ function showManagerBookForCustomer() {
 
 function updateManagerStats(customerName) {
   document.querySelector('#sidebar_manager_stats').classList.remove('hidden');
-  document.querySelector('#manager_stat_title_date').innerText = `${date}`;
-  document.querySelector('#manager_stat_availability').innerText = `${user.totalAvailableRooms(bookingData, roomData, date)} vacancies`;
-  document.querySelector('#manager_stat_total_revenue').innerText = `$${user.totalRevenue(bookingData, roomData, date).toFixed()}`;
-  document.querySelector('#manager_stat_total_occupancy').innerText = `${user.totalPercentOccupied(bookingData, roomData, date) * 100}%`;
+  document.querySelector('#manager_stat_title_date').innerText = `${todaysDate}`;
+  document.querySelector('#manager_stat_availability').innerText = `${user.totalAvailableRooms(bookingData, roomData, todaysDate)} vacancies`;
+  document.querySelector('#manager_stat_total_revenue').innerText = `$${user.totalRevenue(bookingData, roomData, todaysDate).toFixed()}`;
+  document.querySelector('#manager_stat_total_occupancy').innerText = `${user.totalPercentOccupied(bookingData, roomData, todaysDate) * 100}%`;
   if (customerName) {
     document.querySelector('#manager_stat_customer_total_wrapper').innerHTML = '';
     document.querySelector('#manager_stat_customer_total_wrapper').insertAdjacentHTML('beforeend', `
@@ -305,7 +305,7 @@ function loadUserAccountInfo(bookingData, name) {
       </section>
       </article>
     `);
-    if (user instanceof Manager && booking.date > date) {
+    if (user instanceof Manager && booking.date > todaysDate) {
       document.querySelector(`#booking_total_${i}`).insertAdjacentHTML('beforeend', `
         <p tabindex="0" aria-label='delete customer booking' class='delete_booking_button' value=${booking.id}>DELETE <br>BOOKING</p>
         <span class='hidden'>${name}</span>
@@ -315,13 +315,13 @@ function loadUserAccountInfo(bookingData, name) {
 }
 
 function loadAvailableRooms(date, roomType) {
-  date = getCalendarDate()
+  let selectedDate = getCalendarDate()
   let dashboardAndBookings = getCorrectDashAndBooking(bookingData, name);
-  let bookingArray = user.viewAvailableRoomsByType(bookingData, roomData, date, roomType);
+  let bookingArray = user.viewAvailableRoomsByType(bookingData, roomData, selectedDate, roomType);
   dashboardAndBookings[0].innerHTML = ''
   if (bookingArray.length === 0) {
     dashboardAndBookings[0].insertAdjacentHTML('beforeend', `
-    <div id='sorry_message-wrapper'><p id='sorry_message'>Sorry, there are no ${!roomType ? 'room' : roomType}s availabile for a ${date} booking</p></div>
+    <div id='sorry_message-wrapper'><p id='sorry_message'>Sorry, there are no ${!roomType ? 'room' : roomType}s availabile for a ${selectedDate} booking</p></div>
     `)
   } else {
     bookingArray.forEach((room, i) => {
@@ -360,25 +360,25 @@ function getCorrectDashAndBooking(bookingData, name) {
 }
 
 function bookRoom() {
-  date = getCalendarDate()
+  let bookingDate = event.target.getAttribute('value');
   if (event.target.classList.contains('result_book-room-link')) {
     let roomNum = Number(event.target.getAttribute('value'));
     let onSuccess = () => {
       getUpdatedAvailableList()
     }
-    user.bookMyRoom(date, roomNum, onSuccess);
+    user.bookMyRoom(bookingDate, roomNum, onSuccess);
   }
 }
 
 function bookRoomManager() {
-  date = getCalendarDate()
+  let bookingDate = event.target.getAttribute('value')
   let name = managerUserSearchInput.value;
   if (event.target.classList.contains('result_book-room-link') && name !== '') {
     let roomNum = Number(event.target.getAttribute('value'));
     let onSuccess = () => {
       getUpdatedAvailableList()
     }
-    user.addCustomerBooking(userData, name, date, roomNum, onSuccess);
+    user.addCustomerBooking(userData, name, bookingDate, roomNum, onSuccess);
   } else if (event.target.id === 'book_room_link' && name === '') {
     alert('Please first select a user by their first and last name in the toolbar')
   }
@@ -425,7 +425,7 @@ function getUpdatedAvailableList() {
   fetchedBookingData = apiRequest.getBookingData();
   fetchedBookingData.then(value => {
     bookingData = value['bookings']
-  }).then(() => loadAvailableRooms(date)).then(() => {
+  }).then(() => loadAvailableRooms(todaysDate)).then(() => {
     if (user instanceof Manager) {
       updateManagerStats(managerUserSearchInput.value);
     } else {

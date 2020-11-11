@@ -32,7 +32,7 @@ On the surface the site is quite simple, presenting an interface for users to se
 ---
 * [General Site Features](#general-site-features)
 * [UX, Animations and Extensions](#ux-animations-and-extensions)
-* [Test Driven Development](#test-driven-development)
+* [Classes, TDD, logic](#classes-tdd-logic)
 * [Roadmap](#roadmap)
 ---
 
@@ -75,7 +75,7 @@ In this view is also a list of the customer's 'stats'. There was a bit of fun ha
 
 <details>
   <summary>**Under the Hood**</summary>
-One of the most challenging pieces of this project was learning how to work with the API, and specifically inside the `.then()`, to employ dynamic updates, which of course needs a competent class structure to function smoothly. Dynamic updates were successfully accomplished with a callback function passed into the API call that would fire on success of the promise being fulfilled. That helped callback function would then call on the needed function that would update the display with the newly fetched data. ASYNC LIFE.
+Below in 'Classes, TDD, logic' section, you can see a bit more detail in the flow of information, using the `onSuccess()` callback function to fire off the needed visual update function once the promise for the latest booking data resolves.
 </details>
 
 ###### Manager View
@@ -105,13 +105,23 @@ Attempts at media queries were made for responsive design. There was some succes
 
 In pushing for a high-end theme, a 'fade' is applied during transitions from different views. The fade is two fold, though. The fade also helps the delay between API calls become less noticable and almost seemingly intentional.
 
-#### Classes and TDD
+#### Classes, TDD, logic
 
 Classes were built side by side with `expect` evaluative statements using the `chai` library. TDD helped build a rock solid class architecture that is simple and to the point, gets the job done. No data is 'pulled into' the class - through array iterator methods, the data is retrieved and then released. Any new data is sent to the server via API POST or DELETE. This allowed a pairing down of classes to just two classes - the User and the Manager, which extends the User class.
 
 Chai spies were implemented to test the API calls, which are a part of three methods. Two inside of manager for booking on behalf of a customer and deleting on behalf of a customer, and one in the user - for the user to create a new booking.
 
 Testing utilizes `mocha` and `chai`. To test, after cloning down the repo, ensure that these NPM packages are installed before testing. `npm test` inside the `tests` directory will test the classes.
+
+One of the most challenging pieces of this project was learning how to work with the API, and specifically inside the `.then()`, to employ dynamic updates, which of course needs a competent class structure to function smoothly. Dynamic updates were successfully accomplished with a callback function passed into the API call that would fire on success of the promise being fulfilled. That helped callback function would then call on the needed function that would update the display with the newly fetched data. 
+
+Here's that function calling the function that contains the API request. You can see that a callback function `onSuccess()` is defined and passed into the `bookRoom()` function:
+
+![Function calling the API request, defining the callback](https://user-images.githubusercontent.com/66697338/98864115-9dd0dc00-2426-11eb-88e6-7d0d48abfd32.png)
+
+And here's that API request with the callback insde of the `.then()`:
+
+![API request with callback](https://user-images.githubusercontent.com/66697338/98864111-9c9faf00-2426-11eb-802a-ff681eac9163.png)
 
 #### Roadmap
 

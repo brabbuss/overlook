@@ -12,6 +12,7 @@ export const userSampleData = [
     name:"Cramran Romro"
   }
 ]
+
 export const bookingSampleData = [
   {
     id: "randomIDnumber1",
@@ -77,6 +78,7 @@ export const bookingSampleData = [
     roomServiceCharges: []
   }
 ]
+
 export const roomSampleData = [
   {
     number:1,
